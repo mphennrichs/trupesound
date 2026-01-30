@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cuesmith - Cue Insertion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5417cf",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0f0f12",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .script-canvas { max-width: 680px; margin: 0 auto; }
+        .glass-panel {
+            background: rgba(30, 30, 36, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-white/10 px-6 py-3 bg-white dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1">waves</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold tracking-tight">Cuesmith</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">File</a>
+<a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">Edit</a>
+<a class="text-sm font-medium text-slate-900 dark:text-white" href="#">Scripts</a>
+<a class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">Library</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="bg-slate-100 dark:bg-white/5 border-none rounded-lg pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary" placeholder="Search script..." type="text"/>
+</div>
+<button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-white overflow-hidden">
+<img alt="User Profile" data-alt="Profile avatar of the user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZfJtuc6f92vmBNMJpkMqMlxDFP1JqEjfoegHEXuQN0NnJxSoVNmBXQ3_ovDRKTrdvRJ1XpgvBne0pAbSEmfuRVu3C8R48wsEIwinrHPNdoQYKBOYOU7c2zIWyZmw63L83L1w9l1CAk2oPn4z4gpFycJO2wQxiKRokn5c7L9ZpVwbdQwl9U4Hhmzxb75l3kG-OvR-W2Db5iUVfeH1akeht-_DGzGlmqUTMDYmL9fGJxvJMDEVYjDNjFq95WXd-deU1XvqTX8UVlr1G"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 border-r border-slate-200 dark:border-white/10 hidden lg:flex flex-col bg-slate-50 dark:bg-background-dark">
+<div class="p-4">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-slate-400">folder_open</span>
+<span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Project Files</span>
+</div>
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5" href="#">
+<span class="material-symbols-outlined text-xl">description</span>
+<span>Act 1 - Opening</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm bg-primary/10 text-primary font-medium" href="#">
+<span class="material-symbols-outlined text-xl">description</span>
+<span>Act 1, Scene 3 - The Moor</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5" href="#">
+<span class="material-symbols-outlined text-xl">description</span>
+<span>Act 2 - Resolution</span>
+</a>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Main Editor Area -->
+<main class="flex-1 overflow-y-auto bg-white dark:bg-background-dark relative pt-12 pb-24">
+<!-- Breadcrumbs -->
+<div class="max-w-[800px] mx-auto px-6 mb-8">
+<div class="flex items-center gap-2 text-xs font-medium text-slate-400">
+<span>PROJECTS</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span>HAMLET REDUX</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-primary">ACT 1, SCENE 3</span>
+</div>
+</div>
+<!-- Script Content -->
+<div class="script-canvas px-6">
+<!-- Script Line -->
+<div class="group relative mb-8">
+<p class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">HORATIO</p>
+<p class="text-lg leading-relaxed text-slate-800 dark:text-slate-200">
+                        Friends to this ground. And liegemen to the Dane. Give you good night. 
+                        The air bites shrewdly; it is very cold. It is a nipping and an eager air.
+                    </p>
+</div>
+<!-- CUE INSERTION POINT (Active State) -->
+<div class="relative h-12 flex items-center justify-center">
+<!-- The Purple Guide Line -->
+<div class="absolute inset-0 flex items-center">
+<div class="w-full h-[2px] bg-primary shadow-[0_0_10px_rgba(84,23,207,0.5)]"></div>
+</div>
+<!-- The Plus Button -->
+<button class="relative z-10 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/40 hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-xl">add</span>
+</button>
+<!-- SELECTION POPOVER -->
+<div class="absolute top-10 left-1/2 -translate-x-1/2 w-80 glass-panel rounded-xl shadow-2xl z-50 overflow-hidden ring-1 ring-white/10">
+<!-- Popover Header/Search -->
+<div class="p-3 border-b border-white/10">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm">search</span>
+<input autofocus="" class="w-full bg-black/40 border-none rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder:text-slate-500 focus:ring-1 focus:ring-primary" placeholder="Search library..." type="text"/>
+</div>
+</div>
+<!-- Sound List -->
+<div class="max-h-64 overflow-y-auto p-2 space-y-1">
+<div class="px-2 py-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Recent Sounds</div>
+<button class="w-full flex items-center justify-between group/item p-2 rounded-lg hover:bg-primary/20 transition-colors text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 group-hover/item:text-primary">water_drop</span>
+<div>
+<div class="text-sm font-medium text-white">Rain Ambient</div>
+<div class="text-[10px] text-slate-500">Nature • 02:45 • Loop</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-600 group-hover/item:text-primary opacity-0 group-hover/item:opacity-100">play_circle</span>
+</button>
+<button class="w-full flex items-center justify-between group/item p-2 rounded-lg bg-primary/10 text-left ring-1 ring-primary/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">phone_in_talk</span>
+<div>
+<div class="text-sm font-medium text-white">Phone Ring (Vintage)</div>
+<div class="text-[10px] text-primary/70">SFX • 00:08</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary">check_circle</span>
+</button>
+<button class="w-full flex items-center justify-between group/item p-2 rounded-lg hover:bg-primary/20 transition-colors text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 group-hover/item:text-primary">door_open</span>
+<div>
+<div class="text-sm font-medium text-white">Heavy Door Slam</div>
+<div class="text-[10px] text-slate-500">SFX • 00:02</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-600 group-hover/item:text-primary opacity-0 group-hover/item:opacity-100">play_circle</span>
+</button>
+<div class="px-2 py-1.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-2">Atmosphere</div>
+<button class="w-full flex items-center justify-between group/item p-2 rounded-lg hover:bg-primary/20 transition-colors text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400 group-hover/item:text-primary">graphic_eq</span>
+<div>
+<div class="text-sm font-medium text-white">Low Ominous Drone</div>
+<div class="text-[10px] text-slate-500">Music • 01:20</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-600 group-hover/item:text-primary opacity-0 group-hover/item:opacity-100">play_circle</span>
+</button>
+</div>
+<!-- Popover Footer -->
+<div class="p-2 border-t border-white/10 bg-black/20 flex justify-between items-center">
+<button class="text-[10px] font-medium text-slate-400 hover:text-white px-2 py-1">Upload Sound</button>
+<button class="text-[10px] font-bold text-primary bg-primary/10 hover:bg-primary/20 rounded px-2 py-1 transition-colors">Confirm Selection</button>
+</div>
+</div>
+</div>
+<!-- Next Script Line -->
+<div class="group relative mt-4">
+<p class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">MARCELLUS</p>
+<p class="text-lg leading-relaxed text-slate-800 dark:text-slate-200">
+                        What, has this thing appear'd again to-night?
+                    </p>
+</div>
+<div class="group relative mt-12">
+<p class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">BARNARDO</p>
+<p class="text-lg leading-relaxed text-slate-800 dark:text-slate-200">
+                        I have seen nothing. 
+                    </p>
+</div>
+<!-- Hover guide visualization (inactive state) -->
+<div class="group relative h-12 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+<div class="w-full h-px bg-slate-300 dark:bg-white/10"></div>
+<button class="absolute w-8 h-8 rounded-full bg-slate-200 dark:bg-white/10 text-slate-500 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">add</span>
+</button>
+</div>
+<div class="group relative">
+<p class="text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">HORATIO</p>
+<p class="text-lg leading-relaxed text-slate-800 dark:text-slate-200 italic opacity-60">
+                        (To Barnardo)
+                    </p>
+<p class="text-lg leading-relaxed text-slate-800 dark:text-slate-200">
+                        Tush, tush, 'twill not appear.
+                    </p>
+</div>
+</div>
+</main>
+<!-- Right Side Cue Sheet (Collapsed Context) -->
+<aside class="w-16 border-l border-slate-200 dark:border-white/10 flex flex-col items-center py-6 gap-6 bg-slate-50 dark:bg-background-dark">
+<button class="p-2 rounded-lg text-primary bg-primary/10">
+<span class="material-symbols-outlined">queue_music</span>
+</button>
+<button class="p-2 rounded-lg text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5">
+<span class="material-symbols-outlined">tune</span>
+</button>
+<button class="p-2 rounded-lg text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="mt-auto pb-4">
+<button class="p-2 rounded-lg text-slate-400 hover:bg-slate-200 dark:hover:bg-white/5">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</aside>
+</div>
+<!-- Floating Action Bar -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 bg-slate-900/90 dark:bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+            Preview Scene
+        </button>
+<div class="w-px h-6 bg-white/20 mx-1"></div>
+<button class="p-2 rounded-xl text-white hover:bg-white/10">
+<span class="material-symbols-outlined">undo</span>
+</button>
+<button class="p-2 rounded-xl text-white hover:bg-white/10">
+<span class="material-symbols-outlined">redo</span>
+</button>
+<button class="p-2 rounded-xl text-white hover:bg-white/10">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</body></html>

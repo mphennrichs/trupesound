@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Global Sound Library - Unified Stage Sound Manager</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#5417cf",
+                "background-light": "#f6f6f8",
+                "background-dark": "#0c0914",
+                "card-dark": "#161121",
+                "border-dark": "#2e2938"
+              },
+              fontFamily: {
+                "display": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #161121;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2e2938;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #443c53;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-border-dark px-6 py-3 bg-white dark:bg-background-dark z-10 shrink-0">
+<div class="flex items-center gap-4">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Unified Stage Sound Manager</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 mr-4 text-slate-400">
+<span class="material-symbols-outlined text-sm">volume_down</span>
+<div class="w-32 h-1 bg-slate-200 dark:bg-slate-700 rounded-full relative">
+<div class="absolute top-0 left-0 h-full bg-primary rounded-full w-2/3"></div>
+</div>
+<span class="material-symbols-outlined text-sm">volume_up</span>
+</div>
+<button class="flex size-10 items-center justify-center rounded-lg bg-slate-100 dark:bg-card-dark text-slate-600 dark:text-white hover:bg-slate-200 dark:hover:bg-border-dark transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<aside class="w-64 flex flex-col justify-between border-r border-slate-200 dark:border-border-dark bg-white dark:bg-background-dark p-4 shrink-0 overflow-y-auto custom-scrollbar">
+<div class="flex flex-col gap-8">
+<nav class="flex flex-col gap-1">
+<p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Main</p>
+<div class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-[#a69db8] hover:bg-slate-100 dark:hover:bg-card-dark rounded-lg transition-colors cursor-pointer">
+<span class="material-symbols-outlined">grid_view</span>
+<p class="text-sm font-medium">Projects</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary border border-primary/20">
+<span class="material-symbols-outlined">library_music</span>
+<p class="text-sm font-semibold">Global Sound Library</p>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-[#a69db8] hover:bg-slate-100 dark:hover:bg-card-dark rounded-lg transition-colors cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium">Settings</p>
+</div>
+</nav>
+<nav class="flex flex-col gap-1">
+<p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Categories</p>
+<div class="flex items-center justify-between px-3 py-2 text-sm text-[#a69db8] hover:text-white cursor-pointer group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">bolt</span>
+<span>Efeito</span>
+</div>
+<span class="text-[10px] bg-border-dark px-1.5 py-0.5 rounded">124</span>
+</div>
+<div class="flex items-center justify-between px-3 py-2 text-sm text-[#a69db8] hover:text-white cursor-pointer group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">music_note</span>
+<span>Música</span>
+</div>
+<span class="text-[10px] bg-border-dark px-1.5 py-0.5 rounded">86</span>
+</div>
+<div class="flex items-center justify-between px-3 py-2 text-sm text-[#a69db8] hover:text-white cursor-pointer group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-lg">waves</span>
+<span>Música Ambiente</span>
+</div>
+<span class="text-[10px] bg-border-dark px-1.5 py-0.5 rounded">42</span>
+</div>
+</nav>
+<nav class="flex flex-col gap-1">
+<p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Favorite Tags</p>
+<div class="flex items-center gap-3 px-3 py-1.5 text-xs text-[#a69db8] hover:text-primary cursor-pointer">
+<span class="size-2 rounded-full bg-red-500"></span>
+<span>Horror/Suspense</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-1.5 text-xs text-[#a69db8] hover:text-primary cursor-pointer">
+<span class="size-2 rounded-full bg-blue-500"></span>
+<span>Storm &amp; Wind</span>
+</div>
+<div class="flex items-center gap-3 px-3 py-1.5 text-xs text-[#a69db8] hover:text-primary cursor-pointer">
+<span class="size-2 rounded-full bg-emerald-500"></span>
+<span>Nature Lush</span>
+</div>
+</nav>
+</div>
+<div class="mt-8 p-3 bg-slate-50 dark:bg-primary/5 rounded-xl border border-slate-200 dark:border-primary/10">
+<p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Storage Usage</p>
+<div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+<p class="text-[10px] text-slate-500 mt-2">1.2 GB of 5 GB used</p>
+</div>
+</aside>
+<main class="flex-1 overflow-hidden flex flex-col bg-slate-50 dark:bg-[#0f0b18]">
+<div class="p-8 pb-4 shrink-0">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+<div>
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white">Global Sound Library</h1>
+<p class="text-slate-500 dark:text-[#a69db8] mt-1">Access all audio assets for your productions</p>
+</div>
+<div class="relative max-w-md w-full">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-xl">search</span>
+<input class="bg-white dark:bg-card-dark border-slate-200 dark:border-border-dark rounded-xl pl-11 pr-4 py-2.5 text-sm w-full focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" placeholder="Search by name, tags, or metadata..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+<button class="px-4 py-1.5 rounded-full bg-primary text-white text-xs font-bold whitespace-nowrap">All Sounds</button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark text-slate-600 dark:text-[#a69db8] text-xs font-medium hover:border-primary transition-colors whitespace-nowrap">Efeito</button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark text-slate-600 dark:text-[#a69db8] text-xs font-medium hover:border-primary transition-colors whitespace-nowrap">Música</button>
+<button class="px-4 py-1.5 rounded-full bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark text-slate-600 dark:text-[#a69db8] text-xs font-medium hover:border-primary transition-colors whitespace-nowrap">Música Ambiente</button>
+<div class="h-4 w-[1px] bg-border-dark mx-2"></div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark text-slate-600 dark:text-[#a69db8] text-xs font-medium hover:border-primary transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                            Filter
+                        </button>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto px-8 pb-8 custom-scrollbar">
+<div class="max-w-7xl mx-auto">
+<div class="bg-white dark:bg-card-dark rounded-2xl border border-slate-200 dark:border-border-dark overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-200 dark:border-border-dark bg-slate-50/50 dark:bg-white/5">
+<th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-12 text-center">Preview</th>
+<th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sound Name</th>
+<th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Category</th>
+<th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-center">Duration</th>
+<th class="py-4 px-6 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-border-dark">
+<tr class="group hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="py-4 px-6">
+<button class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Distant Thunder Strike</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400">storm_001.wav • 44.1kHz</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase">Efeito</span>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300">00:14</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-xs font-bold transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                                            Add to Project
+                                        </button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="py-4 px-6">
+<button class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Melancholy Cello Theme</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400">sadness_main.mp3 • 320kbps</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 uppercase">Música</span>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300">03:45</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-xs font-bold transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                                            Add to Project
+                                        </button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="py-4 px-6">
+<button class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Forest Floor Night</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400">crickets_loop.wav • Lossless</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase">Música Ambiente</span>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300">LOOP</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-xs font-bold transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                                            Add to Project
+                                        </button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="py-4 px-6">
+<button class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Clockwork Ticking</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400">tension_fx_09.wav</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase">Efeito</span>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300">00:08</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-xs font-bold transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                                            Add to Project
+                                        </button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+<td class="py-4 px-6">
+<button class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Crowd Murmur (Small)</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400">theatre_lobby_amb.wav</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 uppercase">Música Ambiente</span>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300">01:12</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-xs font-bold transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                                            Add to Project
+                                        </button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors border-b-0">
+<td class="py-4 px-6">
+<button class="flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+</td>
+<td class="py-4 px-6">
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900 dark:text-white">Victorian Door Creak</span>
+<span class="text-[10px] text-slate-500 dark:text-slate-400">house_fx_22.wav</span>
+</div>
+</td>
+<td class="py-4 px-6">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 uppercase">Efeito</span>
+</td>
+<td class="py-4 px-6 text-center">
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300">00:04</span>
+</td>
+<td class="py-4 px-6 text-right">
+<button class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-xs font-bold transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                                            Add to Project
+                                        </button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-4 bg-slate-50 dark:bg-white/5 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+<span>Showing 6 of 252 items</span>
+<div class="flex gap-2">
+<button class="size-6 flex items-center justify-center rounded bg-border-dark hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="size-6 flex items-center justify-center rounded bg-border-dark hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<footer class="p-4 bg-white dark:bg-background-dark border-t border-slate-200 dark:border-border-dark flex items-center justify-between shrink-0">
+<div class="flex gap-6">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">System Status</span>
+<div class="flex items-center gap-2">
+<span class="size-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-xs font-mono text-emerald-500 tracking-tight">ONLINE - LOW LATENCY</span>
+</div>
+</div>
+<div class="flex flex-col border-l border-slate-200 dark:border-border-dark pl-6">
+<span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Library Capacity</span>
+<span class="text-xs font-mono text-slate-600 dark:text-slate-300">2,451 Audio Files</span>
+</div>
+</div>
+<button class="flex items-center gap-2 bg-red-600/10 text-red-600 px-6 py-2.5 rounded-lg text-xs font-bold hover:bg-red-600 hover:text-white transition-all border border-red-600/20 shadow-lg shadow-red-600/10 uppercase">
+<span class="material-symbols-outlined text-sm">emergency_home</span> PANIC STOP (ESC)
+        </button>
+</footer>
+
+</body></html>
