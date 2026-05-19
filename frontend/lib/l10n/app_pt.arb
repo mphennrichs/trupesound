@@ -1,10 +1,26 @@
 {
     "@@locale": "pt",
     "pageNotFound": "Página não encontrada.",
+    "@pageNotFound": {},
+    
     "pageNotFoundDescription": "Desculpe, a página que você está procurando não existe.",
+    "@pageNotFoundDescription": {},
 
     "back": "Voltar",
+    "@back":{},
     
     "plays": "Peças",
-    "soundLibrary": "Biblioteca de Sons"
+    "@plays": {},
+    
+    "soundLibrary": "Biblioteca de Sons",
+    "@soundLibrary": {},
+    
+    "panicStop": "{type, select, esc{Parada de Emergência (ESC)} other{Parada de Emergência}}",
+    "@panicStop": {
+      "placeholders": {
+        "type": {
+          "type": "String"
+        }
+      }
+    }
 }

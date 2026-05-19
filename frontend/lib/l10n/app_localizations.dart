@@ -124,6 +124,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sound Library'**
   String get soundLibrary;
+
+  /// No description provided for @panicStop.
+  ///
+  /// In en, this message translates to:
+  /// **'{type, select, esc{Panic Stop (ESC)} other{Panic Stop}}'**
+  String panicStop(String type);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

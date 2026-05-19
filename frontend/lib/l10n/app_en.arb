@@ -1,9 +1,27 @@
 {
     "pageNotFound": "Page not found.",
+    "@pageNotFound": {},
+    
     "pageNotFoundDescription": "Sorry, the page that you are looking for doesn't exists.",
+    "@pageNotFoundDescription": {},
+
 
     "back": "Back",
-
+    "@back":{},
+    
     "plays": "Plays",
-    "soundLibrary": "Sound Library"
+    "@plays": {},
+
+    "soundLibrary": "Sound Library",
+    "@soundLibrary": {},
+
+
+    "panicStop": "{type, select, esc{Panic Stop (ESC)} other{Panic Stop}}",
+    "@panicStop": {
+      "placeholders": {
+        "type": {
+          "type": "String"
+        }
+      }
+    }
 }

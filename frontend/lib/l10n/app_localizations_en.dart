@@ -22,4 +22,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get soundLibrary => 'Sound Library';
+
+  @override
+  String panicStop(String type) {
+    String _temp0 = intl.Intl.selectLogic(
+      type,
+      {
+        'esc': 'Panic Stop (ESC)',
+        'other': 'Panic Stop',
+      },
+    );
+    return '$_temp0';
+  }
 }

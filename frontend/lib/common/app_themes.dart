@@ -40,6 +40,8 @@ class AppColors {
   final Color backgroundColor = const Color(0xFF0c0914);
   final Color borderColor = const Color(0xFF2e2938);
   final Color cardColor = const Color(0xFF161121);
+
+  final Color primaryRed = const Color.fromARGB(255, 231, 42, 42);
 }
 
 class AppBorders {
@@ -55,6 +57,7 @@ class AppBorders {
 
 class AppButtons {
   const AppButtons();
+
   TextButton primaryButtonStyle(String text, VoidCallback buttonfunction) {
     return TextButton(
       style: ButtonStyle(
@@ -73,6 +76,30 @@ class AppButtons {
           color: AppThemes.colors.textColor,
           fontWeight: FontWeight.w600,
           fontSize: AppThemes.texts.normalFontSize,
+        ),
+      ),
+    );
+  }
+
+  ElevatedButton panicButton(String text, VoidCallback buttonfunction) {
+    return ElevatedButton.icon(
+      onPressed: buttonfunction,
+      icon: const Icon(Icons.error_outline, size: 18),
+      label: Text(
+        text,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: AppThemes.texts.normalFontSize,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red.withValues(alpha: 0.1),
+        foregroundColor: Colors.red,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: AppThemes.borders.defaultBorderRadius,
+          side: BorderSide(color: Colors.red.withValues(alpha: 0.2)),
         ),
       ),
     );
