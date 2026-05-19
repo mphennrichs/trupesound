@@ -1,0 +1,1 @@
+enum NavigationPage { plays, soundLibrary }

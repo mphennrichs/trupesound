@@ -1,0 +1,10 @@
+{
+    "@@locale": "pt",
+    "pageNotFound": "Página não encontrada.",
+    "pageNotFoundDescription": "Desculpe, a página que você está procurando não existe.",
+
+    "back": "Voltar",
+    
+    "plays": "Peças",
+    "soundLibrary": "Biblioteca de Sons"
+}
