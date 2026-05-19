@@ -40,8 +40,6 @@ class AppColors {
   final Color backgroundColor = const Color(0xFF0c0914);
   final Color borderColor = const Color(0xFF2e2938);
   final Color cardColor = const Color(0xFF161121);
-
-  final Color primaryRed = const Color.fromARGB(255, 231, 42, 42);
 }
 
 class AppBorders {
