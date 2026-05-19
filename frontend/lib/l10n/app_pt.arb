@@ -9,11 +9,20 @@
     "back": "Voltar",
     "@back":{},
     
-    "plays": "Peças",
-    "@plays": {},
+    "playsTitle": "Peças",
+    "@playsTitle": {},
+
+    "playsDescription": "Gerencie suas produções ativas.",
+    "@playsDescription": {},
+
+    "soundLibraryTitle": "Biblioteca de Sons",
+    "@soundLibraryTitle": {},
+
+    "soundLibraryDescription": "Gerencie seus efeitos sonoros.",
+    "@soundLibraryDescription": {},
     
-    "soundLibrary": "Biblioteca de Sons",
-    "@soundLibrary": {},
+    "createNewPlay": "Criar Nova Peça",
+    "@createNewPlay": {},
     
     "panicStop": "{type, select, esc{Parada de Emergência (ESC)} other{Parada de Emergência}}",
     "@panicStop": {

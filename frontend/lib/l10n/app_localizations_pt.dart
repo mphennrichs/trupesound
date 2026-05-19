@@ -15,13 +15,22 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pageNotFoundDescription => 'Desculpe, a página que você está procurando não existe.';
 
   @override
+  String get playsTitle => 'Peças';
+
+  @override
+  String get playsDescription => 'Gerencie suas produções ativas.';
+
+  @override
+  String get soundLibraryTitle => 'Biblioteca de Sons';
+
+  @override
+  String get soundLibraryDescription => 'Gerencie seus efeitos sonoros.';
+
+  @override
+  String get createNewPlay => 'Criar Nova Peça';
+
+  @override
   String get back => 'Voltar';
-
-  @override
-  String get plays => 'Peças';
-
-  @override
-  String get soundLibrary => 'Biblioteca de Sons';
 
   @override
   String panicStop(String type) {

@@ -107,23 +107,41 @@ abstract class AppLocalizations {
   /// **'Sorry, the page that you are looking for doesn\'t exists.'**
   String get pageNotFoundDescription;
 
+  /// No description provided for @playsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Plays'**
+  String get playsTitle;
+
+  /// No description provided for @playsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your active productions.'**
+  String get playsDescription;
+
+  /// No description provided for @soundLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound Library'**
+  String get soundLibraryTitle;
+
+  /// No description provided for @soundLibraryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage you sound effects'**
+  String get soundLibraryDescription;
+
+  /// No description provided for @createNewPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Play'**
+  String get createNewPlay;
+
   /// No description provided for @back.
   ///
   /// In en, this message translates to:
   /// **'Back'**
   String get back;
-
-  /// No description provided for @plays.
-  ///
-  /// In en, this message translates to:
-  /// **'Plays'**
-  String get plays;
-
-  /// No description provided for @soundLibrary.
-  ///
-  /// In en, this message translates to:
-  /// **'Sound Library'**
-  String get soundLibrary;
 
   /// No description provided for @panicStop.
   ///

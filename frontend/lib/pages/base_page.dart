@@ -20,13 +20,13 @@ class BasePage extends ConsumerWidget {
     final List<NavigationItem> topNavigationDestinations = [
       NavigationItem(
         NavigationPage.plays,
-        (context) => AppLocalizations.of(context)!.plays,
+        (context) => AppLocalizations.of(context)!.playsTitle,
         Icon(Icons.theater_comedy_outlined, color: AppThemes.colors.textColor),
         Icon(Icons.theater_comedy, color: AppThemes.colors.primaryColor),
       ),
       NavigationItem(
         NavigationPage.soundLibrary,
-        (context) => AppLocalizations.of(context)!.soundLibrary,
+        (context) => AppLocalizations.of(context)!.soundLibraryTitle,
         Icon(Icons.library_music_outlined, color: AppThemes.colors.textColor),
         Icon(Icons.library_music, color: AppThemes.colors.primaryColor),
       ),

@@ -5,16 +5,23 @@
     "pageNotFoundDescription": "Sorry, the page that you are looking for doesn't exists.",
     "@pageNotFoundDescription": {},
 
+    "playsTitle": "Plays",
+    "@playsTitle": {},
+
+    "playsDescription": "Manage your active productions.",
+    "@playsDescription": {},
+
+    "soundLibraryTitle": "Sound Library",
+    "@soundLibraryTitle": {},
+
+    "soundLibraryDescription": "Manage you sound effects",
+    "@soundLibraryDescription": {},
+
+    "createNewPlay": "Create New Play",
+    "@createNewPlay": {},
 
     "back": "Back",
     "@back":{},
-    
-    "plays": "Plays",
-    "@plays": {},
-
-    "soundLibrary": "Sound Library",
-    "@soundLibrary": {},
-
 
     "panicStop": "{type, select, esc{Panic Stop (ESC)} other{Panic Stop}}",
     "@panicStop": {
