@@ -1,0 +1,26 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trupe-sound-frontend
+    ports:
+      - "8086:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
+      - "traefik.http.routers.trupesound.entrypoints=web-secure"
+      - "traefik.http.services.trupesound.loadbalancer.server.port=3000"
+      - "traefik.http.routers.trupesound.tls.certresolver=cloudflare"
+      - "traefik.http.middlewares.traefik-auth.basicauth.removeheader=true"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=lucoelho:gaveta"
+
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
