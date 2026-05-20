@@ -5,10 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: trupe-sound-frontend
     ports:
-      - "8086:80"
+      - "8087:80"
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
