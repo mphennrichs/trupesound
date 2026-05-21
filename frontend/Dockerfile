@@ -11,7 +11,7 @@ ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PAT
 WORKDIR /app
 
 # Optimization: Pre-cache dependencies to speed up future builds
-COPY pubspec.yaml pubspec.lock ./
+COPY pubspec.yaml pubspec.lock* ./
 RUN flutter pub get
 
 COPY . .
