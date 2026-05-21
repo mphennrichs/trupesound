@@ -1,28 +1,24 @@
+networks:
+  traefik:
+    external: true
 services:
   frontend:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: trupe-sound-frontend
-    ports:
-      - "8091:80"
     restart: unless-stopped
+    networks:
+      - traefik
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
-      - "traefik.http.routers.trupesound.entrypoints=web-secure"
+      - "traefik.http.routers.trupesound.entrypoints=websecure"
       - "traefik.http.routers.trupesound.middlewares=traefik-auth"
       - "traefik.http.services.trupesound.loadbalancer.server.port=80"
       - "traefik.http.routers.trupesound.tls.certresolver=cloudflare"
       - "traefik.http.middlewares.traefik-auth.basicauth.removeHeader=true"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=lucoelho:$$2y$$05$$yVDK8eByB5LUO7MnWYHfZuNMfms/QV/aYS4e0Dl.rBTE4yw8DlEe6" 
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=lucoelho:$$2y$$05$$yVDK8eByB5LUO7MnWYHfZuNMfms/QV/aYS4e0Dl.rBTE4yw8DlEe6"       
       # how to set a real password:
       # sudo apt-get install apache2-utils
       # htpasswd -Bnb username password | sed -e s/\\$/\\$\\$/g ⁠
-
-    networks:
-      - traefik
-
-networks:
-  traefik:
-    external: true
