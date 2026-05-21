@@ -8,19 +8,32 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
 
-RUN flutter doctor
-
 WORKDIR /app
-COPY . .
 
+# Optimization: Pre-cache dependencies to speed up future builds
+COPY pubspec.yaml pubspec.lock ./
 RUN flutter pub get
+
+COPY . .
 RUN flutter gen-l10n
 # Generate code for Riverpod and GoRouter
-RUN flutter pub run build_runner build --delete-conflicting-outputs
+RUN dart run build_runner build --delete-conflicting-outputs
 RUN flutter build web --release
 
 # Stage 2: Serve the application using Nginx
 FROM nginx:stable-alpine
+
+# Required for the healthcheck defined in compose.yml
+RUN apk add --no-cache curl
+
+# Configure Nginx to support Flutter Web routing (Single Page Application)
+RUN echo 'server { \
+    listen 80; \
+    location / { \
+        root /usr/share/nginx/html; \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
 
 COPY --from=build /app/build/web /usr/share/nginx/html
 
