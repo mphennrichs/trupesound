@@ -36,7 +36,7 @@ class PageNotFound extends StatelessWidget {
     );
   }
 
-  TextButton _getBackToHomePageButton(BuildContext context) {
+  ElevatedButton _getBackToHomePageButton(BuildContext context) {
     return AppThemes.buttons.primaryButtonStyle(
       AppLocalizations.of(context)!.back,
       () => context.goNamed(NavigationPage.plays.name),
