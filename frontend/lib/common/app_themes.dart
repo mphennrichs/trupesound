@@ -60,13 +60,14 @@ class AppButtons {
   ElevatedButton primaryButtonStyle(String text, VoidCallback buttonfunction) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppThemes.colors.primaryColor.withValues(alpha: 0.1),
-        foregroundColor: AppThemes.colors.primaryColor,
+        backgroundColor: AppThemes.colors.primaryColor,
+        foregroundColor: Colors.white,
+        overlayColor: Colors.black.withValues(
+          alpha: 0.1,
+        ), // Automatically darkens on hover/press
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: AppThemes.borders.defaultBorderRadius,
-        ),
+        shape: AppThemes.borders.defaultBorder,
       ),
       onPressed: buttonfunction,
       child: Text(
