@@ -1,8 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/pages/base_page.dart';
 import 'package:trupe_sound/pages/page_not_found.dart';
 import 'package:trupe_sound/pages/plays/plays.dart';
+import 'package:trupe_sound/pages/new_play.dart';
 import 'package:trupe_sound/pages/sound_library/sound_library.dart';
 
 part 'router_provider.g.dart';
@@ -27,20 +29,25 @@ GoRouter router(Ref ref) {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/plays',
-                name: 'plays',
-                builder: (context, state) =>
-                    const Plays(), //TODO: this is plays
+                path: NavigationPage.plays.path,
+                name: NavigationPage.plays.name,
+                builder: (context, state) => const Plays(),
+                routes: [
+                  GoRoute(
+                    path: NavigationPage.newPlay.path,
+                    name: NavigationPage.newPlay.name,
+                    builder: (context, state) => const NewPlayPage(),
+                  ),
+                ],
               ),
             ],
           ),
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: '/sound-library',
-                name: 'sound-library',
-                builder: (context, state) =>
-                    const SoundLibrary(), //TODO: this is sound library
+                path: NavigationPage.soundLibrary.path,
+                name: NavigationPage.soundLibrary.name,
+                builder: (context, state) => const SoundLibrary(),
               ),
             ],
           ),
