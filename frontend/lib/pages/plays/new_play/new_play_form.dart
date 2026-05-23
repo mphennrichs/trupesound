@@ -49,16 +49,9 @@ class _NewPlayFormState extends State<NewPlayForm> {
           ),
         ),
         SizedBox(width: AppThemes.spacings.singleValue),
-        ElevatedButton(
-          onPressed: () => context.pushNamed(NavigationPage.soundscape.name),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppThemes.colors.primaryColor,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: AppThemes.borders.defaultBorderRadius,
-            ),
-          ),
-          child: Text(l10n.createAndStartEditing),
+        AppThemes.buttons.primaryButtonStyle(
+          l10n.createAndStartEditing,
+          () => context.pushNamed(NavigationPage.soundscape.name),
         ),
       ],
     );

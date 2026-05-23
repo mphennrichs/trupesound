@@ -57,15 +57,15 @@ class AppBorders {
 class AppButtons {
   const AppButtons();
 
-  TextButton primaryButtonStyle(String text, VoidCallback buttonfunction) {
-    return TextButton(
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all<Color>(
-          AppThemes.colors.primaryColor,
-        ),
-        fixedSize: WidgetStateProperty.all<Size>(const Size(192.21, 44)),
-        shape: WidgetStateProperty.all<OutlinedBorder>(
-          AppThemes.borders.defaultBorder,
+  ElevatedButton primaryButtonStyle(String text, VoidCallback buttonfunction) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppThemes.colors.primaryColor.withValues(alpha: 0.1),
+        foregroundColor: AppThemes.colors.primaryColor,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: AppThemes.borders.defaultBorderRadius,
         ),
       ),
       onPressed: buttonfunction,
