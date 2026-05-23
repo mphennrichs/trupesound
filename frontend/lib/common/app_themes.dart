@@ -36,6 +36,7 @@ class AppColors {
   const AppColors();
 
   final Color textColor = const Color(0xFFa69db8);
+  final Color hintTextColor = const Color(0x66A69DB8);
   final Color primaryColor = const Color(0xFF5417cf);
   final Color backgroundColor = const Color(0xFF0c0914);
   final Color borderColor = const Color(0xFF2e2938);

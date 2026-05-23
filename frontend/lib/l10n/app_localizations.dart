@@ -184,6 +184,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'e.g. Tenesse Willams'**
   String get playAuthorDirectorHint;
+
+  /// No description provided for @scriptOrganization.
+  ///
+  /// In en, this message translates to:
+  /// **'Script Organization'**
+  String get scriptOrganization;
+
+  /// No description provided for @addAct.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Act'**
+  String get addAct;
+
+  /// No description provided for @act.
+  ///
+  /// In en, this message translates to:
+  /// **'Act'**
+  String get act;
+
+  /// No description provided for @pasteActHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste {act} {number} script here...'**
+  String pasteActHint(String act, String number);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

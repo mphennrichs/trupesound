@@ -21,15 +21,17 @@ class NewPlayPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppThemes.colors.backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            breadcrumbWidget,
-            AppThemes.spacings.singleSpace,
-            NewPlayForm(),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              breadcrumbWidget,
+              AppThemes.spacings.singleSpace,
+              const NewPlayForm(),
+            ],
+          ),
         ),
       ),
     );

@@ -48,5 +48,26 @@
     "@playAuthorDirectorLabel": {},
 
     "playAuthorDirectorHint": "e.g. Tenesse Willams",
-    "@playAuthorDirectorHint": {} 
+    "@playAuthorDirectorHint": {},
+
+    "scriptOrganization": "Script Organization",
+    "@scriptOrganization": {},
+
+    "addAct": "Add Act",
+    "@addAct": {},
+
+    "act": "Act",
+    "@act": {},
+
+    "pasteActHint": "Paste {act} {number} script here...",
+    "@pasteActHint": {
+      "placeholders": {
+        "act": {
+          "type": "String"
+        },
+        "number": {
+          "type": "String"
+        }
+      }
+    }
 }

@@ -50,5 +50,26 @@
     "@playAuthorDirectorLabel": {},
 
     "playAuthorDirectorHint": "ex. Luciana Coelho",
-    "@playAuthorDirectorHint": {} 
+    "@playAuthorDirectorHint": {},
+    
+    "scriptOrganization": "Organização do Script",
+    "@scriptOrganization": {},
+
+    "addAct": "Adicionar Ato",
+    "@addAct": {},
+
+    "act": "Ato",
+    "@act": {},
+
+    "pasteActHint": "Cole o script do {act} {number} aqui...",
+    "@pasteActHint": {
+      "placeholders": {
+        "act": {
+          "type": "String"
+        },
+        "number": {
+          "type": "String"
+        }
+      }
+    }
 }

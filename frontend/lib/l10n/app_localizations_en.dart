@@ -61,4 +61,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get playAuthorDirectorHint => 'e.g. Tenesse Willams';
+
+  @override
+  String get scriptOrganization => 'Script Organization';
+
+  @override
+  String get addAct => 'Add Act';
+
+  @override
+  String get act => 'Act';
+
+  @override
+  String pasteActHint(String act, String number) {
+    return 'Paste $act $number script here...';
+  }
 }

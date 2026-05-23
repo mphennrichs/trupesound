@@ -51,7 +51,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get playTitleLabel => 'Título da peça';
+  String get playTitleLabel => 'Título da Peça';
 
   @override
   String get playTitleHint => 'ex. Caixa Mágica, Regra de três';
@@ -61,4 +61,18 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get playAuthorDirectorHint => 'ex. Luciana Coelho';
+
+  @override
+  String get scriptOrganization => 'Organização do Script';
+
+  @override
+  String get addAct => 'Adicionar Ato';
+
+  @override
+  String get act => 'Ato';
+
+  @override
+  String pasteActHint(String act, String number) {
+    return 'Cole o script do $act $number aqui...';
+  }
 }

@@ -35,9 +35,7 @@ class CustomTextInput extends StatelessWidget {
           ),
           decoration: InputDecoration(
             hintText: exampleText,
-            hintStyle: TextStyle(
-              color: AppThemes.colors.textColor.withOpacity(0.4),
-            ),
+            hintStyle: TextStyle(color: AppThemes.colors.hintTextColor),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16.0,
               vertical: 12.0,
