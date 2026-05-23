@@ -5,6 +5,7 @@ import 'package:trupe_sound/pages/base_page.dart';
 import 'package:trupe_sound/pages/page_not_found.dart';
 import 'package:trupe_sound/pages/plays/plays.dart';
 import 'package:trupe_sound/pages/plays/new_play/new_play.dart';
+import 'package:trupe_sound/pages/plays/soundscape/soundscape_page.dart';
 import 'package:trupe_sound/pages/sound_library/sound_library.dart';
 
 part 'router_provider.g.dart';
@@ -37,6 +38,11 @@ GoRouter router(Ref ref) {
                     path: NavigationPage.newPlay.path,
                     name: NavigationPage.newPlay.name,
                     builder: (context, state) => const NewPlayPage(),
+                  ),
+                  GoRoute(
+                    path: NavigationPage.soundscape.path,
+                    name: NavigationPage.soundscape.name,
+                    builder: (context, state) => const Soundscape(),
                   ),
                 ],
               ),

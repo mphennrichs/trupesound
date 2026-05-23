@@ -53,7 +53,7 @@ class _NewActState extends State<NewAct> {
         AppThemes.spacings.singleSpace,
         ..._actControllers.asMap().entries.map((entry) {
           final int actNumber = entry.key + 1;
-          final roman = actNumber.toRomanNumeralString();
+          final roman = actNumber.toRomanNumeralString() ?? "";
 
           return Padding(
             padding: EdgeInsets.only(bottom: AppThemes.spacings.doubleValue),
@@ -72,7 +72,7 @@ class _NewActState extends State<NewAct> {
                     ),
                     const Spacer(),
                     IconButton(
-                      onPressed: () => _removeAct(index),
+                      onPressed: () => _removeAct(entry.key),
                       icon: Icon(
                         Icons.delete_outline,
                         color: AppThemes.colors.textColor,

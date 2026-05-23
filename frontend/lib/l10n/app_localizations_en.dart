@@ -75,4 +75,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String pasteActHint(String act, String number) {
     return 'Paste $act $number script here...';
   }
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get createAndStartEditing => 'Create & Start editing';
 }

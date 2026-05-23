@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
@@ -28,6 +30,38 @@ class _NewPlayFormState extends State<NewPlayForm> {
     _titleController.dispose();
     _authorController.dispose();
     super.dispose();
+  }
+
+  Widget buttonRow() {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          onPressed: () => context.pop(),
+          child: Text(
+            l10n.cancel,
+            style: TextStyle(
+              color: AppThemes.colors.textColor,
+              fontSize: AppThemes.texts.normalFontSize,
+            ),
+          ),
+        ),
+        SizedBox(width: AppThemes.spacings.singleValue),
+        ElevatedButton(
+          onPressed: () => context.pushNamed(NavigationPage.soundscape.name),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppThemes.colors.primaryColor,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: AppThemes.borders.defaultBorderRadius,
+            ),
+          ),
+          child: Text(l10n.createAndStartEditing),
+        ),
+      ],
+    );
   }
 
   @override
@@ -75,6 +109,8 @@ class _NewPlayFormState extends State<NewPlayForm> {
           titleAuthorRow,
           AppThemes.spacings.doubleSpace,
           NewAct(),
+          AppThemes.spacings.doubleSpace,
+          buttonRow(),
         ],
       ),
     );

@@ -69,5 +69,11 @@
           "type": "String"
         }
       }
-    }
+    },
+
+    "cancel": "Cancel",
+    "@cancel": {},
+
+    "createAndStartEditing": "Create & Start editing",
+    "@createAndStartEditing": {}
 }

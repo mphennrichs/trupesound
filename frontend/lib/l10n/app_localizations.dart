@@ -208,6 +208,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Paste {act} {number} script here...'**
   String pasteActHint(String act, String number);
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @createAndStartEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Create & Start editing'**
+  String get createAndStartEditing;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
