@@ -15,6 +15,13 @@
     "playsDescription": "Gerencie suas produções ativas.",
     "@playsDescription": {},
 
+        "newPlayFormTitle": "Nova Peça",
+    "@newPlayFormTitle": {},
+
+    "newPlayFormDescription": "Organize seu roteiro em atos para um gerenciamento mais preciso da sonoplastia.",
+    "@newPlayFormDescription": {},
+
+
     "soundLibraryTitle": "Biblioteca de Sons",
     "@soundLibraryTitle": {},
 
@@ -31,5 +38,17 @@
           "type": "String"
         }
       }
-    }
+    },
+
+    "playTitleLabel": "Título da Peça",
+    "@playTitleLabel": {},
+
+    "playTitleHint": "ex. Caixa Mágica, Regra de três",
+    "@playTitleHint": {},
+
+    "playAuthorDirectorLabel": "Autor/Diretor",
+    "@playAuthorDirectorLabel": {},
+
+    "playAuthorDirectorHint": "ex. Luciana Coelho",
+    "@playAuthorDirectorHint": {} 
 }

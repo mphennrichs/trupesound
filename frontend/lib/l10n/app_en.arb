@@ -20,6 +20,12 @@
     "createNewPlay": "Create New Play",
     "@createNewPlay": {},
 
+    "newPlayFormTitle": "New Play",
+    "@newPlayFormTitle": {},
+
+    "newPlayFormDescription": "Organize your script into acts for more precise soundscape management.",
+    "@newPlayFormDescription": {},
+
     "back": "Back",
     "@back":{},
 
@@ -30,5 +36,17 @@
           "type": "String"
         }
       }
-    }
+    },
+
+    "playTitleLabel": "Play Title",
+    "@playTitleLabel": {},
+
+    "playTitleHint": "e.g.: Macbeth, Cyrano de Bergerac",
+    "@playTitleHint": {},
+
+    "playAuthorDirectorLabel": "Author/Director",
+    "@playAuthorDirectorLabel": {},
+
+    "playAuthorDirectorHint": "e.g. Tenesse Willams",
+    "@playAuthorDirectorHint": {} 
 }

@@ -30,6 +30,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createNewPlay => 'Create New Play';
 
   @override
+  String get newPlayFormTitle => 'New Play';
+
+  @override
+  String get newPlayFormDescription => 'Organize your script into acts for more precise soundscape management.';
+
+  @override
   String get back => 'Back';
 
   @override
@@ -43,4 +49,16 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get playTitleLabel => 'Play Title';
+
+  @override
+  String get playTitleHint => 'e.g.: Macbeth, Cyrano de Bergerac';
+
+  @override
+  String get playAuthorDirectorLabel => 'Author/Director';
+
+  @override
+  String get playAuthorDirectorHint => 'e.g. Tenesse Willams';
 }

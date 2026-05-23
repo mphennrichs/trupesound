@@ -137,6 +137,18 @@ abstract class AppLocalizations {
   /// **'Create New Play'**
   String get createNewPlay;
 
+  /// No description provided for @newPlayFormTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Play'**
+  String get newPlayFormTitle;
+
+  /// No description provided for @newPlayFormDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Organize your script into acts for more precise soundscape management.'**
+  String get newPlayFormDescription;
+
   /// No description provided for @back.
   ///
   /// In en, this message translates to:
@@ -148,6 +160,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{type, select, esc{Panic Stop (ESC)} other{Panic Stop}}'**
   String panicStop(String type);
+
+  /// No description provided for @playTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Play Title'**
+  String get playTitleLabel;
+
+  /// No description provided for @playTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g.: Macbeth, Cyrano de Bergerac'**
+  String get playTitleHint;
+
+  /// No description provided for @playAuthorDirectorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Author/Director'**
+  String get playAuthorDirectorLabel;
+
+  /// No description provided for @playAuthorDirectorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Tenesse Willams'**
+  String get playAuthorDirectorHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -30,6 +30,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get createNewPlay => 'Criar Nova Peça';
 
   @override
+  String get newPlayFormTitle => 'Nova Peça';
+
+  @override
+  String get newPlayFormDescription => 'Organize seu roteiro em atos para um gerenciamento mais preciso da sonoplastia.';
+
+  @override
   String get back => 'Voltar';
 
   @override
@@ -43,4 +49,16 @@ class AppLocalizationsPt extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get playTitleLabel => 'Título da peça';
+
+  @override
+  String get playTitleHint => 'ex. Caixa Mágica, Regra de três';
+
+  @override
+  String get playAuthorDirectorLabel => 'Autor/Diretor';
+
+  @override
+  String get playAuthorDirectorHint => 'ex. Luciana Coelho';
 }
