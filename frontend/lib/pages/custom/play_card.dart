@@ -8,6 +8,8 @@ class PlayCard extends StatelessWidget {
   final String author;
   final int cueCount;
   final String lastModified;
+  final IconData? icon;
+  final Color? backgroundColor;
 
   const PlayCard({
     super.key,
@@ -16,7 +18,43 @@ class PlayCard extends StatelessWidget {
     required this.author,
     required this.cueCount,
     required this.lastModified,
+    this.icon,
+    this.backgroundColor,
   });
+
+  Widget _buildBanner() {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(color: backgroundColor),
+      child: Center(child: Icon(icon, color: Colors.white, size: 48)),
+    );
+  }
+
+  Text _buildTitle() {
+    return Text(
+      title,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: AppThemes.texts.h1FontSize,
+        fontWeight: FontWeight.bold,
+      ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Text _buildAuthor() {
+    return Text(
+      author,
+      style: TextStyle(
+        color: Colors.white70,
+        fontSize: AppThemes.texts.h2FontSize,
+      ),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +65,7 @@ class PlayCard extends StatelessWidget {
         child: Container(
           width: AppThemes.cards.width,
           height: AppThemes.cards.height,
-          padding: const EdgeInsets.all(20),
+          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: AppThemes.colors.cardColor,
             borderRadius: AppThemes.borders.defaultBorderRadius,
@@ -42,40 +80,33 @@ class PlayCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: AppThemes.texts.h1FontSize,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              SizedBox(
+                height: AppThemes.cards.height * 0.4,
+                child: _buildBanner(),
               ),
-              Text(
-                author,
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: AppThemes.texts.h2FontSize,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 12.0),
-                child: Divider(color: Colors.white24, thickness: 1),
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildMetadataColumn("SOUND CUES", "$cueCount Cues"),
-                  _buildMetadataColumn(
-                    "MODIFIED",
-                    lastModified,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(AppThemes.spacings.singleValue),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildTitle(),
+                      _buildAuthor(),
+                      Divider(color: Colors.white24, thickness: 1),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildMetadataColumn("SOUND CUES", "$cueCount Cues"),
+                          _buildMetadataColumn(
+                            "MODIFIED",
+                            lastModified,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),

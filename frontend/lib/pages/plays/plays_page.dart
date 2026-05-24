@@ -85,6 +85,8 @@ class PlaysPage extends ConsumerWidget {
           author: play.author,
           cueCount: play.cueCount,
           lastModified: DateFormat('dd/MM/yyyy').format(play.lastModifyDate),
+          icon: play.icon,
+          backgroundColor: play.backgroundColor,
         );
       },
     );

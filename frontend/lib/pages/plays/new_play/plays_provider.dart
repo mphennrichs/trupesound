@@ -11,7 +11,6 @@ class Plays extends _$Plays {
     return ref.read(playServiceProvider).list();
   }
 
-  /// Adds a new play and updates the local state manually for a smooth UX
   Future<Play?> addPlay(Play play) async {
     final result = await ref.read(playServiceProvider).save(play);
 
@@ -23,7 +22,6 @@ class Plays extends _$Plays {
     return result;
   }
 
-  /// Updates an existing play in the local list
   Future<void> updatePlay(Play play) async {
     final result = await ref.read(playServiceProvider).update(play);
 
@@ -34,7 +32,6 @@ class Plays extends _$Plays {
     }
   }
 
-  /// Removes a play from the local list
   Future<void> deletePlay(int id) async {
     final success = await ref.read(playServiceProvider).delete(id);
 
@@ -43,7 +40,6 @@ class Plays extends _$Plays {
     }
   }
 
-  /// Forces a full refresh with a loading state
   Future<void> refresh() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() => ref.read(playServiceProvider).list());

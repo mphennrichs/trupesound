@@ -15,10 +15,23 @@ import 'package:trupe_sound/pages/plays/provider/play_form_provider.dart';
 class NewPlayForm extends HookConsumerWidget {
   const NewPlayForm({super.key});
 
+  Widget _buildBanner(IconData? icon, Color? backgroundColor) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(AppThemes.spacings.singleValue),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: AppThemes.borders.defaultBorderRadius,
+      ),
+      child: Center(child: Icon(icon, color: Colors.white, size: 48)),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final notifier = ref.read(playFormControllerProvider.notifier);
+    final state = ref.watch(playFormControllerProvider);
 
     // Hooks for controllers
     final titleController = useTextEditingController();
@@ -39,6 +52,7 @@ class NewPlayForm extends HookConsumerWidget {
 
     Future<void> saveAndStartEditing() async {
       final newPlay = notifier.toModel();
+
       final savedPlay = await ref.read(playsProvider.notifier).addPlay(newPlay);
 
       if (savedPlay != null && context.mounted) {
@@ -90,8 +104,9 @@ class NewPlayForm extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           title,
-          AppThemes.spacings.doubleSpace,
-          AppThemes.spacings.doubleSpace,
+          AppThemes.spacings.singleSpace,
+          _buildBanner(state.icon, state.backgroundColor),
+          AppThemes.spacings.singleSpace,
           Row(
             children: [
               Expanded(

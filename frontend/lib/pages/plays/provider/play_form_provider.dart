@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/models/play.dart';
 import 'package:trupe_sound/models/act.dart';
+import 'package:trupe_sound/pages/plays/provider/play_visual_utils.dart';
 
 part 'play_form_provider.g.dart';
 
@@ -8,12 +10,16 @@ class PlayFormState {
   final String title;
   final String author;
   final List<String> actScripts;
+  final IconData? icon;
+  final Color? backgroundColor;
   final bool isSaving;
 
   PlayFormState({
     this.title = '',
     this.author = '',
     this.actScripts = const [],
+    this.icon,
+    this.backgroundColor,
     this.isSaving = false,
   });
 
@@ -21,12 +27,16 @@ class PlayFormState {
     String? title,
     String? author,
     List<String>? actScripts,
+    IconData? icon,
+    Color? backgroundColor,
     bool? isSaving,
   }) {
     return PlayFormState(
       title: title ?? this.title,
       author: author ?? this.author,
       actScripts: actScripts ?? this.actScripts,
+      icon: icon ?? this.icon,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
       isSaving: isSaving ?? this.isSaving,
     );
   }
@@ -35,10 +45,21 @@ class PlayFormState {
 @riverpod
 class PlayFormController extends _$PlayFormController {
   @override
-  PlayFormState build() => PlayFormState();
+  PlayFormState build() => PlayFormState(
+    icon: PlayVisualUtils.getRandomIcon(),
+    backgroundColor: PlayVisualUtils.getRandomColor(),
+  );
 
   void updateTitle(String value) => state = state.copyWith(title: value);
   void updateAuthor(String value) => state = state.copyWith(author: value);
+
+  void updateIcon(IconData value) {
+    state = state.copyWith(icon: value);
+  }
+
+  void updateBackgroundColor(Color value) {
+    state = state.copyWith(backgroundColor: value);
+  }
 
   void addAct() {
     state = state.copyWith(actScripts: [...state.actScripts, '']);
@@ -63,6 +84,8 @@ class PlayFormController extends _$PlayFormController {
       creationDate: DateTime.now(),
       lastModifyDate: DateTime.now(),
       cueCount: 0,
+      icon: state.icon,
+      backgroundColor: state.backgroundColor,
       acts: state.actScripts
           .asMap()
           .entries

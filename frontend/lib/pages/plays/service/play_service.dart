@@ -53,6 +53,8 @@ class PlayService {
         author: play.author,
         acts: play.acts,
         cueCount: play.cueCount,
+        icon: play.icon,
+        backgroundColor: play.backgroundColor,
         lastModifyDate: DateTime.now(),
       );
       plays[play.id] = currentPlay;

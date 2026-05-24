@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:trupe_sound/models/act.dart';
 
 class Play {
@@ -9,6 +10,8 @@ class Play {
   final DateTime lastModifyDate;
   final int cueCount;
   final bool archived;
+  final IconData? icon;
+  final Color? backgroundColor;
 
   const Play({
     required this.id,
@@ -19,6 +22,8 @@ class Play {
     required this.lastModifyDate,
     this.archived = false,
     required this.cueCount,
+    this.icon,
+    this.backgroundColor,
   });
 
   Play copyWith({
@@ -30,6 +35,8 @@ class Play {
     DateTime? lastModifyDate,
     bool? archived,
     int? cueCount,
+    IconData? icon,
+    Color? backgroundColor,
   }) {
     return Play(
       id: id ?? this.id,
@@ -40,6 +47,8 @@ class Play {
       lastModifyDate: lastModifyDate ?? this.lastModifyDate,
       archived: archived ?? this.archived,
       cueCount: cueCount ?? this.cueCount,
+      icon: icon ?? this.icon,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
 }
