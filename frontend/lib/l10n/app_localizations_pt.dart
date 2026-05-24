@@ -81,4 +81,34 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get createAndStartEditing => 'Criar e Começar a editar';
+
+  @override
+  String get selectIcon => 'Selecionar Ícone';
+
+  @override
+  String get editIcon => 'Editar Ícone';
+
+  @override
+  String get editColor => 'Editar Cor';
+
+  @override
+  String get selectBannerColor => 'Selecionar cor do banner';
+
+  @override
+  String cue(int number) {
+    String _temp0 = intl.Intl.pluralLogic(
+      number,
+      locale: localeName,
+      other: '$number Deixas',
+      one: '1 Deixa',
+      zero: '0 Deixas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get soundCues => 'Deixas Sonoras';
+
+  @override
+  String get lastModified => 'Última Modificação';
 }

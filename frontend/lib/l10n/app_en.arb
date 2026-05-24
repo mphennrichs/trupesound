@@ -75,5 +75,32 @@
     "@cancel": {},
 
     "createAndStartEditing": "Create & Start editing",
-    "@createAndStartEditing": {}
+    "@createAndStartEditing": {},
+
+    "selectIcon": "Select Icon",
+    "@selectIcon": {},
+
+    "editIcon": "Edit Icon",
+    "@editIcon": {},
+
+    "editColor": "Edit Color",
+    "@editColor": {},
+
+    "selectBannerColor":  "Select banner color",
+    "@selectBannerColor": {},
+
+    "cue": "{number, plural, =0{0 Cues} =1{1 Cue} other{{number} Cues}}",
+    "@cue": {
+      "placeholders": {
+        "number": {
+          "type": "int"
+        }
+      }
+    },
+
+    "soundCues": "Sound Cues",
+    "@soundCues": {},
+
+    "lastModified": "Last Modified",
+    "@lastModified": {}
 }

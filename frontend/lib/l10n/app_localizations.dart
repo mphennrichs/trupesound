@@ -220,6 +220,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create & Start editing'**
   String get createAndStartEditing;
+
+  /// No description provided for @selectIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Icon'**
+  String get selectIcon;
+
+  /// No description provided for @editIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Icon'**
+  String get editIcon;
+
+  /// No description provided for @editColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Color'**
+  String get editColor;
+
+  /// No description provided for @selectBannerColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Select banner color'**
+  String get selectBannerColor;
+
+  /// No description provided for @cue.
+  ///
+  /// In en, this message translates to:
+  /// **'{number, plural, =0{0 Cues} =1{1 Cue} other{{number} Cues}}'**
+  String cue(int number);
+
+  /// No description provided for @soundCues.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound Cues'**
+  String get soundCues;
+
+  /// No description provided for @lastModified.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Modified'**
+  String get lastModified;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

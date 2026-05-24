@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trupe_sound/common/app_themes.dart';
+import 'package:trupe_sound/l10n/app_localizations.dart';
 
 class PlayCard extends StatelessWidget {
   final int id;
@@ -58,6 +59,8 @@ class PlayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -96,9 +99,12 @@ class PlayCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildMetadataColumn("SOUND CUES", "$cueCount Cues"),
                           _buildMetadataColumn(
-                            "MODIFIED",
+                            l10n.soundCues,
+                            l10n.cue(cueCount),
+                          ),
+                          _buildMetadataColumn(
+                            l10n.lastModified,
                             lastModified,
                             crossAxisAlignment: CrossAxisAlignment.end,
                           ),

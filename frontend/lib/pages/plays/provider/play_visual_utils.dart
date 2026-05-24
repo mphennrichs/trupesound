@@ -29,6 +29,7 @@ class PlayVisualUtils {
     Icons.bolt,
     Icons.sunny,
     Icons.hive,
+    Icons.block,
   ];
 
   static Color getRandomColor() =>

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/models/play.dart';
 import 'package:trupe_sound/models/act.dart';
 import 'package:trupe_sound/pages/plays/provider/play_visual_utils.dart';
@@ -40,6 +41,24 @@ class PlayFormState {
       isSaving: isSaving ?? this.isSaving,
     );
   }
+
+  PlayFormState copyWithNullIcon({
+    String? title,
+    String? author,
+    List<String>? actScripts,
+    IconData? icon,
+    Color? backgroundColor,
+    bool? isSaving,
+  }) {
+    return PlayFormState(
+      title: title ?? this.title,
+      author: author ?? this.author,
+      actScripts: actScripts ?? this.actScripts,
+      icon: null,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      isSaving: isSaving ?? this.isSaving,
+    );
+  }
 }
 
 @riverpod
@@ -54,11 +73,19 @@ class PlayFormController extends _$PlayFormController {
   void updateAuthor(String value) => state = state.copyWith(author: value);
 
   void updateIcon(IconData value) {
-    state = state.copyWith(icon: value);
+    if (value == state.icon) {
+      state = state.copyWithNullIcon();
+    } else {
+      state = state.copyWith(icon: value);
+    }
   }
 
   void updateBackgroundColor(Color value) {
-    state = state.copyWith(backgroundColor: value);
+    if (value == state.backgroundColor) {
+      state = state.copyWith(backgroundColor: AppThemes.colors.cardColor);
+    } else {
+      state = state.copyWith(backgroundColor: value);
+    }
   }
 
   void addAct() {

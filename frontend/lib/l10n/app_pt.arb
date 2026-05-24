@@ -77,5 +77,32 @@
     "@cancel": {},
 
     "createAndStartEditing": "Criar e Começar a editar",
-    "@createAndStartEditing": {}
+    "@createAndStartEditing": {},
+
+    "selectIcon": "Selecionar Ícone",
+    "@selectIcon": {},
+
+    "editIcon": "Editar Ícone",
+    "@editIcon": {},
+
+    "editColor": "Editar Cor",
+    "@editColor": {},
+
+    "selectBannerColor":  "Selecionar cor do banner",
+    "@selectBannerColor": {},
+
+    "cue": "{number, plural, =0{0 Deixas} =1{1 Deixa} other{{number} Deixas}}",
+    "@cue": {
+      "placeholders": {
+        "number": {
+          "type": "int"
+        }
+      }
+    },
+
+    "soundCues": "Deixas Sonoras",
+    "@soundCues": {},
+
+    "lastModified": "Última Modificação",
+    "@lastModified": {}
 }

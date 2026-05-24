@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/navigation_pages_enum.dart';
@@ -11,19 +10,168 @@ import 'package:trupe_sound/pages/custom/custom_title.dart';
 import 'package:trupe_sound/pages/plays/new_play/new_act.dart';
 import 'package:trupe_sound/pages/plays/new_play/plays_provider.dart';
 import 'package:trupe_sound/pages/plays/provider/play_form_provider.dart';
+import 'package:trupe_sound/pages/plays/provider/play_visual_utils.dart';
 
 class NewPlayForm extends HookConsumerWidget {
   const NewPlayForm({super.key});
 
-  Widget _buildBanner(IconData? icon, Color? backgroundColor) {
+  void _showColorPicker(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppThemes.colors.cardColor,
+          title: Text(
+            l10n.selectBannerColor,
+            style: TextStyle(color: Colors.white),
+          ),
+          content: SizedBox(
+            width: 320,
+            child: Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              alignment: WrapAlignment.center,
+              children: PlayVisualUtils.defaultColors.map((color) {
+                return GestureDetector(
+                  onTap: () {
+                    ref
+                        .read(playFormControllerProvider.notifier)
+                        .updateBackgroundColor(color);
+                    context.pop();
+                  },
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: color,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 1),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showIconPicker(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppThemes.colors.cardColor,
+          title: Text(l10n.selectIcon, style: TextStyle(color: Colors.white)),
+          content: SizedBox(
+            width: 320,
+            child: Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              alignment: WrapAlignment.center,
+              children: PlayVisualUtils.defaultIcons.map((icon) {
+                return MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      ref
+                          .read(playFormControllerProvider.notifier)
+                          .updateIcon(icon);
+                      context.pop();
+                    },
+                    child: Icon(icon, color: Colors.white, size: 32),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBanner(
+    BuildContext context,
+    WidgetRef ref,
+    IconData? icon,
+    Color? backgroundColor,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(AppThemes.spacings.singleValue),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: AppThemes.borders.defaultBorderRadius,
       ),
-      child: Center(child: Icon(icon, color: Colors.white, size: 48)),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Center(
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: AppThemes.texts.h1FontSize * 2,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildBannerAction(
+                    tooltip: l10n.editColor,
+                    icon: Icons.edit,
+                    onTap: () => _showColorPicker(context, ref),
+                  ),
+                  const SizedBox(height: 8),
+                  _buildBannerAction(
+                    tooltip: l10n.editIcon,
+                    icon: Icons.image_outlined,
+                    onTap: () => _showIconPicker(context, ref),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBannerAction({
+    required String tooltip,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.black.withValues(alpha: 0.3),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              color: Colors.white,
+              size: AppThemes.texts.normalFontSize,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -105,7 +253,7 @@ class NewPlayForm extends HookConsumerWidget {
         children: [
           title,
           AppThemes.spacings.singleSpace,
-          _buildBanner(state.icon, state.backgroundColor),
+          _buildBanner(context, ref, state.icon, state.backgroundColor),
           AppThemes.spacings.singleSpace,
           Row(
             children: [

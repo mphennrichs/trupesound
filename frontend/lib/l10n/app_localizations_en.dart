@@ -81,4 +81,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createAndStartEditing => 'Create & Start editing';
+
+  @override
+  String get selectIcon => 'Select Icon';
+
+  @override
+  String get editIcon => 'Edit Icon';
+
+  @override
+  String get editColor => 'Edit Color';
+
+  @override
+  String get selectBannerColor => 'Select banner color';
+
+  @override
+  String cue(int number) {
+    String _temp0 = intl.Intl.pluralLogic(
+      number,
+      locale: localeName,
+      other: '$number Cues',
+      one: '1 Cue',
+      zero: '0 Cues',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get soundCues => 'Sound Cues';
+
+  @override
+  String get lastModified => 'Last Modified';
 }

@@ -42,7 +42,7 @@ final class PlayFormControllerProvider
 }
 
 String _$playFormControllerHash() =>
-    r'1b333f8893a04926df76b04285e9e791a07c8b8f';
+    r'bedba6986d4e374773b7efbdcef66d4104b672bb';
 
 abstract class _$PlayFormController extends $Notifier<PlayFormState> {
   PlayFormState build();
