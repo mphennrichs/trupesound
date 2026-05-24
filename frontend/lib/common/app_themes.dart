@@ -11,6 +11,7 @@ class AppThemes {
   static const AppColors colors = AppColors();
   static const AppBorders borders = AppBorders();
   static const AppButtons buttons = AppButtons();
+  static const AppCards cards = AppCards();
 }
 
 class AppTexts {
@@ -21,6 +22,13 @@ class AppTexts {
   final double normalFontSize = 14;
   final double smallFontSize = 12;
   final double calculatedHintHeight = 38.0; // 14.0 + 24.0
+}
+
+class AppCards {
+  const AppCards();
+  // 13.0 * 2
+  final double width = 200;
+  final double height = 300;
 }
 
 class AppSpacings {
@@ -57,51 +65,31 @@ class AppBorders {
 class AppButtons {
   const AppButtons();
 
-  ElevatedButton primaryButtonStyle(String text, VoidCallback buttonfunction) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppThemes.colors.primaryColor,
-        foregroundColor: Colors.white,
-        overlayColor: Colors.black.withValues(
-          alpha: 0.1,
-        ), // Automatically darkens on hover/press
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: AppThemes.borders.defaultBorder,
-      ),
-      onPressed: buttonfunction,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: AppThemes.colors.textColor,
-          fontWeight: FontWeight.w600,
-          fontSize: AppThemes.texts.normalFontSize,
-        ),
-      ),
-    );
-  }
+  ButtonStyle get primaryButtonStyle => ElevatedButton.styleFrom(
+    backgroundColor: AppThemes.colors.primaryColor,
+    foregroundColor: Colors.white,
+    overlayColor: Colors.black.withValues(alpha: 0.1),
+    elevation: 0,
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+    shape: AppThemes.borders.defaultBorder,
+    textStyle: TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: AppThemes.texts.normalFontSize,
+    ),
+  );
 
-  ElevatedButton panicButton(String text, VoidCallback buttonfunction) {
-    return ElevatedButton.icon(
-      onPressed: buttonfunction,
-      icon: const Icon(Icons.error_outline, size: 18),
-      label: Text(
-        text,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: AppThemes.texts.normalFontSize,
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red.withValues(alpha: 0.1),
-        foregroundColor: Colors.red,
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: AppThemes.borders.defaultBorderRadius,
-          side: BorderSide(color: Colors.red.withValues(alpha: 0.2)),
-        ),
-      ),
-    );
-  }
+  ButtonStyle get panicButtonStyle => ElevatedButton.styleFrom(
+    backgroundColor: Colors.red.withValues(alpha: 0.1),
+    foregroundColor: Colors.red,
+    elevation: 0,
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: AppThemes.borders.defaultBorderRadius,
+      side: BorderSide(color: Colors.red.withValues(alpha: 0.2)),
+    ),
+    textStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: AppThemes.texts.normalFontSize,
+    ),
+  );
 }

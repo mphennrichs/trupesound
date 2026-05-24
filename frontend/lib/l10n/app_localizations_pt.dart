@@ -57,10 +57,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get playTitleHint => 'ex. Caixa Mágica, Regra de três';
 
   @override
-  String get playAuthorDirectorLabel => 'Autor/Diretor';
+  String get playAuthorLabel => 'Autor(a)';
 
   @override
-  String get playAuthorDirectorHint => 'ex. Luciana Coelho';
+  String get playAuthorHint => 'ex. Luciana Coelho';
 
   @override
   String get scriptOrganization => 'Organização do Script';

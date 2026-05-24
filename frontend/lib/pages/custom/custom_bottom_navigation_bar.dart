@@ -22,11 +22,12 @@ class CustomBottomNavigationBar extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          AppThemes.buttons.panicButton(
-            l10n.panicStop('esc').toUpperCase(),
-            () {
+          ElevatedButton(
+            style: AppThemes.buttons.panicButtonStyle,
+            onPressed: () {
               ref.read(panicActionProvider.notifier).execute();
             },
+            child: Text(l10n.panicStop('esc').toUpperCase()),
           ),
           AppThemes.spacings.singleSpace,
         ],

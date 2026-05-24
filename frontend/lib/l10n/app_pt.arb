@@ -46,11 +46,11 @@
     "playTitleHint": "ex. Caixa Mágica, Regra de três",
     "@playTitleHint": {},
 
-    "playAuthorDirectorLabel": "Autor/Diretor",
-    "@playAuthorDirectorLabel": {},
+    "playAuthorLabel": "Autor(a)",
+    "@playAuthorLabel": {},
 
-    "playAuthorDirectorHint": "ex. Luciana Coelho",
-    "@playAuthorDirectorHint": {},
+    "playAuthorHint": "ex. Luciana Coelho",
+    "@playAuthorHint": {},
     
     "scriptOrganization": "Organização do Script",
     "@scriptOrganization": {},

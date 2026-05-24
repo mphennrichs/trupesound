@@ -173,17 +173,17 @@ abstract class AppLocalizations {
   /// **'e.g.: Macbeth, Cyrano de Bergerac'**
   String get playTitleHint;
 
-  /// No description provided for @playAuthorDirectorLabel.
+  /// No description provided for @playAuthorLabel.
   ///
   /// In en, this message translates to:
-  /// **'Author/Director'**
-  String get playAuthorDirectorLabel;
+  /// **'Author'**
+  String get playAuthorLabel;
 
-  /// No description provided for @playAuthorDirectorHint.
+  /// No description provided for @playAuthorHint.
   ///
   /// In en, this message translates to:
   /// **'e.g. Tenesse Willams'**
-  String get playAuthorDirectorHint;
+  String get playAuthorHint;
 
   /// No description provided for @scriptOrganization.
   ///

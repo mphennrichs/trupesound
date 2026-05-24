@@ -44,11 +44,11 @@
     "playTitleHint": "e.g.: Macbeth, Cyrano de Bergerac",
     "@playTitleHint": {},
 
-    "playAuthorDirectorLabel": "Author/Director",
-    "@playAuthorDirectorLabel": {},
+    "playAuthorLabel": "Author",
+    "@playAuthorLabel": {},
 
-    "playAuthorDirectorHint": "e.g. Tenesse Willams",
-    "@playAuthorDirectorHint": {},
+    "playAuthorHint": "e.g. Tenesse Willams",
+    "@playAuthorHint": {},
 
     "scriptOrganization": "Script Organization",
     "@scriptOrganization": {},

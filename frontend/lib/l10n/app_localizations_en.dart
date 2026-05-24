@@ -57,10 +57,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playTitleHint => 'e.g.: Macbeth, Cyrano de Bergerac';
 
   @override
-  String get playAuthorDirectorLabel => 'Author/Director';
+  String get playAuthorLabel => 'Author';
 
   @override
-  String get playAuthorDirectorHint => 'e.g. Tenesse Willams';
+  String get playAuthorHint => 'e.g. Tenesse Willams';
 
   @override
   String get scriptOrganization => 'Script Organization';

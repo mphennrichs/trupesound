@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/pages/base_page.dart';
 import 'package:trupe_sound/pages/page_not_found.dart';
-import 'package:trupe_sound/pages/plays/plays.dart';
+import 'package:trupe_sound/pages/plays/plays_page.dart';
 import 'package:trupe_sound/pages/plays/new_play/new_play.dart';
 import 'package:trupe_sound/pages/plays/soundscape/soundscape_page.dart';
 import 'package:trupe_sound/pages/sound_library/sound_library.dart';
@@ -32,7 +32,7 @@ GoRouter router(Ref ref) {
               GoRoute(
                 path: NavigationPage.plays.path,
                 name: NavigationPage.plays.name,
-                builder: (context, state) => const Plays(),
+                builder: (context, state) => const PlaysPage(),
                 routes: [
                   GoRoute(
                     path: NavigationPage.newPlay.path,
@@ -42,7 +42,9 @@ GoRouter router(Ref ref) {
                   GoRoute(
                     path: NavigationPage.soundscape.path,
                     name: NavigationPage.soundscape.name,
-                    builder: (context, state) => const Soundscape(),
+                    builder: (context, state) => Soundscape(
+                      playId: int.parse(state.pathParameters['playId']!),
+                    ),
                   ),
                 ],
               ),

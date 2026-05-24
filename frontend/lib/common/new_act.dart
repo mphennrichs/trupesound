@@ -76,6 +76,14 @@ class _ActItem extends HookConsumerWidget {
     final controller = useTextEditingController(text: initialText);
     final notifier = ref.read(playFormControllerProvider.notifier);
 
+    // Ensure that if the state changes elsewhere, the controller updates
+    useEffect(() {
+      if (controller.text != initialText) {
+        controller.text = initialText;
+      }
+      return null;
+    }, [initialText]);
+
     return Padding(
       padding: EdgeInsets.only(bottom: AppThemes.spacings.doubleValue),
       child: Column(

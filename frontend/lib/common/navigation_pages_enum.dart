@@ -8,6 +8,6 @@ enum NavigationPage {
     NavigationPage.plays => '/plays',
     NavigationPage.soundLibrary => '/sound-library',
     NavigationPage.newPlay => 'new-play',
-    NavigationPage.soundscape => 'soundscape',
+    NavigationPage.soundscape => ':playId/soundscape',
   };
 }

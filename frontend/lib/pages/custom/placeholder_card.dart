@@ -5,15 +5,8 @@ import 'package:trupe_sound/pages/custom/dashed_container.dart';
 
 class PlaceholderCard extends StatelessWidget {
   final VoidCallback onTap;
-  final double width;
-  final double height;
 
-  const PlaceholderCard({
-    super.key,
-    required this.onTap,
-    this.width = 200,
-    this.height = 300,
-  });
+  const PlaceholderCard({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +14,8 @@ class PlaceholderCard extends StatelessWidget {
 
     return DashedContainer(
       onTap: onTap,
-      width: width,
-      height: height,
+      width: AppThemes.cards.width,
+      height: AppThemes.cards.height,
       padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
