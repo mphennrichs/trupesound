@@ -262,6 +262,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last Modified'**
   String get lastModified;
+
+  /// No description provided for @editPlayFormTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Play'**
+  String get editPlayFormTitle;
+
+  /// No description provided for @editPlayFormDescription.
+  ///
+  /// In en, this message translates to:
+  /// **''**
+  String get editPlayFormDescription;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trupe_sound/common/app_themes.dart';
+import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 
 class PlayCard extends StatelessWidget {
@@ -64,7 +65,10 @@ class PlayCard extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: () => context.push('/plays/$id'),
+        onTap: () => context.pushNamed(
+          NavigationPage.editPlay.name,
+          pathParameters: {'playId': id.toString()},
+        ),
         child: Container(
           width: AppThemes.cards.width,
           height: AppThemes.cards.height,

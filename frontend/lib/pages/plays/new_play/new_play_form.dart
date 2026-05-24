@@ -8,12 +8,13 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_text_input.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
 import 'package:trupe_sound/pages/plays/new_play/new_act.dart';
-import 'package:trupe_sound/pages/plays/new_play/plays_provider.dart';
+import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 import 'package:trupe_sound/pages/plays/provider/play_form_provider.dart';
 import 'package:trupe_sound/pages/plays/provider/play_visual_utils.dart';
 
 class NewPlayForm extends HookConsumerWidget {
-  const NewPlayForm({super.key});
+  final int? playId;
+  const NewPlayForm({super.key, this.playId});
 
   void _showColorPicker(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
@@ -37,7 +38,7 @@ class NewPlayForm extends HookConsumerWidget {
                 return GestureDetector(
                   onTap: () {
                     ref
-                        .read(playFormControllerProvider.notifier)
+                        .read(playFormControllerProvider(playId).notifier)
                         .updateBackgroundColor(color);
                     context.pop();
                   },
@@ -80,7 +81,7 @@ class NewPlayForm extends HookConsumerWidget {
                   child: GestureDetector(
                     onTap: () {
                       ref
-                          .read(playFormControllerProvider.notifier)
+                          .read(playFormControllerProvider(playId).notifier)
                           .updateIcon(icon);
                       context.pop();
                     },
@@ -178,46 +179,67 @@ class NewPlayForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final notifier = ref.read(playFormControllerProvider.notifier);
-    final state = ref.watch(playFormControllerProvider);
+    final notifier = ref.watch(playFormControllerProvider(playId).notifier);
+    final state = ref.watch(playFormControllerProvider(playId));
 
     // Hooks for controllers
-    final titleController = useTextEditingController();
-    final authorController = useTextEditingController();
+    final titleController = useTextEditingController(text: state.title);
+    final authorController = useTextEditingController(text: state.author);
+
+    // Sync controllers if state changes from external initialization
+    useEffect(() {
+      if (titleController.text != state.title) {
+        titleController.text = state.title;
+      }
+      if (authorController.text != state.author) {
+        authorController.text = state.author;
+      }
+      return null;
+    }, [state.title, state.author]);
 
     useEffect(() {
       void titleListener() => notifier.updateTitle(titleController.text);
       void authorListener() => notifier.updateAuthor(authorController.text);
-
       titleController.addListener(titleListener);
       authorController.addListener(authorListener);
-
       return () {
         titleController.removeListener(titleListener);
         authorController.removeListener(authorListener);
       };
-    }, [titleController, authorController]);
+    }, [titleController, authorController, notifier]);
 
-    Future<void> saveAndStartEditing() async {
-      final newPlay = notifier.toModel();
+    Future<void> saveAndStartEditing(bool isEditing) async {
+      final play = notifier.toModel();
+      final playsNotifier = ref.read(playsProvider.notifier);
 
-      final savedPlay = await ref.read(playsProvider.notifier).addPlay(newPlay);
-
-      if (savedPlay != null && context.mounted) {
-        context.pushNamed(
-          NavigationPage.soundscape.name,
-          pathParameters: {'playId': savedPlay.id.toString()},
-        );
+      if (isEditing) {
+        await playsNotifier.updatePlay(play);
+      } else {
+        await playsNotifier.addPlay(play);
       }
-      // You might want to show an error message if savedPlay is null
+
+      if (isEditing) {
+        context.pop();
+      } else {
+        if (context.mounted) {
+          context.goNamed(
+            NavigationPage.soundscape.name,
+            pathParameters: {'playId': play.id.toString()},
+          );
+        }
+      }
     }
+
+    final isEditing = playId != null;
 
     Widget buildButtons() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TextButton(
-            onPressed: () => context.pop(),
+            onPressed: () {
+              context.pop();
+            },
             child: Text(
               l10n.cancel,
               style: TextStyle(
@@ -229,19 +251,24 @@ class NewPlayForm extends HookConsumerWidget {
           SizedBox(width: AppThemes.spacings.singleValue),
           ElevatedButton(
             style: AppThemes.buttons.primaryButtonStyle,
-            onPressed: saveAndStartEditing,
-            child: Text(l10n.createAndStartEditing),
+            onPressed: () => saveAndStartEditing(isEditing),
+            child: Text(isEditing ? l10n.save : l10n.createAndStartEditing),
           ),
         ],
       );
     }
 
+    print("playId: $playId | isEditing: $isEditing ");
+
     final title = CustomTitle(
-      title: l10n.newPlayFormTitle,
-      description: l10n.newPlayFormDescription,
+      title: isEditing ? l10n.editPlayFormTitle : l10n.newPlayFormTitle,
+      description: isEditing
+          ? l10n.editPlayFormDescription
+          : l10n.newPlayFormDescription,
     );
 
     return Container(
+      key: ValueKey(playId), // Ensures hook state resets when switching playId
       width: double.infinity,
       padding: const EdgeInsets.all(32.0),
       decoration: BoxDecoration(
@@ -275,7 +302,7 @@ class NewPlayForm extends HookConsumerWidget {
             ],
           ),
           AppThemes.spacings.doubleSpace,
-          const NewAct(),
+          NewAct(playId: playId),
           AppThemes.spacings.doubleSpace,
           buildButtons(),
         ],

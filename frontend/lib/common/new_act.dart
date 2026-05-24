@@ -8,15 +8,16 @@ import 'package:trupe_sound/pages/custom/dashed_container.dart';
 import 'package:trupe_sound/pages/plays/provider/play_form_provider.dart';
 
 class NewAct extends HookConsumerWidget {
-  const NewAct({super.key});
+  final int? playId;
+  const NewAct({super.key, this.playId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final scripts = ref.watch(
-      playFormControllerProvider.select((s) => s.actScripts),
+      playFormControllerProvider(playId).select((s) => s.actScripts),
     );
-    final notifier = ref.read(playFormControllerProvider.notifier);
+    final notifier = ref.read(playFormControllerProvider(playId).notifier);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +32,11 @@ class NewAct extends HookConsumerWidget {
         ),
         AppThemes.spacings.singleSpace,
         ...scripts.asMap().entries.map(
-          (entry) => _ActItem(index: entry.key, initialText: entry.value),
+          (entry) => _ActItem(
+            index: entry.key,
+            initialText: entry.value,
+            playId: playId,
+          ),
         ),
         DashedContainer(
           padding: EdgeInsets.symmetric(
@@ -66,15 +71,16 @@ class NewAct extends HookConsumerWidget {
 class _ActItem extends HookConsumerWidget {
   final int index;
   final String initialText;
+  final int? playId;
 
-  const _ActItem({required this.index, required this.initialText});
+  const _ActItem({required this.index, required this.initialText, this.playId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final roman = (index + 1).toRomanNumeralString() ?? "";
     final controller = useTextEditingController(text: initialText);
-    final notifier = ref.read(playFormControllerProvider.notifier);
+    final notifier = ref.read(playFormControllerProvider(playId).notifier);
 
     // Ensure that if the state changes elsewhere, the controller updates
     useEffect(() {

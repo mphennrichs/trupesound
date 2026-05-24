@@ -9,7 +9,7 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/placeholder_card.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
 import 'package:trupe_sound/pages/custom/play_card.dart';
-import 'package:trupe_sound/pages/plays/new_play/plays_provider.dart';
+import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 import 'package:trupe_sound/pages/custom/shimmer_card.dart';
 
 class PlaysPage extends ConsumerWidget {
@@ -24,7 +24,6 @@ class PlaysPage extends ConsumerWidget {
       data: (plays) => _buildGrid(context, plays: plays, isLoading: false),
       loading: () => _buildGrid(context, isLoading: true),
       error: (error, stackTrace) {
-        print('Error loading plays: $error');
         return _buildError(error.toString());
       },
     );

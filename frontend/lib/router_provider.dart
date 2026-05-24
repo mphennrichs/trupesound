@@ -46,6 +46,14 @@ GoRouter router(Ref ref) {
                       playId: int.parse(state.pathParameters['playId']!),
                     ),
                   ),
+                  GoRoute(
+                    path: NavigationPage.editPlay.path,
+                    name: NavigationPage.editPlay.name,
+                    builder: (context, state) {
+                      final playId = int.parse(state.pathParameters['playId']!);
+                      return NewPlayPage(playId: playId);
+                    },
+                  ),
                 ],
               ),
             ],

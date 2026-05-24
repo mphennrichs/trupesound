@@ -4,10 +4,12 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/models/play.dart';
 import 'package:trupe_sound/models/act.dart';
 import 'package:trupe_sound/pages/plays/provider/play_visual_utils.dart';
+import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 
 part 'play_form_provider.g.dart';
 
 class PlayFormState {
+  final int? id;
   final String title;
   final String author;
   final List<String> actScripts;
@@ -16,6 +18,7 @@ class PlayFormState {
   final bool isSaving;
 
   PlayFormState({
+    this.id,
     this.title = '',
     this.author = '',
     this.actScripts = const [],
@@ -25,6 +28,7 @@ class PlayFormState {
   });
 
   PlayFormState copyWith({
+    int? id,
     String? title,
     String? author,
     List<String>? actScripts,
@@ -33,6 +37,7 @@ class PlayFormState {
     bool? isSaving,
   }) {
     return PlayFormState(
+      id: id ?? this.id,
       title: title ?? this.title,
       author: author ?? this.author,
       actScripts: actScripts ?? this.actScripts,
@@ -43,14 +48,15 @@ class PlayFormState {
   }
 
   PlayFormState copyWithNullIcon({
+    int? id,
     String? title,
     String? author,
     List<String>? actScripts,
-    IconData? icon,
     Color? backgroundColor,
     bool? isSaving,
   }) {
     return PlayFormState(
+      id: id ?? this.id,
       title: title ?? this.title,
       author: author ?? this.author,
       actScripts: actScripts ?? this.actScripts,
@@ -64,10 +70,33 @@ class PlayFormState {
 @riverpod
 class PlayFormController extends _$PlayFormController {
   @override
-  PlayFormState build() => PlayFormState(
-    icon: PlayVisualUtils.getRandomIcon(),
-    backgroundColor: PlayVisualUtils.getRandomColor(),
-  );
+  PlayFormState build(int? playId) {
+    if (playId == null) {
+      return PlayFormState(
+        id: DateTime.now()
+            .millisecondsSinceEpoch, // Assign a unique temporary ID
+        icon: PlayVisualUtils.getRandomIcon(),
+        backgroundColor: PlayVisualUtils.getRandomColor(),
+      );
+    }
+
+    // Get the current snapshot of plays.
+    // We use requireValue because NewPlayPage ensures this provider is ready.
+    final plays = ref.read(playsProvider).requireValue;
+    final play = plays.firstWhere(
+      (p) => p.id == playId,
+      orElse: () => throw Exception('Play $playId not found'),
+    );
+
+    return PlayFormState(
+      id: play.id,
+      title: play.title,
+      author: play.author,
+      icon: play.icon,
+      backgroundColor: play.backgroundColor,
+      actScripts: play.acts.map((a) => a.script).toList(),
+    );
+  }
 
   void updateTitle(String value) => state = state.copyWith(title: value);
   void updateAuthor(String value) => state = state.copyWith(author: value);
@@ -105,12 +134,12 @@ class PlayFormController extends _$PlayFormController {
 
   Play toModel() {
     return Play(
-      id: 0,
+      id: state.id!, // ID is now guaranteed to be set in build()
       title: state.title,
       author: state.author,
       creationDate: DateTime.now(),
       lastModifyDate: DateTime.now(),
-      cueCount: 0,
+      cueCount: state.actScripts.length,
       icon: state.icon,
       backgroundColor: state.backgroundColor,
       acts: state.actScripts

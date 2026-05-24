@@ -102,5 +102,14 @@
     "@soundCues": {},
 
     "lastModified": "Last Modified",
-    "@lastModified": {}
+    "@lastModified": {},
+
+    "editPlayFormTitle": "Edit Play",
+    "@editPlayFormTitle": {},
+
+    "editPlayFormDescription": "",
+    "@editPlayFormDescription":{},
+
+    "save": "Save",
+    "@save":{}
 }

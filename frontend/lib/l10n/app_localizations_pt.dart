@@ -111,4 +111,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get lastModified => 'Última Modificação';
+
+  @override
+  String get editPlayFormTitle => 'Editar Peça';
+
+  @override
+  String get editPlayFormDescription => '';
+
+  @override
+  String get save => 'Salvar';
 }

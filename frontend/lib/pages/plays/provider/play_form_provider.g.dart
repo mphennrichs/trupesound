@@ -10,23 +10,30 @@ part of 'play_form_provider.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(PlayFormController)
-final playFormControllerProvider = PlayFormControllerProvider._();
+final playFormControllerProvider = PlayFormControllerFamily._();
 
 final class PlayFormControllerProvider
     extends $NotifierProvider<PlayFormController, PlayFormState> {
-  PlayFormControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'playFormControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+  PlayFormControllerProvider._({
+    required PlayFormControllerFamily super.from,
+    required int? super.argument,
+  }) : super(
+         retry: null,
+         name: r'playFormControllerProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
 
   @override
   String debugGetCreateSourceHash() => _$playFormControllerHash();
+
+  @override
+  String toString() {
+    return r'playFormControllerProvider'
+        ''
+        '($argument)';
+  }
 
   @$internal
   @override
@@ -39,13 +46,51 @@ final class PlayFormControllerProvider
       providerOverride: $SyncValueProvider<PlayFormState>(value),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is PlayFormControllerProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
 }
 
 String _$playFormControllerHash() =>
-    r'bedba6986d4e374773b7efbdcef66d4104b672bb';
+    r'6536b4ed9013d71823ec2d0fbf531bd01353c390';
+
+final class PlayFormControllerFamily extends $Family
+    with
+        $ClassFamilyOverride<
+          PlayFormController,
+          PlayFormState,
+          PlayFormState,
+          PlayFormState,
+          int?
+        > {
+  PlayFormControllerFamily._()
+    : super(
+        retry: null,
+        name: r'playFormControllerProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  PlayFormControllerProvider call(int? playId) =>
+      PlayFormControllerProvider._(argument: playId, from: this);
+
+  @override
+  String toString() => r'playFormControllerProvider';
+}
 
 abstract class _$PlayFormController extends $Notifier<PlayFormState> {
-  PlayFormState build();
+  late final _$args = ref.$arg as int?;
+  int? get playId => _$args;
+
+  PlayFormState build(int? playId);
   @$mustCallSuper
   @override
   void runBuild() {
@@ -58,6 +103,6 @@ abstract class _$PlayFormController extends $Notifier<PlayFormState> {
               Object?,
               Object?
             >;
-    element.handleCreate(ref, build);
+    element.handleCreate(ref, () => build(_$args));
   }
 }

@@ -15,7 +15,7 @@
     "playsDescription": "Gerencie suas produções ativas.",
     "@playsDescription": {},
 
-        "newPlayFormTitle": "Nova Peça",
+    "newPlayFormTitle": "Nova Peça",
     "@newPlayFormTitle": {},
 
     "newPlayFormDescription": "Organize seu roteiro em atos para um gerenciamento mais preciso da sonoplastia.",
@@ -104,5 +104,14 @@
     "@soundCues": {},
 
     "lastModified": "Última Modificação",
-    "@lastModified": {}
+    "@lastModified": {},
+
+    "editPlayFormTitle": "Editar Peça",
+    "@editPlayFormTitle": {},
+
+    "editPlayFormDescription": "",
+    "@editPlayFormDescription":{},
+
+    "save": "Salvar",
+    "@save":{}
 }
