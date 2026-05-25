@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:trupe_sound/models/play.dart';
+import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/plays/service/play_service.dart';
 
 part 'plays_provider.g.dart';

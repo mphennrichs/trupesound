@@ -3,17 +3,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
-import 'package:trupe_sound/models/asset_model.dart';
-import 'package:trupe_sound/models/asset_provider.dart';
+import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
+import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
+import 'package:trupe_sound/pages/custom/delete_confirmation_dialog.dart';
 
-class SoundAssetsTable extends ConsumerWidget {
-  const SoundAssetsTable({super.key});
+class SoundsTable extends ConsumerWidget {
+  const SoundsTable({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final assetsAsync = ref.watch(filteredAssetsProvider);
+    final soundsAsync = ref.watch(filteredSoundsProvider);
 
-    return assetsAsync.when(
+    return soundsAsync.when(
       data: (assets) => _buildDataTable(context, ref, assets, false),
       loading: () => _buildDataTable(context, ref, null, true),
       error: (err, stack) => Center(child: Text('Error: $err')),
@@ -23,7 +24,7 @@ class SoundAssetsTable extends ConsumerWidget {
   Widget _buildDataTable(
     BuildContext context,
     WidgetRef ref,
-    List<AssetModel>? assets,
+    List<SoundModel>? assets,
     bool isLoading,
   ) {
     final l10n = AppLocalizations.of(context)!;
@@ -57,7 +58,7 @@ class SoundAssetsTable extends ConsumerWidget {
                         _buildColumn(l10n.soundNameColumn),
                         _buildColumn(l10n.categoryColumn),
                         _buildColumn(l10n.durationColumn),
-                        const DataColumn(label: Text('')),
+                        _buildColumn(l10n.actionsColumn),
                       ],
                       rows: isLoading
                           ? List.generate(5, (_) => _buildPlaceholderRow())
@@ -92,7 +93,11 @@ class SoundAssetsTable extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            l10n.showingAssets, // Consider updating l10n to take variables
+            l10n.showingAssets(
+              0,
+              3,
+              12,
+            ), // Consider updating l10n to take variables
             style: TextStyle(
               color: AppThemes.colors.textColor,
               fontSize: AppThemes.texts.smallFontSize,
@@ -152,7 +157,7 @@ class SoundAssetsTable extends ConsumerWidget {
     );
   }
 
-  DataRow _buildDataRow(BuildContext context, WidgetRef ref, AssetModel asset) {
+  DataRow _buildDataRow(BuildContext context, WidgetRef ref, SoundModel asset) {
     return DataRow(
       cells: [
         DataCell(
@@ -186,57 +191,34 @@ class SoundAssetsTable extends ConsumerWidget {
     return '$minutes:$seconds';
   }
 
-  Widget _buildMenu(BuildContext context, WidgetRef ref, AssetModel asset) {
+  Widget _buildMenu(BuildContext context, WidgetRef ref, SoundModel sound) {
     final l10n = AppLocalizations.of(context)!;
-    return PopupMenuButton<String>(
-      icon: const Icon(Icons.more_vert, color: Colors.white),
-      color: AppThemes.colors.cardColor,
-      offset: const Offset(0, 40),
-      onSelected: (value) {
-        if (value == 'delete') {
-          ref.read(assetRepositoryProvider.notifier).deleteAsset(asset.id);
-        }
-      },
-      itemBuilder: (context) => [
-        PopupMenuItem(
-          value: 'edit',
-          child: Row(
-            children: [
-              Icon(
-                Icons.edit_outlined,
-                size: AppThemes.texts.normalFontSize,
-                color: Colors.white,
-              ),
-              AppThemes.spacings.singleSpace,
-              Text(
-                l10n.edit,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: AppThemes.texts.normalFontSize,
-                ),
-              ),
-            ],
-          ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          tooltip: l10n.edit,
+          onPressed: () {
+            print("EDIT sound ${sound.name}");
+          },
+          icon: Icon(Icons.edit_outlined, size: AppThemes.texts.h1FontSize),
+          color: Colors.white,
         ),
-        PopupMenuItem(
-          value: 'delete',
-          child: Row(
-            children: [
-              Icon(
-                Icons.delete_outline,
-                size: AppThemes.texts.normalFontSize,
-                color: Colors.redAccent,
-              ),
-              AppThemes.spacings.singleSpace,
-              Text(
-                l10n.delete,
-                style: TextStyle(
-                  color: Colors.redAccent,
-                  fontSize: AppThemes.texts.normalFontSize,
-                ),
-              ),
-            ],
-          ),
+        IconButton(
+          tooltip: l10n.delete,
+          onPressed: () async {
+            final confirmed = await DeleteConfirmationDialog.show(
+              context,
+              title: l10n.delete,
+              message: l10n.deleteSoundConfirmationMessage,
+            );
+
+            if (confirmed == true && context.mounted) {
+              ref.read(soundRepositoryProvider.notifier).deleteSound(sound.id);
+            }
+          },
+          icon: Icon(Icons.delete_outline, size: AppThemes.texts.h1FontSize),
+          color: Colors.red,
         ),
       ],
     );

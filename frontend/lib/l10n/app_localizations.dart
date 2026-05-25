@@ -299,6 +299,12 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this play? This action cannot be undone.'**
   String get deletePlayConfirmationMessage;
 
+  /// No description provided for @deleteSoundConfirmationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this effect? This action cannot be undone.'**
+  String get deleteSoundConfirmationMessage;
+
   /// No description provided for @previewColumn.
   ///
   /// In en, this message translates to:
@@ -323,11 +329,17 @@ abstract class AppLocalizations {
   /// **'Duration'**
   String get durationColumn;
 
+  /// No description provided for @actionsColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get actionsColumn;
+
   /// No description provided for @showingAssets.
   ///
   /// In en, this message translates to:
-  /// **'Showing 0-0 of 0 assets'**
-  String get showingAssets;
+  /// **'Showing {start}-{end} of {total} assets'**
+  String showingAssets(int start, int end, int total);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

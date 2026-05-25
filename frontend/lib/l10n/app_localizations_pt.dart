@@ -131,17 +131,25 @@ class AppLocalizationsPt extends AppLocalizations {
   String get deletePlayConfirmationMessage => 'Tem certeza que deseja apagar esta peça? Esta ação não pode ser desfeita.';
 
   @override
-  String get previewColumn => 'Preview';
+  String get deleteSoundConfirmationMessage => 'Tem certeza que deseja apagar este efeito? Esta ação não pode ser desfeita.';
 
   @override
-  String get soundNameColumn => 'Sound Name';
+  String get previewColumn => 'Amostra';
 
   @override
-  String get categoryColumn => 'Category';
+  String get soundNameColumn => 'Nome';
 
   @override
-  String get durationColumn => 'Duration';
+  String get categoryColumn => 'Categoria';
 
   @override
-  String get showingAssets => 'Showing 0-0 of 0 assets';
+  String get durationColumn => 'Duração';
+
+  @override
+  String get actionsColumn => 'Ações';
+
+  @override
+  String showingAssets(int start, int end, int total) {
+    return 'Showing $start-$end of $total assets';
+  }
 }

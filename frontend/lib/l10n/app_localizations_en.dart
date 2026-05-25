@@ -131,6 +131,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deletePlayConfirmationMessage => 'Are you sure you want to delete this play? This action cannot be undone.';
 
   @override
+  String get deleteSoundConfirmationMessage => 'Are you sure you want to delete this effect? This action cannot be undone.';
+
+  @override
   String get previewColumn => 'Preview';
 
   @override
@@ -143,5 +146,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get durationColumn => 'Duration';
 
   @override
-  String get showingAssets => 'Showing 0-0 of 0 assets';
+  String get actionsColumn => 'Actions';
+
+  @override
+  String showingAssets(int start, int end, int total) {
+    return 'Showing $start-$end of $total assets';
+  }
 }

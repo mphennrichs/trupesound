@@ -1,17 +1,17 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:trupe_sound/models/asset_model.dart';
+import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 
-part 'asset_provider.g.dart';
+part 'sound_provider.g.dart';
 
 @riverpod
-class AssetRepository extends _$AssetRepository {
+class SoundRepository extends _$SoundRepository {
   @override
-  FutureOr<List<AssetModel>> build() async {
+  FutureOr<List<SoundModel>> build() async {
     // This acts as your "Source of Truth"
     // Simulating a fetch from a database or API
     await Future.delayed(const Duration(seconds: 1));
     return [
-      AssetModel(
+      SoundModel(
         id: '1',
         name: 'Ambient Forest',
         category: 'Nature',
@@ -19,7 +19,7 @@ class AssetRepository extends _$AssetRepository {
         url: '',
         createdAt: DateTime.now(),
       ),
-      AssetModel(
+      SoundModel(
         id: '2',
         name: 'Crowd Cheering',
         category: 'Human',
@@ -27,7 +27,7 @@ class AssetRepository extends _$AssetRepository {
         url: '',
         createdAt: DateTime.now(),
       ),
-      AssetModel(
+      SoundModel(
         id: '3',
         name: 'Industrial Hum',
         category: 'Machine',
@@ -38,15 +38,14 @@ class AssetRepository extends _$AssetRepository {
     ];
   }
 
-  Future<void> deleteAsset(String id) async {
+  Future<void> deleteSound(String id) async {
     if (!state.hasValue) return;
     state = AsyncData(state.value!.where((a) => a.id != id).toList());
   }
 }
 
 @riverpod
-AsyncValue<List<AssetModel>> filteredAssets(Ref ref) {
-  final assetsAsync = ref.watch(assetRepositoryProvider);
-  // Bridge Layer: Apply search logic or assetStatusFilter here
-  return assetsAsync;
+AsyncValue<List<SoundModel>> filteredSounds(Ref ref) {
+  final soundsAsync = ref.watch(soundRepositoryProvider);
+  return soundsAsync;
 }

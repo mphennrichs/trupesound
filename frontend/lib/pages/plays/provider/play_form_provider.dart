@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/common/app_themes.dart';
-import 'package:trupe_sound/models/play.dart';
-import 'package:trupe_sound/models/act.dart';
+import 'package:trupe_sound/pages/plays/models/play.dart';
+import 'package:trupe_sound/pages/plays/models/act.dart';
 import 'package:trupe_sound/pages/plays/provider/play_visual_utils.dart';
 import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 

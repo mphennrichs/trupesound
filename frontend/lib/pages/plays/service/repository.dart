@@ -1,4 +1,4 @@
-import 'package:trupe_sound/models/play.dart';
+import 'package:trupe_sound/pages/plays/models/play.dart';
 
 class PlayRepository {
   static final PlayRepository _singleton = PlayRepository._internal();

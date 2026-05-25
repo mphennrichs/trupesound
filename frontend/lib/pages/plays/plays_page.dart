@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/common/app_themes.dart';
-import 'package:trupe_sound/models/play.dart';
+import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/placeholder_card.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';

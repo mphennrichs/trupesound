@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trupe_sound/models/act.dart';
+import 'package:trupe_sound/pages/plays/models/act.dart';
 
 class Play {
   final int id;

@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
-import 'package:trupe_sound/pages/sound_library/sound_assets_table.dart';
+import 'package:trupe_sound/pages/sound_library/sounds_table.dart';
 
 class SoundLibraryPage extends ConsumerWidget {
   const SoundLibraryPage({super.key});
@@ -40,7 +40,7 @@ class SoundLibraryPage extends ConsumerWidget {
           AppThemes.spacings.singleSpace,
           _buildFilters(),
           AppThemes.spacings.doubleSpace,
-          const Expanded(child: SoundAssetsTable()),
+          const Expanded(child: SoundsTable()),
         ],
       ),
     );

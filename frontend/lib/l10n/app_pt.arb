@@ -122,5 +122,40 @@
     "@delete": {},
 
     "deletePlayConfirmationMessage": "Tem certeza que deseja apagar esta peça? Esta ação não pode ser desfeita.",
-    "@deletePlayConfirmationMessage": {}
+    "@deletePlayConfirmationMessage": {},
+
+    "deleteSoundConfirmationMessage": "Tem certeza que deseja apagar este efeito? Esta ação não pode ser desfeita.",
+    "@deleteSoundConfirmationMessage": {},
+
+    "previewColumn": "Amostra",
+    "@previewColumn": {},
+
+    "soundNameColumn": "Nome",
+    "@soundNameColumn": {},
+
+    "categoryColumn": "Categoria",
+    "@categoryColumn": {},
+
+    "durationColumn": "Duração",
+    "@durationColumn": {},
+
+    "actionsColumn": "Ações",
+    "@actionsColumn": {},
+
+
+    "showingAssets": "Showing {start}-{end} of {total} assets",
+    "@showingAssets": {
+      "placeholders": {
+        "start": {
+          "type": "int"
+        },
+        "end": {
+          "type": "int"
+        },
+        "total": {
+          "type": "int"
+        }
+      }
+    }
+    
 }

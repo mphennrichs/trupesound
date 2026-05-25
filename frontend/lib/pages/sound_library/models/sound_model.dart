@@ -1,4 +1,4 @@
-class AssetModel {
+class SoundModel {
   final String id;
   final String name;
   final String category;
@@ -7,7 +7,7 @@ class AssetModel {
   final bool archived;
   final DateTime createdAt;
 
-  AssetModel({
+  SoundModel({
     required this.id,
     required this.name,
     required this.category,
@@ -18,13 +18,13 @@ class AssetModel {
   });
 
   // Logic for persistence or comparison can be added here
-  AssetModel copyWith({
+  SoundModel copyWith({
     String? name,
     String? category,
     bool? archived,
     DateTime? createdAt,
   }) {
-    return AssetModel(
+    return SoundModel(
       id: id,
       name: name ?? this.name,
       category: category ?? this.category,

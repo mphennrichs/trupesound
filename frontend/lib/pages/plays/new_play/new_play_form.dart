@@ -7,6 +7,7 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_text_input.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
+import 'package:trupe_sound/pages/custom/delete_confirmation_dialog.dart';
 import 'package:trupe_sound/pages/plays/new_play/new_act.dart';
 import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 import 'package:trupe_sound/pages/plays/provider/play_form_provider.dart';
@@ -323,35 +324,10 @@ class DeletePlayButton extends ConsumerWidget {
 
     return TextButton.icon(
       onPressed: () async {
-        final confirmed = await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: AppThemes.colors.cardColor,
-            title: Text(
-              l10n.delete,
-              style: const TextStyle(color: Colors.white),
-            ),
-            content: Text(
-              l10n.deletePlayConfirmationMessage,
-              style: TextStyle(color: AppThemes.colors.textColor),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(
-                  l10n.cancel,
-                  style: TextStyle(color: AppThemes.colors.textColor),
-                ),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text(
-                  l10n.delete,
-                  style: const TextStyle(color: Colors.redAccent),
-                ),
-              ),
-            ],
-          ),
+        final confirmed = await DeleteConfirmationDialog.show(
+          context,
+          title: l10n.delete,
+          message: l10n.deletePlayConfirmationMessage,
         );
 
         if (confirmed == true && context.mounted) {
