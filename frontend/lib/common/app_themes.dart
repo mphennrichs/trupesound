@@ -26,9 +26,16 @@ class AppTexts {
 
 class AppCards {
   const AppCards();
-  // 13.0 * 2
-  final double width = 200;
-  final double height = 300;
+
+  /// The base aspect ratio (width / height) derived from the original 200x300 dimensions.
+  double get aspectRatio => 2 / 3;
+
+  /// Calculates the card width relative to the screen width (e.g., 15%).
+  double calculateWidth(double screenWidth) =>
+      (screenWidth * 0.15).clamp(160.0, 250.0);
+
+  /// Calculates height based on a given [width] while maintaining the 2:3 proportion.
+  double calculateHeight(double width) => width / aspectRatio;
 }
 
 class AppSpacings {
