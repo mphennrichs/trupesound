@@ -149,8 +149,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionsColumn => 'Ações';
 
   @override
-  String showingAssets(int start, int end, int total) {
-    return 'Showing $start-$end of $total assets';
+  String showingSounds(int start, int end, int total) {
+    return 'Exibindo $start-$end de $total efeitos';
   }
 
   @override

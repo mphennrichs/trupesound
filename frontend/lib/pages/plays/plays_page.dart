@@ -62,11 +62,11 @@ class PlaysPage extends ConsumerWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        crossAxisSpacing: AppThemes.spacings.doubleValue,
-        mainAxisSpacing: AppThemes.spacings.doubleValue,
-        childAspectRatio: 4 / 5,
+        crossAxisSpacing: AppThemes.spacings.singleValue,
+        mainAxisSpacing: AppThemes.spacings.singleValue,
+        childAspectRatio: AppThemes.cards.aspectRatio,
       ),
-      itemCount: isLoading || plays == null ? 9 : plays.length + 1,
+      itemCount: isLoading || plays == null ? 3 : plays.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return PlaceholderCard(

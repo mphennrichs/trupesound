@@ -141,8 +141,8 @@
     "@actionsColumn": {},
 
 
-    "showingAssets": "Showing {start}-{end} of {total} assets",
-    "@showingAssets": {
+    "showingSounds": "Showing {start}-{end} of {total} effects",
+    "@showingSounds": {
       "placeholders": {
         "start": {
           "type": "int"

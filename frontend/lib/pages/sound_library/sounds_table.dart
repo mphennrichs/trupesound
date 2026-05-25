@@ -15,7 +15,7 @@ class SoundsTable extends ConsumerWidget {
     final soundsAsync = ref.watch(filteredSoundsProvider);
 
     return soundsAsync.when(
-      data: (assets) => _buildDataTable(context, ref, assets, false),
+      data: (sounds) => _buildDataTable(context, ref, sounds, false),
       loading: () => _buildDataTable(context, ref, null, true),
       error: (err, stack) => Center(child: Text('Error: $err')),
     );
@@ -24,7 +24,7 @@ class SoundsTable extends ConsumerWidget {
   Widget _buildDataTable(
     BuildContext context,
     WidgetRef ref,
-    List<SoundModel>? assets,
+    List<SoundModel>? sounds,
     bool isLoading,
   ) {
     final l10n = AppLocalizations.of(context)!;
@@ -62,10 +62,10 @@ class SoundsTable extends ConsumerWidget {
                       ],
                       rows: isLoading
                           ? List.generate(5, (_) => _buildPlaceholderRow())
-                          : assets!
-                                .where((asset) => !asset.archived)
+                          : sounds!
+                                .where((sound) => !sound.archived)
                                 .map(
-                                  (asset) => _buildDataRow(context, ref, asset),
+                                  (sound) => _buildDataRow(context, ref, sound),
                                 )
                                 .toList(),
                     ),
@@ -73,7 +73,7 @@ class SoundsTable extends ConsumerWidget {
                 ),
               ),
               const Divider(height: 1, color: Colors.white10),
-              _buildFooter(context, isLoading ? 0 : assets?.length ?? 0),
+              _buildFooter(context, isLoading ? 0 : sounds?.length ?? 0),
             ],
           ),
         ),
@@ -81,7 +81,7 @@ class SoundsTable extends ConsumerWidget {
     );
   }
 
-  Widget _buildFooter(BuildContext context, int totalAssets) {
+  Widget _buildFooter(BuildContext context, int totalSounds) {
     final l10n = AppLocalizations.of(context)!;
     return Container(
       color: AppThemes.colors.cardColor,
@@ -93,7 +93,7 @@ class SoundsTable extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            l10n.showingAssets(
+            l10n.showingSounds(
               0,
               3,
               12,

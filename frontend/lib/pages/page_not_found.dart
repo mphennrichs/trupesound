@@ -53,7 +53,6 @@ class PageNotFound extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              //all assets link
               _getIcon(),
               _getHttpCode(),
               AppThemes.spacings.singleSpace,

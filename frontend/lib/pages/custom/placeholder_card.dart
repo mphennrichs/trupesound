@@ -12,30 +12,41 @@ class PlaceholderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = AppThemes.cards.calculateWidth(screenWidth);
+    final cardHeight = AppThemes.cards.calculateHeight(cardWidth);
+
     return DashedContainer(
       onTap: onTap,
-      width: AppThemes.cards.width,
-      height: AppThemes.cards.height,
+      width: cardWidth,
+      height: cardHeight,
       padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.add_circle,
-            size: 80,
-            color: AppThemes.colors.primaryColor.withValues(alpha: 0.7),
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: SizedBox(
+          width: cardWidth,
+          height: cardHeight,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.add_circle,
+                size: AppThemes.texts.h1FontSize * 4,
+                color: AppThemes.colors.primaryColor.withValues(alpha: 0.7),
+              ),
+              AppThemes.spacings.doubleSpace,
+              Text(
+                l10n.createNewPlay,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: AppThemes.texts.h1FontSize,
+                  fontWeight: FontWeight.w600,
+                  color: AppThemes.colors.textColor,
+                ),
+              ),
+            ],
           ),
-          AppThemes.spacings.doubleSpace,
-          Text(
-            l10n.createNewPlay,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: AppThemes.texts.h2FontSize,
-              fontWeight: FontWeight.w600,
-              color: AppThemes.colors.textColor,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -58,9 +58,24 @@ class PlayCard extends StatelessWidget {
     );
   }
 
+  Widget _buildInfoBox() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTitle(),
+        _buildAuthor(),
+        Divider(color: Colors.white24, thickness: 1),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardWidth = AppThemes.cards.calculateWidth(screenWidth);
+    final cardHeight = AppThemes.cards.calculateHeight(cardWidth);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -70,8 +85,8 @@ class PlayCard extends StatelessWidget {
           pathParameters: {'playId': id.toString()},
         ),
         child: Container(
-          width: AppThemes.cards.width,
-          height: AppThemes.cards.height,
+          width: cardWidth,
+          height: cardHeight,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: AppThemes.colors.cardColor,
@@ -87,30 +102,34 @@ class PlayCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: AppThemes.cards.height * 0.4,
-                child: _buildBanner(),
-              ),
+              SizedBox(height: cardHeight * 0.4, child: _buildBanner()),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(AppThemes.spacings.singleValue),
+                  padding: EdgeInsets.only(
+                    left: AppThemes.spacings.singleValue,
+                    right: AppThemes.spacings.singleValue,
+                    bottom: AppThemes.spacings.singleValue,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildTitle(),
-                      _buildAuthor(),
-                      Divider(color: Colors.white24, thickness: 1),
+                      _buildInfoBox(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _buildMetadataColumn(
-                            l10n.soundCues,
-                            l10n.cue(cueCount),
+                          Expanded(
+                            child: _buildMetadataColumn(
+                              l10n.soundCues,
+                              l10n.cue(cueCount),
+                            ),
                           ),
-                          _buildMetadataColumn(
-                            l10n.lastModified,
-                            lastModified,
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          Expanded(
+                            child: _buildMetadataColumn(
+                              l10n.lastModified,
+                              lastModified,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                            ),
                           ),
                         ],
                       ),
@@ -140,9 +159,16 @@ class PlayCard extends StatelessWidget {
             fontSize: 10,
             fontWeight: FontWeight.bold,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 4),
-        Text(value, style: const TextStyle(color: Colors.white, fontSize: 14)),
+        Text(
+          value,
+          style: const TextStyle(color: Colors.white, fontSize: 14),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }

@@ -335,11 +335,11 @@ abstract class AppLocalizations {
   /// **'Actions'**
   String get actionsColumn;
 
-  /// No description provided for @showingAssets.
+  /// No description provided for @showingSounds.
   ///
   /// In en, this message translates to:
-  /// **'Showing {start}-{end} of {total} assets'**
-  String showingAssets(int start, int end, int total);
+  /// **'Showing {start}-{end} of {total} effects'**
+  String showingSounds(int start, int end, int total);
 
   /// No description provided for @effect.
   ///
