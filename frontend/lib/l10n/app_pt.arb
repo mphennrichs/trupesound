@@ -25,7 +25,7 @@
     "soundLibraryTitle": "Biblioteca de Sons",
     "@soundLibraryTitle": {},
 
-    "soundLibraryDescription": "Gerencie seus efeitos sonoros.",
+    "soundLibraryDescription": "Gerencie todos os recursos de áudio para suas produções",
     "@soundLibraryDescription": {},
     
     "createNewPlay": "Criar Nova Peça",
@@ -87,6 +87,9 @@
 
     "editColor": "Editar Cor",
     "@editColor": {},
+
+    "edit": "Editar",
+    "@edit": {},
 
     "selectBannerColor":  "Selecionar cor do banner",
     "@selectBannerColor": {},

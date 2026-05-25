@@ -128,7 +128,7 @@ abstract class AppLocalizations {
   /// No description provided for @soundLibraryDescription.
   ///
   /// In en, this message translates to:
-  /// **'Manage you sound effects'**
+  /// **'Access all audio assets for yout productions'**
   String get soundLibraryDescription;
 
   /// No description provided for @createNewPlay.
@@ -239,6 +239,12 @@ abstract class AppLocalizations {
   /// **'Edit Color'**
   String get editColor;
 
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
   /// No description provided for @selectBannerColor.
   ///
   /// In en, this message translates to:
@@ -292,6 +298,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this play? This action cannot be undone.'**
   String get deletePlayConfirmationMessage;
+
+  /// No description provided for @previewColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get previewColumn;
+
+  /// No description provided for @soundNameColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound Name'**
+  String get soundNameColumn;
+
+  /// No description provided for @categoryColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get categoryColumn;
+
+  /// No description provided for @durationColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get durationColumn;
+
+  /// No description provided for @showingAssets.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing 0-0 of 0 assets'**
+  String get showingAssets;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -24,7 +24,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get soundLibraryTitle => 'Biblioteca de Sons';
 
   @override
-  String get soundLibraryDescription => 'Gerencie seus efeitos sonoros.';
+  String get soundLibraryDescription => 'Gerencie todos os recursos de áudio para suas produções';
 
   @override
   String get createNewPlay => 'Criar Nova Peça';
@@ -92,6 +92,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get editColor => 'Editar Cor';
 
   @override
+  String get edit => 'Editar';
+
+  @override
   String get selectBannerColor => 'Selecionar cor do banner';
 
   @override
@@ -126,4 +129,19 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get deletePlayConfirmationMessage => 'Tem certeza que deseja apagar esta peça? Esta ação não pode ser desfeita.';
+
+  @override
+  String get previewColumn => 'Preview';
+
+  @override
+  String get soundNameColumn => 'Sound Name';
+
+  @override
+  String get categoryColumn => 'Category';
+
+  @override
+  String get durationColumn => 'Duration';
+
+  @override
+  String get showingAssets => 'Showing 0-0 of 0 assets';
 }

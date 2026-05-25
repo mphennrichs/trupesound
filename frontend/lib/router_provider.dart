@@ -6,7 +6,7 @@ import 'package:trupe_sound/pages/page_not_found.dart';
 import 'package:trupe_sound/pages/plays/plays_page.dart';
 import 'package:trupe_sound/pages/plays/new_play/new_play.dart';
 import 'package:trupe_sound/pages/plays/soundscape/soundscape_page.dart';
-import 'package:trupe_sound/pages/sound_library/sound_library.dart';
+import 'package:trupe_sound/pages/sound_library/sound_library_page.dart';
 
 part 'router_provider.g.dart';
 
@@ -63,7 +63,7 @@ GoRouter router(Ref ref) {
               GoRoute(
                 path: NavigationPage.soundLibrary.path,
                 name: NavigationPage.soundLibrary.name,
-                builder: (context, state) => const SoundLibrary(),
+                builder: (context, state) => const SoundLibraryPage(),
               ),
             ],
           ),

@@ -24,7 +24,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get soundLibraryTitle => 'Sound Library';
 
   @override
-  String get soundLibraryDescription => 'Manage you sound effects';
+  String get soundLibraryDescription => 'Access all audio assets for yout productions';
 
   @override
   String get createNewPlay => 'Create New Play';
@@ -92,6 +92,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editColor => 'Edit Color';
 
   @override
+  String get edit => 'Edit';
+
+  @override
   String get selectBannerColor => 'Select banner color';
 
   @override
@@ -126,4 +129,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deletePlayConfirmationMessage => 'Are you sure you want to delete this play? This action cannot be undone.';
+
+  @override
+  String get previewColumn => 'Preview';
+
+  @override
+  String get soundNameColumn => 'Sound Name';
+
+  @override
+  String get categoryColumn => 'Category';
+
+  @override
+  String get durationColumn => 'Duration';
+
+  @override
+  String get showingAssets => 'Showing 0-0 of 0 assets';
 }
