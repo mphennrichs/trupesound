@@ -234,8 +234,9 @@ class NewPlayForm extends HookConsumerWidget {
 
     Widget buildButtons() {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          if (isEditing) DeletePlayButton(playId: playId!),
+          const Spacer(),
           TextButton(
             onPressed: () {
               context.pop();
@@ -306,6 +307,67 @@ class NewPlayForm extends HookConsumerWidget {
           AppThemes.spacings.doubleSpace,
           buildButtons(),
         ],
+      ),
+    );
+  }
+}
+
+class DeletePlayButton extends ConsumerWidget {
+  final int playId;
+
+  const DeletePlayButton({super.key, required this.playId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+
+    return TextButton.icon(
+      onPressed: () async {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: AppThemes.colors.cardColor,
+            title: Text(
+              l10n.delete,
+              style: const TextStyle(color: Colors.white),
+            ),
+            content: Text(
+              l10n.deletePlayConfirmationMessage,
+              style: TextStyle(color: AppThemes.colors.textColor),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text(
+                  l10n.cancel,
+                  style: TextStyle(color: AppThemes.colors.textColor),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text(
+                  l10n.delete,
+                  style: const TextStyle(color: Colors.redAccent),
+                ),
+              ),
+            ],
+          ),
+        );
+
+        if (confirmed == true && context.mounted) {
+          await ref.read(playsProvider.notifier).deletePlay(playId);
+          if (context.mounted) {
+            context.pop();
+          }
+        }
+      },
+      icon: const Icon(Icons.delete_outline, color: Colors.redAccent),
+      label: Text(
+        l10n.delete,
+        style: const TextStyle(
+          color: Colors.redAccent,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

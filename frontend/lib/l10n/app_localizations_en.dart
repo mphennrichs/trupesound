@@ -120,4 +120,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get save => 'Save';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get deletePlayConfirmationMessage => 'Are you sure you want to delete this play? This action cannot be undone.';
 }

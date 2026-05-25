@@ -111,5 +111,11 @@
     "@editPlayFormDescription":{},
 
     "save": "Save",
-    "@save":{}
+    "@save":{},
+
+    "delete": "Delete",
+    "@delete": {},
+
+    "deletePlayConfirmationMessage": "Are you sure you want to delete this play? This action cannot be undone.",
+    "@deletePlayConfirmationMessage": {}
 }

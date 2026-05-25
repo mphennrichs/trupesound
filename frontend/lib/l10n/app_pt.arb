@@ -113,5 +113,11 @@
     "@editPlayFormDescription":{},
 
     "save": "Salvar",
-    "@save":{}
+    "@save":{},
+
+    "delete": "Apagar",
+    "@delete": {},
+
+    "deletePlayConfirmationMessage": "Tem certeza que deseja apagar esta peça? Esta ação não pode ser desfeita.",
+    "@deletePlayConfirmationMessage": {}
 }

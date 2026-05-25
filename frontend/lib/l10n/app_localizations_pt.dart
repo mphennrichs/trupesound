@@ -120,4 +120,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get save => 'Salvar';
+
+  @override
+  String get delete => 'Apagar';
+
+  @override
+  String get deletePlayConfirmationMessage => 'Tem certeza que deseja apagar esta peça? Esta ação não pode ser desfeita.';
 }
