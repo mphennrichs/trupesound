@@ -154,5 +154,17 @@
           "type": "int"
         }
       }
-    }
+    },
+
+    "effect": "Effect",
+    "@effect": {},
+
+    "ambient": "Ambient",
+    "@ambient": {},
+
+    "song": "Song",
+    "@song": {},
+
+    "all": "All",
+    "@all": {}
 }

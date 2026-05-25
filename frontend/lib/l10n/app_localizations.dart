@@ -340,6 +340,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Showing {start}-{end} of {total} assets'**
   String showingAssets(int start, int end, int total);
+
+  /// No description provided for @effect.
+  ///
+  /// In en, this message translates to:
+  /// **'Effect'**
+  String get effect;
+
+  /// No description provided for @ambient.
+  ///
+  /// In en, this message translates to:
+  /// **'Ambient'**
+  String get ambient;
+
+  /// No description provided for @song.
+  ///
+  /// In en, this message translates to:
+  /// **'Song'**
+  String get song;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

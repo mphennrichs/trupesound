@@ -152,4 +152,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String showingAssets(int start, int end, int total) {
     return 'Showing $start-$end of $total assets';
   }
+
+  @override
+  String get effect => 'Efeito';
+
+  @override
+  String get ambient => 'Ambiente';
+
+  @override
+  String get song => 'Música';
+
+  @override
+  String get all => 'Todos';
 }

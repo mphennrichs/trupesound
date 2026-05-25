@@ -156,6 +156,17 @@
           "type": "int"
         }
       }
-    }
-    
+    },
+
+    "effect": "Efeito",
+    "@effect": {},
+
+    "ambient": "Ambiente",
+    "@ambient": {},
+
+    "song": "Música",
+    "@song": {},
+
+    "all": "Todos",
+    "@all": {}    
 }
