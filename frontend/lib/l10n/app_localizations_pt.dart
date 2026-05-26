@@ -164,4 +164,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get all => 'Todos';
+
+  @override
+  String get addSound => 'Adicionar Som';
 }

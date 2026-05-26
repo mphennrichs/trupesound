@@ -168,5 +168,8 @@
     "@song": {},
 
     "all": "Todos",
-    "@all": {}    
+    "@all": {},
+    
+    "addSound": "Adicionar Som",
+    "@addSound": {}
 }

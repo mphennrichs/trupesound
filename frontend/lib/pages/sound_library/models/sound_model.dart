@@ -5,7 +5,7 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 enum SoundCategory { effect, ambient, song, all }
 
 extension SoundCategoryExtension on SoundCategory {
-  Container getLabel(BuildContext context) {
+  Container getLabel(BuildContext context, bool small) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: _getColors().border),
@@ -17,7 +17,9 @@ extension SoundCategoryExtension on SoundCategory {
         _getText(context),
         style: TextStyle(
           color: _getColors().text,
-          fontSize: AppThemes.texts.normalFontSize,
+          fontSize: small
+              ? AppThemes.texts.smallFontSize
+              : AppThemes.texts.normalFontSize,
         ),
       ),
     );

@@ -173,7 +173,7 @@ class SoundsTable extends ConsumerWidget {
           ),
         ),
         DataCell(Text(asset.name, style: const TextStyle(color: Colors.white))),
-        DataCell(asset.category.getLabel(context)),
+        DataCell(asset.category.getLabel(context, false)),
         DataCell(
           Text(
             _formatDuration(asset.duration),

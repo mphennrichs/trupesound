@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
+import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
@@ -28,12 +30,12 @@ class SoundLibraryPage extends ConsumerWidget {
                 ? Border(
                     bottom: BorderSide(
                       color: AppThemes.colors.primaryColor,
-                      width: 2,
+                      width: 1,
                     ),
                   )
                 : null,
           ),
-          child: category.getLabel(context),
+          child: category.getLabel(context, true),
         ),
       ),
     );
@@ -96,9 +98,36 @@ class SoundLibraryPage extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTitle(
-            title: l10n.soundLibraryTitle,
-            description: l10n.soundLibraryDescription,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              CustomTitle(
+                title: l10n.soundLibraryTitle,
+                description: l10n.soundLibraryDescription,
+              ),
+              ElevatedButton(
+                style: AppThemes.buttons.primaryButtonStyle,
+                onPressed: () => context.goNamed(NavigationPage.plays.name),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.upload,
+                      color: Colors.white,
+                      size: AppThemes.texts.h1FontSize,
+                    ),
+                    SizedBox(width: AppThemes.spacings.singleValue / 2),
+                    Text(
+                      l10n.addSound,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: AppThemes.texts.normalFontSize,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           AppThemes.spacings.singleSpace,
           _buildFilters(context, ref),
