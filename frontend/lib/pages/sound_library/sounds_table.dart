@@ -65,7 +65,6 @@ class SoundsTable extends ConsumerWidget {
                       rows: isLoading
                           ? List.generate(5, (_) => _buildPlaceholderRow())
                           : sounds!
-                                .where((sound) => !sound.archived)
                                 .map(
                                   (sound) => _buildDataRow(context, ref, sound),
                                 )

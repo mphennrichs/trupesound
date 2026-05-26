@@ -45,7 +45,24 @@ class SoundRepository extends _$SoundRepository {
 }
 
 @riverpod
+class SoundCategoryFilter extends _$SoundCategoryFilter {
+  @override
+  SoundCategory build() => SoundCategory.all;
+
+  void set(SoundCategory category) => state = category;
+}
+
+@riverpod
 AsyncValue<List<SoundModel>> filteredSounds(Ref ref) {
+  final category = ref.watch(soundCategoryFilterProvider);
   final soundsAsync = ref.watch(soundRepositoryProvider);
-  return soundsAsync;
+
+  return soundsAsync.whenData((sounds) {
+    return sounds.where((sound) {
+      final matchesCategory =
+          category == SoundCategory.all || sound.category == category;
+      final isNotArchived = !sound.archived;
+      return matchesCategory && isNotArchived;
+    }).toList();
+  });
 }

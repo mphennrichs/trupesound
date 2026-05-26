@@ -5,25 +5,77 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/sounds_table.dart';
+import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
 
 class SoundLibraryPage extends ConsumerWidget {
   const SoundLibraryPage({super.key});
 
-  Widget _buildFilters(BuildContext context) {
+  Widget _buildFilterItem(
+    BuildContext context,
+    WidgetRef ref,
+    SoundCategory category,
+    bool isActive,
+  ) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(4),
+      onTap: () => ref.read(soundCategoryFilterProvider.notifier).set(category),
+      child: Opacity(
+        opacity: isActive ? 1.0 : 0.5,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          decoration: BoxDecoration(
+            border: isActive
+                ? Border(
+                    bottom: BorderSide(
+                      color: AppThemes.colors.primaryColor,
+                      width: 2,
+                    ),
+                  )
+                : null,
+          ),
+          child: category.getLabel(context),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilters(BuildContext context, WidgetRef ref) {
+    final activeCategory = ref.watch(soundCategoryFilterProvider);
+
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          InkWell(onTap: () {}, child: SoundCategory.effect.getLabel(context)),
+          _buildFilterItem(
+            context,
+            ref,
+            SoundCategory.effect,
+            activeCategory == SoundCategory.effect,
+          ),
           AppThemes.spacings.singleSpace,
-          InkWell(onTap: () {}, child: SoundCategory.ambient.getLabel(context)),
+          _buildFilterItem(
+            context,
+            ref,
+            SoundCategory.ambient,
+            activeCategory == SoundCategory.ambient,
+          ),
           AppThemes.spacings.singleSpace,
-          InkWell(onTap: () {}, child: SoundCategory.song.getLabel(context)),
+          _buildFilterItem(
+            context,
+            ref,
+            SoundCategory.song,
+            activeCategory == SoundCategory.song,
+          ),
           AppThemes.spacings.singleSpace,
           VerticalDivider(color: AppThemes.colors.borderColor, thickness: 1),
           AppThemes.spacings.singleSpace,
-          InkWell(onTap: () {}, child: SoundCategory.all.getLabel(context)),
+          _buildFilterItem(
+            context,
+            ref,
+            SoundCategory.all,
+            activeCategory == SoundCategory.all,
+          ),
         ],
       ),
     );
@@ -49,7 +101,7 @@ class SoundLibraryPage extends ConsumerWidget {
             description: l10n.soundLibraryDescription,
           ),
           AppThemes.spacings.singleSpace,
-          _buildFilters(context),
+          _buildFilters(context, ref),
           AppThemes.spacings.doubleSpace,
           const Expanded(child: SoundsTable()),
         ],

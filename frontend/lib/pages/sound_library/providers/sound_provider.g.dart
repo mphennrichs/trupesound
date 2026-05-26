@@ -33,7 +33,7 @@ final class SoundRepositoryProvider
   SoundRepository create() => SoundRepository();
 }
 
-String _$soundRepositoryHash() => r'4efc66f536f36eced9f022c18d06ac25ef0d5a29';
+String _$soundRepositoryHash() => r'5a54137e3d61f8132d417529465c152dcfc05ac4';
 
 abstract class _$SoundRepository extends $AsyncNotifier<List<SoundModel>> {
   FutureOr<List<SoundModel>> build();
@@ -47,6 +47,59 @@ abstract class _$SoundRepository extends $AsyncNotifier<List<SoundModel>> {
             as $ClassProviderElement<
               AnyNotifier<AsyncValue<List<SoundModel>>, List<SoundModel>>,
               AsyncValue<List<SoundModel>>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(SoundCategoryFilter)
+final soundCategoryFilterProvider = SoundCategoryFilterProvider._();
+
+final class SoundCategoryFilterProvider
+    extends $NotifierProvider<SoundCategoryFilter, SoundCategory> {
+  SoundCategoryFilterProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'soundCategoryFilterProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$soundCategoryFilterHash();
+
+  @$internal
+  @override
+  SoundCategoryFilter create() => SoundCategoryFilter();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SoundCategory value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SoundCategory>(value),
+    );
+  }
+}
+
+String _$soundCategoryFilterHash() =>
+    r'1f315196eed177152af005fad305455f0d62ea65';
+
+abstract class _$SoundCategoryFilter extends $Notifier<SoundCategory> {
+  SoundCategory build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<SoundCategory, SoundCategory>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SoundCategory, SoundCategory>,
+              SoundCategory,
               Object?,
               Object?
             >;
@@ -99,4 +152,4 @@ final class FilteredSoundsProvider
   }
 }
 
-String _$filteredSoundsHash() => r'6b771f5adcfafbf27ab29fc86d07f7116e624567';
+String _$filteredSoundsHash() => r'f490330194ed0043f8d6a790c83f82ea6c69eab7';
