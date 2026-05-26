@@ -49,6 +49,7 @@ class SoundsTable extends ConsumerWidget {
                     width: double.infinity,
                     child: DataTable(
                       headingRowHeight: 48,
+                      dividerThickness: 0.2,
                       headingRowColor: WidgetStateProperty.all(
                         AppThemes.colors.cardColor,
                       ),
@@ -73,7 +74,11 @@ class SoundsTable extends ConsumerWidget {
                   ),
                 ),
               ),
-              const Divider(height: 1, color: Colors.white10),
+              Divider(
+                // height: 0.5,
+                thickness: 0.5,
+                color: AppThemes.colors.borderColor,
+              ),
               _buildFooter(context, isLoading ? 0 : sounds?.length ?? 0),
             ],
           ),

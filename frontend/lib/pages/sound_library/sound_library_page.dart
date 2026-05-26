@@ -3,13 +3,30 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
+import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/sounds_table.dart';
 
 class SoundLibraryPage extends ConsumerWidget {
   const SoundLibraryPage({super.key});
 
-  Widget _buildFilters() {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: []);
+  Widget _buildFilters(BuildContext context) {
+    return IntrinsicHeight(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(onTap: () {}, child: SoundCategory.effect.getLabel(context)),
+          AppThemes.spacings.singleSpace,
+          InkWell(onTap: () {}, child: SoundCategory.ambient.getLabel(context)),
+          AppThemes.spacings.singleSpace,
+          InkWell(onTap: () {}, child: SoundCategory.song.getLabel(context)),
+          AppThemes.spacings.singleSpace,
+          VerticalDivider(color: AppThemes.colors.borderColor, thickness: 1),
+          AppThemes.spacings.singleSpace,
+          InkWell(onTap: () {}, child: SoundCategory.all.getLabel(context)),
+        ],
+      ),
+    );
   }
 
   @override
@@ -32,7 +49,7 @@ class SoundLibraryPage extends ConsumerWidget {
             description: l10n.soundLibraryDescription,
           ),
           AppThemes.spacings.singleSpace,
-          _buildFilters(),
+          _buildFilters(context),
           AppThemes.spacings.doubleSpace,
           const Expanded(child: SoundsTable()),
         ],

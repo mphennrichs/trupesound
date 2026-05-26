@@ -56,19 +56,22 @@ class AppColors {
   final Color cardColor = const Color(0xFF161121);
 
   final Color lightAmber = const Color(0xFFFFFBEB);
-  final Color amber200 = const Color(0xFFFFE082);
   final Color darkAmber = const Color(0xFFFF6F00);
 
   final Color lightGreen = const Color(0xFFC8E6C9);
-  final Color green200 = const Color(0xFFA5D6A7);
   final Color darkGreen = const Color(0xFF1B5E20);
 
   final Color lightPurple = const Color(0xFFE1BEE7);
-  final Color purple200 = const Color(0xFFCE93D8);
   final Color darkPurple = const Color(0xFF4A148C);
 
   final Color lightBlue = const Color(0xFFBBDEFB);
   final Color darkBlue = const Color(0xFF2196F3);
+
+  final Color lightGrey = const Color(0xFFE0E0E0);
+  final Color darkGrey = const Color(0xFF757575);
+
+  final Color lightPink = const Color(0xFFFCE4EC);
+  final Color darkPink = const Color(0xFFE91E63);
 }
 
 class AppBorders {

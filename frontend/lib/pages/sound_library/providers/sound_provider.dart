@@ -22,7 +22,7 @@ class SoundRepository extends _$SoundRepository {
       SoundModel(
         id: '2',
         name: 'Crowd Cheering',
-        category: SoundCategory.ambiente,
+        category: SoundCategory.ambient,
         duration: const Duration(seconds: 45),
         url: '',
         createdAt: DateTime.now(),

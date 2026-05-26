@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 
-enum SoundCategory { effect, ambiente, song, all }
+enum SoundCategory { effect, ambient, song, all }
 
 extension SoundCategoryExtension on SoundCategory {
   Container getLabel(BuildContext context) {
@@ -15,7 +15,10 @@ extension SoundCategoryExtension on SoundCategory {
       padding: EdgeInsets.all(AppThemes.spacings.singleValue / 2),
       child: Text(
         _getText(context),
-        style: TextStyle(color: _getColors().text),
+        style: TextStyle(
+          color: _getColors().text,
+          fontSize: AppThemes.texts.normalFontSize,
+        ),
       ),
     );
   }
@@ -26,7 +29,7 @@ extension SoundCategoryExtension on SoundCategory {
     switch (this) {
       case SoundCategory.effect:
         return l10n.effect;
-      case SoundCategory.ambiente:
+      case SoundCategory.ambient:
         return l10n.ambient;
       case SoundCategory.song:
         return l10n.song;
@@ -45,7 +48,7 @@ extension SoundCategoryExtension on SoundCategory {
           background: AppThemes.colors.darkGreen.withValues(alpha: alpha),
           border: AppThemes.colors.darkGreen,
         );
-      case SoundCategory.ambiente:
+      case SoundCategory.ambient:
         return CategoryColors(
           text: AppThemes.colors.lightBlue,
           background: AppThemes.colors.darkBlue.withValues(alpha: alpha),
@@ -55,13 +58,13 @@ extension SoundCategoryExtension on SoundCategory {
         return CategoryColors(
           text: AppThemes.colors.lightAmber,
           background: AppThemes.colors.darkAmber.withValues(alpha: alpha),
-          border: const Color.fromARGB(255, 85, 80, 76),
+          border: AppThemes.colors.darkAmber,
         );
       case SoundCategory.all:
         return CategoryColors(
-          text: AppThemes.colors.lightGreen,
-          background: AppThemes.colors.darkGreen.withValues(alpha: alpha),
-          border: AppThemes.colors.darkGreen,
+          text: AppThemes.colors.lightGrey,
+          background: AppThemes.colors.darkGrey.withValues(alpha: alpha),
+          border: AppThemes.colors.darkGrey,
         );
     }
   }
