@@ -21,6 +21,7 @@ class SoundsTable extends ConsumerWidget {
     );
   }
 
+  //TODO: if the screen is to small we got a bottom overflow.
   Widget _buildDataTable(
     BuildContext context,
     WidgetRef ref,
@@ -157,6 +158,20 @@ class SoundsTable extends ConsumerWidget {
     );
   }
 
+  DataCell _buildCategoryCell(String value, CategoryColors colors) {
+    Widget statusLabel = Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: colors.border),
+        borderRadius: AppThemes.borders.defaultBorderRadius,
+        color: colors.background,
+      ),
+      padding: EdgeInsets.all(AppThemes.spacings.singleValue / 2),
+      child: Text(value, style: TextStyle(color: colors.text)),
+    );
+
+    return DataCell(statusLabel);
+  }
+
   DataRow _buildDataRow(BuildContext context, WidgetRef ref, SoundModel asset) {
     return DataRow(
       cells: [
@@ -168,11 +183,9 @@ class SoundsTable extends ConsumerWidget {
           ),
         ),
         DataCell(Text(asset.name, style: const TextStyle(color: Colors.white))),
-        DataCell(
-          Text(
-            asset.category,
-            style: TextStyle(color: AppThemes.colors.textColor),
-          ),
+        _buildCategoryCell(
+          asset.category.getLabel(context),
+          asset.category.getColors(),
         ),
         DataCell(
           Text(

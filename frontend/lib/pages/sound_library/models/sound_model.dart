@@ -2,49 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 
-enum SoundCategory { EFFECT, AMBIENT, SONG, ALL }
+enum SoundCategory { effect, ambiente, song, all }
 
 extension SoundCategoryExtension on SoundCategory {
   String getLabel(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
     switch (this) {
-      case SoundCategory.EFFECT:
+      case SoundCategory.effect:
         return l10n.effect;
-      case SoundCategory.AMBIENT:
+      case SoundCategory.ambiente:
         return l10n.ambient;
-      case SoundCategory.SONG:
+      case SoundCategory.song:
         return l10n.song;
-      case SoundCategory.ALL:
+      case SoundCategory.all:
         return l10n.all;
     }
   }
 
   CategoryColors getColors() {
+    double alpha = 0.3;
+
     switch (this) {
-      case SoundCategory.EFFECT:
+      case SoundCategory.effect:
         return CategoryColors(
-          text: AppThemes.colors.darkGreen,
-          background: AppThemes.colors.lightGreen,
-          elements: AppThemes.colors.green200,
+          text: AppThemes.colors.lightGreen,
+          background: AppThemes.colors.darkGreen.withValues(alpha: alpha),
+          border: AppThemes.colors.darkGreen,
         );
-      case SoundCategory.AMBIENT:
+      case SoundCategory.ambiente:
         return CategoryColors(
-          text: AppThemes.colors.darkGrey,
-          background: AppThemes.colors.lightGrey,
-          elements: AppThemes.colors.grey200,
+          text: AppThemes.colors.lightBlue,
+          background: AppThemes.colors.darkBlue.withValues(alpha: alpha),
+          border: AppThemes.colors.darkBlue,
         );
-      case SoundCategory.SONG:
+      case SoundCategory.song:
         return CategoryColors(
-          text: AppThemes.colors.darkAmber,
-          background: AppThemes.colors.lightAmber,
-          elements: AppThemes.colors.amber200,
+          text: AppThemes.colors.lightAmber,
+          background: AppThemes.colors.darkAmber.withValues(alpha: alpha),
+          border: AppThemes.colors.darkAmber,
         );
-      case SoundCategory.ALL:
+      case SoundCategory.all:
         return CategoryColors(
-          text: AppThemes.colors.darkGreen,
-          background: AppThemes.colors.lightGreen,
-          elements: AppThemes.colors.green200,
+          text: AppThemes.colors.lightGreen,
+          background: AppThemes.colors.darkGreen.withValues(alpha: alpha),
+          border: AppThemes.colors.darkGreen,
         );
     }
   }
@@ -53,18 +55,18 @@ extension SoundCategoryExtension on SoundCategory {
 class CategoryColors {
   Color text;
   Color background;
-  Color elements;
+  Color border;
   CategoryColors({
     required this.text,
     required this.background,
-    required this.elements,
+    required this.border,
   });
 }
 
 class SoundModel {
   final String id;
   final String name;
-  final String category;
+  final SoundCategory category;
   final Duration duration;
   final String url;
   final bool archived;
@@ -83,7 +85,7 @@ class SoundModel {
   // Logic for persistence or comparison can be added here
   SoundModel copyWith({
     String? name,
-    String? category,
+    SoundCategory? category,
     bool? archived,
     DateTime? createdAt,
   }) {

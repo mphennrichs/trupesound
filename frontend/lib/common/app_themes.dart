@@ -68,9 +68,8 @@ class AppColors {
   final Color purple200 = const Color(0xFFCE93D8);
   final Color darkPurple = const Color(0xFF4A148C);
 
-  final Color lightGrey = const Color(0xFFF5F5F5);
-  final Color grey200 = const Color(0xFFEEEEEE);
-  final Color darkGrey = const Color(0xFF212121);
+  final Color lightBlue = const Color(0xFFBBDEFB);
+  final Color darkBlue = const Color(0xFF2196F3);
 }
 
 class AppBorders {

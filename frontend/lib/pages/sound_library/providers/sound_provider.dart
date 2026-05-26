@@ -14,7 +14,7 @@ class SoundRepository extends _$SoundRepository {
       SoundModel(
         id: '1',
         name: 'Ambient Forest',
-        category: 'Nature',
+        category: SoundCategory.effect,
         duration: const Duration(minutes: 2),
         url: '',
         createdAt: DateTime.now(),
@@ -22,15 +22,15 @@ class SoundRepository extends _$SoundRepository {
       SoundModel(
         id: '2',
         name: 'Crowd Cheering',
-        category: 'Human',
+        category: SoundCategory.ambiente,
         duration: const Duration(seconds: 45),
         url: '',
         createdAt: DateTime.now(),
       ),
       SoundModel(
         id: '3',
-        name: 'Industrial Hum',
-        category: 'Machine',
+        name: 'Deslizes',
+        category: SoundCategory.song,
         duration: const Duration(minutes: 5, seconds: 12),
         url: '',
         createdAt: DateTime.now(),
