@@ -5,7 +5,22 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 enum SoundCategory { effect, ambiente, song, all }
 
 extension SoundCategoryExtension on SoundCategory {
-  String getLabel(BuildContext context) {
+  Container getLabel(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: _getColors().border),
+        borderRadius: AppThemes.borders.defaultBorderRadius,
+        color: _getColors().background,
+      ),
+      padding: EdgeInsets.all(AppThemes.spacings.singleValue / 2),
+      child: Text(
+        _getText(context),
+        style: TextStyle(color: _getColors().text),
+      ),
+    );
+  }
+
+  String _getText(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
     switch (this) {
@@ -20,7 +35,7 @@ extension SoundCategoryExtension on SoundCategory {
     }
   }
 
-  CategoryColors getColors() {
+  CategoryColors _getColors() {
     double alpha = 0.3;
 
     switch (this) {

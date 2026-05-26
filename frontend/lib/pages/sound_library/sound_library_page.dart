@@ -9,13 +9,7 @@ class SoundLibraryPage extends ConsumerWidget {
   const SoundLibraryPage({super.key});
 
   Widget _buildFilters() {
-    return Text(
-      'Filters',
-      style: TextStyle(
-        color: AppThemes.colors.textColor,
-        fontSize: AppThemes.texts.normalFontSize,
-      ),
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: []);
   }
 
   @override

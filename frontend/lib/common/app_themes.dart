@@ -27,7 +27,6 @@ class AppTexts {
 class AppCards {
   const AppCards();
 
-  /// The base aspect ratio (width / height) derived from the current 200x250 dimensions.
   double get aspectRatio => 0.9;
 
   /// Calculates the card width relative to the screen width (e.g., 15%).
