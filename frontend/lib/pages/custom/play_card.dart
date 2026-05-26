@@ -103,6 +103,7 @@ class PlayCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: cardHeight * 0.4, child: _buildBanner()),
+              AppThemes.spacings.singleSpace,
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(

@@ -40,7 +40,7 @@ extension SoundCategoryExtension on SoundCategory {
         return CategoryColors(
           text: AppThemes.colors.lightAmber,
           background: AppThemes.colors.darkAmber.withValues(alpha: alpha),
-          border: AppThemes.colors.darkAmber,
+          border: const Color.fromARGB(255, 85, 80, 76),
         );
       case SoundCategory.all:
         return CategoryColors(
