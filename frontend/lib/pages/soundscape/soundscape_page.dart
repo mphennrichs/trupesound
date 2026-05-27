@@ -4,10 +4,9 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 
-class Soundscape extends StatelessWidget {
-  final int playId;
-
-  const Soundscape({super.key, required this.playId});
+class SoundscapePage extends StatelessWidget {
+  //TODO: present all plays as card, navigate to soundscape play
+  const SoundscapePage({super.key});
 
   ElevatedButton _getBackToHomePageButton(BuildContext context) {
     return ElevatedButton(

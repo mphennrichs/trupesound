@@ -3,13 +3,15 @@ enum NavigationPage {
   soundLibrary,
   newPlay,
   soundscape,
+  playSoundscape,
   editPlay;
 
   String get path => switch (this) {
     NavigationPage.plays => '/plays',
     NavigationPage.soundLibrary => '/sound-library',
     NavigationPage.newPlay => 'new-play',
-    NavigationPage.soundscape => ':playId/soundscape',
+    NavigationPage.soundscape => '/soundscape',
+    NavigationPage.playSoundscape => ':playId/soundscape',
     NavigationPage.editPlay => ':playId/edit',
   };
 }

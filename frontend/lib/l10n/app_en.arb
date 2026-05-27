@@ -181,5 +181,8 @@
     "@browseFiles": {},
 
     "soundNameHint": "e.g. Ambient Rainstorm 01",
-    "@soundNameHint": {}
+    "@soundNameHint": {},
+
+    "soundscape": "Soundscape",
+    "@soundscape": {}
 }

@@ -179,4 +179,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get soundNameHint => 'e.g. Ambient Rainstorm 01';
+
+  @override
+  String get soundscape => 'Soundscape';
 }

@@ -184,5 +184,8 @@
     "@browseFiles": {},
 
     "soundNameHint": "ex. Chuva de Raios 01",
-    "@soundNameHint": {}
+    "@soundNameHint": {},
+
+    "soundscape": "Sonoplastia",
+    "@soundscape": {}
 }

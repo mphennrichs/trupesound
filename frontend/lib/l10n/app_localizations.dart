@@ -394,6 +394,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'e.g. Ambient Rainstorm 01'**
   String get soundNameHint;
+
+  /// No description provided for @soundscape.
+  ///
+  /// In en, this message translates to:
+  /// **'Soundscape'**
+  String get soundscape;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

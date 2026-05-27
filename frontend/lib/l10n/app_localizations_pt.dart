@@ -179,4 +179,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get soundNameHint => 'ex. Chuva de Raios 01';
+
+  @override
+  String get soundscape => 'Sonoplastia';
 }

@@ -25,6 +25,12 @@ class BasePage extends ConsumerWidget {
         Icon(Icons.theater_comedy, color: AppThemes.colors.primaryColor),
       ),
       NavigationItem(
+        NavigationPage.soundscape,
+        (context) => AppLocalizations.of(context)!.soundscape,
+        Icon(Icons.surround_sound_outlined, color: AppThemes.colors.textColor),
+        Icon(Icons.surround_sound, color: AppThemes.colors.primaryColor),
+      ),
+      NavigationItem(
         NavigationPage.soundLibrary,
         (context) => AppLocalizations.of(context)!.soundLibraryTitle,
         Icon(Icons.library_music_outlined, color: AppThemes.colors.textColor),
