@@ -169,5 +169,17 @@
     "@all": {},
 
     "addSound": "Add Sound",
-    "@addSound": {}
+    "@addSound": {},
+
+    "dragAndDrop": "Drag and Drop audio file here...",
+    "@dragAndDrop": {},
+
+    "fileTypes": "WAV, MP3, OGG or AIFF (max 50MB)",
+    "@fileTypes": {},
+
+    "browseFiles": "Browse Files",
+    "@browseFiles": {},
+
+    "soundNameHint": "e.g. Ambient Rainstorm 01",
+    "@soundNameHint": {}
 }

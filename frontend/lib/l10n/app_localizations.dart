@@ -370,6 +370,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Sound'**
   String get addSound;
+
+  /// No description provided for @dragAndDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag and Drop audio file here...'**
+  String get dragAndDrop;
+
+  /// No description provided for @fileTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'WAV, MP3, OGG or AIFF (max 50MB)'**
+  String get fileTypes;
+
+  /// No description provided for @browseFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Files'**
+  String get browseFiles;
+
+  /// No description provided for @soundNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Ambient Rainstorm 01'**
+  String get soundNameHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

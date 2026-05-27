@@ -171,5 +171,18 @@
     "@all": {},
     
     "addSound": "Adicionar Som",
-    "@addSound": {}
+    "@addSound": {},
+
+
+    "dragAndDrop": "Arraste e Solte o arquivo de áudio aqui...",
+    "@dragAndDrop": {},
+
+    "fileTypes": "WAV, MP3, OGG ou AIFF (max 50MB)",
+    "@fileTypes": {},
+
+    "browseFiles": "Procurar Arquivos",
+    "@browseFiles": {},
+
+    "soundNameHint": "ex. Chuva de Raios 01",
+    "@soundNameHint": {}
 }

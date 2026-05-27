@@ -42,6 +42,11 @@ class SoundRepository extends _$SoundRepository {
     if (!state.hasValue) return;
     state = AsyncData(state.value!.where((a) => a.id != id).toList());
   }
+
+  Future<void> addSound(SoundModel sound) async {
+    if (!state.hasValue) return;
+    state = AsyncData([...state.value!, sound]);
+  }
 }
 
 @riverpod

@@ -14,7 +14,7 @@ extension SoundCategoryExtension on SoundCategory {
       ),
       padding: EdgeInsets.all(AppThemes.spacings.singleValue / 2),
       child: Text(
-        _getText(context),
+        getText(context),
         style: TextStyle(
           color: _getColors().text,
           fontSize: small
@@ -25,7 +25,7 @@ extension SoundCategoryExtension on SoundCategory {
     );
   }
 
-  String _getText(BuildContext context) {
+  String getText(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
     switch (this) {

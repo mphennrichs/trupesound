@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
-import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/sounds_table.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
+import 'package:trupe_sound/pages/sound_library/sound_upload.dart';
 
 class SoundLibraryPage extends ConsumerWidget {
   const SoundLibraryPage({super.key});
@@ -25,16 +24,6 @@ class SoundLibraryPage extends ConsumerWidget {
         opacity: isActive ? 1.0 : 0.5,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-          decoration: BoxDecoration(
-            border: isActive
-                ? Border(
-                    bottom: BorderSide(
-                      color: AppThemes.colors.primaryColor,
-                      width: 1,
-                    ),
-                  )
-                : null,
-          ),
           child: category.getLabel(context, true),
         ),
       ),
@@ -108,11 +97,14 @@ class SoundLibraryPage extends ConsumerWidget {
               ),
               ElevatedButton(
                 style: AppThemes.buttons.primaryButtonStyle,
-                onPressed: () => context.goNamed(NavigationPage.plays.name),
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => const SoundUploadPage(),
+                ),
                 child: Row(
                   children: [
                     Icon(
-                      Icons.upload,
+                      Icons.cloud_upload_outlined,
                       color: Colors.white,
                       size: AppThemes.texts.h1FontSize,
                     ),

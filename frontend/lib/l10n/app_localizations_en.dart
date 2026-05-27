@@ -167,4 +167,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addSound => 'Add Sound';
+
+  @override
+  String get dragAndDrop => 'Drag and Drop audio file here...';
+
+  @override
+  String get fileTypes => 'WAV, MP3, OGG or AIFF (max 50MB)';
+
+  @override
+  String get browseFiles => 'Browse Files';
+
+  @override
+  String get soundNameHint => 'e.g. Ambient Rainstorm 01';
 }
