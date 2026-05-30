@@ -182,4 +182,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get soundscape => 'Sonoplastia';
+
+  @override
+  String get soundscapeDescription => 'Prepare a sonoplastia da sua peça.';
+
+  @override
+  String get noPlays => 'Você ainda não tem nenhuma peça cadastrada.';
 }

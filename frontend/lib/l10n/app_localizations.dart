@@ -400,6 +400,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Soundscape'**
   String get soundscape;
+
+  /// No description provided for @soundscapeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Prepare the soundscape for your play.'**
+  String get soundscapeDescription;
+
+  /// No description provided for @noPlays.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any plays yet.'**
+  String get noPlays;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

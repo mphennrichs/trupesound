@@ -182,4 +182,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get soundscape => 'Soundscape';
+
+  @override
+  String get soundscapeDescription => 'Prepare the soundscape for your play.';
+
+  @override
+  String get noPlays => 'You don\'t have any plays yet.';
 }

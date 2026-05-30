@@ -187,5 +187,11 @@
     "@soundNameHint": {},
 
     "soundscape": "Sonoplastia",
-    "@soundscape": {}
+    "@soundscape": {},
+
+    "soundscapeDescription": "Prepare a sonoplastia da sua peça.",
+    "@soundscapeDescription": {},
+
+    "noPlays": "Você ainda não tem nenhuma peça cadastrada.",
+    "@noPlays": {}
 }

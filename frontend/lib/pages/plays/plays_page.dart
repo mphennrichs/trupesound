@@ -86,6 +86,7 @@ class PlaysPage extends ConsumerWidget {
           lastModified: DateFormat('dd/MM/yyyy').format(play.lastModifyDate),
           icon: play.icon,
           backgroundColor: play.backgroundColor,
+          onTapDestination: NavigationPage.editPlay.name,
         );
       },
     );

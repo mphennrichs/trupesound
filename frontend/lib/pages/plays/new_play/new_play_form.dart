@@ -209,7 +209,7 @@ class NewPlayForm extends HookConsumerWidget {
       };
     }, [titleController, authorController, notifier]);
 
-    Future<void> saveAndStartEditing(bool isEditing) async {
+    Future<void> save(bool isEditing) async {
       final play = notifier.toModel();
       final playsNotifier = ref.read(playsProvider.notifier);
 
@@ -219,16 +219,7 @@ class NewPlayForm extends HookConsumerWidget {
         await playsNotifier.addPlay(play);
       }
 
-      if (isEditing) {
-        context.pop();
-      } else {
-        if (context.mounted) {
-          context.goNamed(
-            NavigationPage.soundscape.name,
-            pathParameters: {'playId': play.id.toString()},
-          );
-        }
-      }
+      context.pop();
     }
 
     final isEditing = playId != null;
@@ -253,14 +244,12 @@ class NewPlayForm extends HookConsumerWidget {
           SizedBox(width: AppThemes.spacings.singleValue),
           ElevatedButton(
             style: AppThemes.buttons.primaryButtonStyle,
-            onPressed: () => saveAndStartEditing(isEditing),
-            child: Text(isEditing ? l10n.save : l10n.createAndStartEditing),
+            onPressed: () => save(isEditing),
+            child: Text(l10n.save),
           ),
         ],
       );
     }
-
-    print("playId: $playId | isEditing: $isEditing ");
 
     final title = CustomTitle(
       title: isEditing ? l10n.editPlayFormTitle : l10n.newPlayFormTitle,

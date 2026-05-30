@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/plays/service/repository.dart';

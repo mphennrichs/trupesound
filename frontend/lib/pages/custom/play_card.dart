@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:trupe_sound/common/app_themes.dart';
-import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 
 class PlayCard extends StatelessWidget {
@@ -12,6 +11,7 @@ class PlayCard extends StatelessWidget {
   final String lastModified;
   final IconData? icon;
   final Color? backgroundColor;
+  final String onTapDestination;
 
   const PlayCard({
     super.key,
@@ -22,6 +22,7 @@ class PlayCard extends StatelessWidget {
     required this.lastModified,
     this.icon,
     this.backgroundColor,
+    required this.onTapDestination,
   });
 
   Widget _buildBanner() {
@@ -81,7 +82,7 @@ class PlayCard extends StatelessWidget {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () => context.pushNamed(
-          NavigationPage.editPlay.name,
+          onTapDestination,
           pathParameters: {'playId': id.toString()},
         ),
         child: Container(

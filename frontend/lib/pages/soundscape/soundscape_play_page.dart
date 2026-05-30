@@ -4,15 +4,15 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/common/navigation_pages_enum.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 
-class SoundscapePage extends StatelessWidget {
+class SoundscapePlayPage extends StatelessWidget {
   final int playId;
 
-  const SoundscapePage({super.key, required this.playId});
+  const SoundscapePlayPage({super.key, required this.playId});
 
   ElevatedButton _getBackToHomePageButton(BuildContext context) {
     return ElevatedButton(
       style: AppThemes.buttons.primaryButtonStyle,
-      onPressed: () => context.goNamed(NavigationPage.plays.name),
+      onPressed: () => context.goNamed(NavigationPage.soundscape.name),
       child: Text(AppLocalizations.of(context)!.back),
     );
   }
@@ -32,8 +32,9 @@ class SoundscapePage extends StatelessWidget {
           // O Center garante alinhamento vertical e horizontal [8]
           child: Column(
             children: [
+              // Using l10n and interpolation for the title
               Text(
-                'Soundscape',
+                '${AppLocalizations.of(context)!.soundscape} #$playId',
                 style: TextStyle(
                   fontSize: 24,
                   color: AppThemes.colors.textColor,

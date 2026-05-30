@@ -184,5 +184,11 @@
     "@soundNameHint": {},
 
     "soundscape": "Soundscape",
-    "@soundscape": {}
+    "@soundscape": {},
+
+    "soundscapeDescription": "Prepare the soundscape for your play.",
+    "@soundscapeDescription": {},
+
+    "noPlays": "You don't have any plays yet.",
+    "@noPlays": {}
 }
