@@ -20,7 +20,8 @@ class _InlineAddCueState extends State<InlineAddCue> {
       onExit: (_) => setState(() => _isHovered = false),
       cursor: SystemMouseCursors.click,
       child: Container(
-        height: 16,
+        height: AppThemes.spacings.doubleValue,
+        alignment: Alignment.center,
         width: double.infinity,
         color: Colors.transparent, // Ensures the entire area is hit-testable
         child: _isHovered
@@ -28,7 +29,7 @@ class _InlineAddCueState extends State<InlineAddCue> {
                 children: [
                   Expanded(child: Container(height: 2, color: primary)),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 0.1),
                     child: Icon(
                       Icons.add_circle,
                       color: primary,
