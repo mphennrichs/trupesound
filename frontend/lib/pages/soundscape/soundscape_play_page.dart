@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
@@ -13,10 +14,59 @@ class SoundscapePlayPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final playsAsync = ref.watch(playsProvider);
 
     return Scaffold(
       backgroundColor: AppThemes.colors.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: AppThemes.colors.backgroundColor,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => context.pop(),
+          tooltip: l10n.back,
+        ),
+        title: playsAsync.maybeWhen(
+          data: (plays) {
+            final play = plays.firstWhere((p) => p.id == playId);
+            return Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: play.title),
+                  TextSpan(
+                    text: ' \u2022 ',
+                    style: TextStyle(
+                      color: AppThemes.colors.hintTextColor,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  TextSpan(
+                    text: play.author,
+                    style: TextStyle(
+                      color: AppThemes.colors.textColor,
+                      fontSize: AppThemes.texts.normalFontSize,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: AppThemes.texts.h1FontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            );
+          },
+          orElse: () => null,
+        ),
+        centerTitle: false,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(color: AppThemes.colors.borderColor, height: 1.0),
+        ),
+      ),
       body: playsAsync.when(
         data: (plays) {
           final play = plays.firstWhere((p) => p.id == playId);
