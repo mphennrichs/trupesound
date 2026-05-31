@@ -145,7 +145,9 @@ class PlayFormController extends _$PlayFormController {
       acts: state.actScripts
           .asMap()
           .entries
-          .map((e) => Act(number: e.key + 1, name: '', script: e.value))
+          .map(
+            (e) => Act(number: e.key + 1, name: '', script: e.value, cues: []),
+          )
           .toList(),
     );
   }

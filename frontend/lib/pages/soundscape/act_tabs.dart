@@ -4,6 +4,8 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/plays/models/act.dart';
 import 'package:trupe_sound/pages/plays/models/play.dart';
+import 'package:trupe_sound/pages/soundscape/widgets/script_line.dart';
+import 'package:trupe_sound/pages/soundscape/widgets/inline_add_cue.dart';
 
 class ActTabs extends StatelessWidget {
   final Play play;
@@ -74,40 +76,13 @@ class ActTabs extends StatelessWidget {
           AppThemes.spacings.doubleSpace,
           Expanded(
             child: ListView.builder(
-              itemCount: lines.length,
+              itemCount: lines.length + 1,
               itemBuilder: (context, index) {
-                return _buildScriptLine(index + 1, lines[index]);
+                if (index == lines.length) {
+                  return const InlineAddCue();
+                }
+                return ScriptLine(lineNumber: index + 1, text: lines[index]);
               },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildScriptLine(int lineNumber, String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 40,
-            child: Text(
-              lineNumber.toString(),
-              style: TextStyle(
-                color: AppThemes.colors.hintTextColor,
-                fontSize: AppThemes.texts.smallFontSize,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: AppThemes.texts.normalFontSize,
-              ),
             ),
           ),
         ],
