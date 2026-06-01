@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
+import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
 
 class SoundCueSearchDialog extends ConsumerWidget {
@@ -33,6 +34,26 @@ class SoundCueSearchDialog extends ConsumerWidget {
     );
   }
 
+  Widget _buildSoundCue(BuildContext context, SoundModel sound) {
+    return Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(sound.name, style: TextStyle(color: Colors.white)),
+            Text(
+              sound.category.getText(context),
+              style: TextStyle(
+                color: AppThemes.colors.textColor,
+                fontSize: AppThemes.texts.verySmallmallFontSize,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final soundsAsync = ref.watch(filteredSoundsProvider);
@@ -54,20 +75,11 @@ class SoundCueSearchDialog extends ConsumerWidget {
           children: [
             _buildSearchContainer(),
             Divider(color: AppThemes.colors.borderColor),
-            AppThemes.spacings.singleSpace,
             soundsAsync.when(
               data: (sounds) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: sounds
-                    .map(
-                      (sound) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Text(
-                          sound.name,
-                          style: TextStyle(color: AppThemes.colors.textColor),
-                        ),
-                      ),
-                    )
+                    .map((sound) => _buildSoundCue(context, sound))
                     .toList(),
               ),
               loading: () => const Center(child: CircularProgressIndicator()),
@@ -76,7 +88,6 @@ class SoundCueSearchDialog extends ConsumerWidget {
                 style: const TextStyle(color: Colors.redAccent),
               ),
             ),
-            AppThemes.spacings.singleSpace,
             Divider(color: AppThemes.colors.borderColor),
             _buildButton(l10n),
           ],

@@ -21,6 +21,7 @@ class AppTexts {
   final double h2FontSize = 16;
   final double normalFontSize = 14;
   final double smallFontSize = 12;
+  final double verySmallmallFontSize = 8;
   final double calculatedHintHeight = 38.0; // 14.0 + 24.0
 }
 
