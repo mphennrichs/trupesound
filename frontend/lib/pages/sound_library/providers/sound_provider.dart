@@ -12,7 +12,7 @@ class SoundRepository extends _$SoundRepository {
     await Future.delayed(const Duration(seconds: 1));
     return [
       SoundModel(
-        id: '1',
+        id: 1,
         name: 'Ambient Forest',
         category: SoundCategory.effect,
         duration: const Duration(minutes: 2),
@@ -20,7 +20,7 @@ class SoundRepository extends _$SoundRepository {
         createdAt: DateTime.now(),
       ),
       SoundModel(
-        id: '2',
+        id: 2,
         name: 'Crowd Cheering',
         category: SoundCategory.ambient,
         duration: const Duration(seconds: 45),
@@ -28,7 +28,7 @@ class SoundRepository extends _$SoundRepository {
         createdAt: DateTime.now(),
       ),
       SoundModel(
-        id: '3',
+        id: 3,
         name: 'Deslizes',
         category: SoundCategory.song,
         duration: const Duration(minutes: 5, seconds: 12),
@@ -38,7 +38,7 @@ class SoundRepository extends _$SoundRepository {
     ];
   }
 
-  Future<void> deleteSound(String id) async {
+  Future<void> deleteSound(int id) async {
     if (!state.hasValue) return;
     state = AsyncData(state.value!.where((a) => a.id != id).toList());
   }

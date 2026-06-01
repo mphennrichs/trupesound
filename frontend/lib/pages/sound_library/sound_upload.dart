@@ -68,7 +68,7 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
             }
 
             final newSound = SoundModel(
-              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              id: DateTime.now().millisecondsSinceEpoch,
               name: _nameController.text,
               category: _selectedCategory!,
               // Using placeholder values until file picking is implemented

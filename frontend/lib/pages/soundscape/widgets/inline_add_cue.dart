@@ -11,9 +11,14 @@ class InlineAddCue extends StatefulWidget {
 
 class _InlineAddCueState extends State<InlineAddCue> {
   bool _isHovered = false;
+  bool _isDialogOpen = false;
 
-  void _showSearchDialog(BuildContext context, Offset position) {
-    showDialog(
+  Future<void> _showSearchDialog(BuildContext context, Offset position) async {
+    setState(() {
+      _isDialogOpen = true;
+    });
+
+    await showDialog(
       context: context,
       barrierColor: Colors.transparent,
       builder: (context) => Stack(
@@ -26,6 +31,12 @@ class _InlineAddCueState extends State<InlineAddCue> {
         ],
       ),
     );
+
+    if (mounted) {
+      setState(() {
+        _isDialogOpen = false;
+      });
+    }
   }
 
   @override
@@ -44,7 +55,7 @@ class _InlineAddCueState extends State<InlineAddCue> {
           alignment: Alignment.center,
           width: double.infinity,
           color: Colors.transparent, // Ensures the entire area is hit-testable
-          child: _isHovered
+          child: (_isHovered || _isDialogOpen)
               ? Row(
                   children: [
                     Expanded(child: Container(height: 2, color: primary)),
