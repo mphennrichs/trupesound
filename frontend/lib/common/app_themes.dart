@@ -101,6 +101,23 @@ class AppButtons {
     ),
   );
 
+  ButtonStyle get secondaryButtonStyle => ElevatedButton.styleFrom(
+    backgroundColor: AppThemes.colors.primaryColor.withValues(alpha: 0.1),
+    foregroundColor: AppThemes.colors.primaryColor,
+    elevation: 0,
+    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+    shape: RoundedRectangleBorder(
+      borderRadius: AppThemes.borders.defaultBorderRadius,
+      side: BorderSide(
+        color: AppThemes.colors.primaryColor.withValues(alpha: 0.2),
+      ),
+    ),
+    textStyle: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: AppThemes.texts.smallFontSize,
+    ),
+  );
+
   ButtonStyle get panicButtonStyle => ElevatedButton.styleFrom(
     backgroundColor: Colors.red.withValues(alpha: 0.1),
     foregroundColor: Colors.red,
