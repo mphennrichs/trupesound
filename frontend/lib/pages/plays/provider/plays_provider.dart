@@ -1,6 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/pages/plays/models/play.dart';
+import 'package:trupe_sound/pages/sound_library/models/sound_cue_model.dart';
 import 'package:trupe_sound/pages/plays/service/play_service.dart';
+import 'package:trupe_sound/pages/plays/models/act.dart' as models;
 
 part 'plays_provider.g.dart';
 
@@ -30,6 +32,58 @@ class Plays extends _$Plays {
         state.value!.map((p) => p.id == result.id ? result : p).toList(),
       );
     }
+  }
+
+  Future<void> removeCue({
+    required int playId,
+    required int actNumber,
+    required SoundCueModel cue,
+  }) async {
+    if (!state.hasValue) return;
+
+    final play = state.value!.firstWhere((p) => p.id == playId);
+    final updatedPlay = play.copyWith(
+      acts: play.acts.map((act) {
+        if (act.number != actNumber) return act;
+
+        // 1. Filter out the specific cue to be removed
+        final remainingCues = act.cues.where((c) => c.id != cue.id).toList();
+
+        // 2. Combine all remaining items to establish a new sequence
+        final allItems = [...act.script, ...remainingCues];
+
+        // 3. Sort by current line number to maintain relative order
+        allItems.sort((a, b) {
+          final aPos = a is models.ScriptLine
+              ? a.lineNumber
+              : (a as SoundCueModel).line;
+          final bPos = b is models.ScriptLine
+              ? b.lineNumber
+              : (b as SoundCueModel).line;
+          if (aPos != bPos) return aPos.compareTo(bPos);
+          // Tie-breaker: ScriptLines before Cues if they share the same index
+          return (a is models.ScriptLine) ? -1 : 1;
+        });
+
+        // 4. Re-assign sequential line numbers (1, 2, 3...) to fill gaps
+        final updatedScript = <models.ScriptLine>[];
+        final updatedCues = <SoundCueModel>[];
+
+        for (int i = 0; i < allItems.length; i++) {
+          final item = allItems[i];
+          final newIndex = i + 1;
+          if (item is models.ScriptLine) {
+            updatedScript.add(item.copyWith(lineNumber: newIndex));
+          } else if (item is SoundCueModel) {
+            updatedCues.add(item.copyWith(line: newIndex));
+          }
+        }
+
+        return act.copyWith(script: updatedScript, cues: updatedCues);
+      }).toList(),
+    );
+
+    await updatePlay(updatedPlay);
   }
 
   Future<void> deletePlay(int id) async {

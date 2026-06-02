@@ -257,6 +257,12 @@ abstract class AppLocalizations {
   /// **'{number, plural, =0{0 Cues} =1{1 Cue} other{{number} Cues}}'**
   String cue(int number);
 
+  /// No description provided for @singleCue.
+  ///
+  /// In en, this message translates to:
+  /// **'Cue'**
+  String get singleCue;
+
   /// No description provided for @soundCues.
   ///
   /// In en, this message translates to:

@@ -101,6 +101,9 @@
       }
     },
 
+    "singleCue": "Cue",
+    "@singleCue": {},
+
     "soundCues": "Sound Cues",
     "@soundCues": {},
 

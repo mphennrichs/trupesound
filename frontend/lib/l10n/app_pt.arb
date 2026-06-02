@@ -103,6 +103,9 @@
       }
     },
 
+    "singleCue": "Deixa",
+    "@singleCue": {},
+
     "soundCues": "Deixas Sonoras",
     "@soundCues": {},
 

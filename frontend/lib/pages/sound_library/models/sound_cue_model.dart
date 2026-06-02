@@ -16,4 +16,23 @@ class SoundCueModel {
     required this.soundId,
     required this.createdAt,
   });
+
+  //copywith
+  SoundCueModel copyWith({
+    String? id,
+    int? line,
+    String? hotkey,
+    PlayMode? mode,
+    String? soundId,
+    DateTime? createdAt,
+  }) {
+    return SoundCueModel(
+      id: id ?? this.id,
+      line: line ?? this.line,
+      hotkey: hotkey ?? this.hotkey,
+      mode: mode ?? this.mode,
+      soundId: soundId ?? this.soundId,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

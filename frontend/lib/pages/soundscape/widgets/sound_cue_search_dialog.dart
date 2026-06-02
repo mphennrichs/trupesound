@@ -5,9 +5,20 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
+import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
+import 'package:trupe_sound/pages/sound_library/models/sound_cue_model.dart';
 
 class SoundCueSearchDialog extends HookConsumerWidget {
-  const SoundCueSearchDialog({super.key});
+  final int playId;
+  final int actNumber;
+  final int targetLineNumber;
+
+  const SoundCueSearchDialog({
+    super.key,
+    required this.playId,
+    required this.actNumber,
+    required this.targetLineNumber,
+  });
 
   Widget _buildSearchContainer() {
     return Text(
@@ -19,12 +30,12 @@ class SoundCueSearchDialog extends HookConsumerWidget {
     );
   }
 
-  Widget _buildButton(AppLocalizations l10n) {
+  Widget _buildButton(AppLocalizations l10n, VoidCallback onSave) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: onSave,
           style: AppThemes.buttons.secondaryButtonStyle,
           child: Text(
             l10n.save,
@@ -86,6 +97,56 @@ class SoundCueSearchDialog extends HookConsumerWidget {
     final soundsAsync = ref.watch(filteredSoundsProvider);
     final l10n = AppLocalizations.of(context)!;
     final selectedSoundId = useState<int?>(null);
+    final selectedSound = useState<SoundModel?>(null);
+
+    void onSave() {
+      if (selectedSound.value == null) return;
+
+      final playsAsync = ref.read(playsProvider);
+      final plays = playsAsync.value ?? [];
+      final playIndex = plays.indexWhere((p) => p.id == playId);
+      if (playIndex == -1) return;
+
+      final play = plays[playIndex];
+      final updatedActs = play.acts.map((act) {
+        if (act.number != actNumber) return act;
+
+        final updatedScript = act.script.map((line) {
+          if (line.lineNumber >= targetLineNumber) {
+            return line.copyWith(lineNumber: line.lineNumber + 1);
+          }
+          return line;
+        }).toList();
+
+        final updatedCues = act.cues.map((cue) {
+          if (cue.line >= targetLineNumber) {
+            return cue.copyWith(line: cue.line + 1);
+          }
+          return cue;
+        }).toList();
+
+        // Create the new cue and add it to the list
+        final newCue = SoundCueModel(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          line: targetLineNumber,
+          hotkey: '',
+          mode: PlayMode.once,
+          soundId: selectedSound.value!.id.toString(),
+          createdAt: DateTime.now(),
+        );
+
+        // We use a new list to ensure the state update is detected
+        final finalCues = [...updatedCues, newCue];
+
+        return act.copyWith(script: updatedScript, cues: finalCues);
+      }).toList();
+
+      final updatedPlay = play.copyWith(acts: updatedActs);
+      final newList = [...plays];
+      newList[playIndex] = updatedPlay;
+      ref.read(playsProvider.notifier).updatePlay(updatedPlay);
+      Navigator.of(context).pop();
+    }
 
     return Material(
       color: Colors.transparent,
@@ -113,6 +174,7 @@ class SoundCueSearchDialog extends HookConsumerWidget {
                     selectedSoundId.value == sound.id,
                     () {
                       selectedSoundId.value = sound.id;
+                      selectedSound.value = sound;
                     },
                   );
                 }).toList(),
@@ -124,7 +186,7 @@ class SoundCueSearchDialog extends HookConsumerWidget {
               ),
             ),
             Divider(color: AppThemes.colors.borderColor),
-            _buildButton(l10n),
+            _buildButton(l10n, onSave),
           ],
         ),
       ),

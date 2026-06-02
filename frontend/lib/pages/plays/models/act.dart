@@ -5,6 +5,13 @@ class ScriptLine {
   final String text;
 
   const ScriptLine({required this.lineNumber, required this.text});
+
+  ScriptLine copyWith({int? lineNumber, String? text}) {
+    return ScriptLine(
+      lineNumber: lineNumber ?? this.lineNumber,
+      text: text ?? this.text,
+    );
+  }
 }
 
 class ActModel {
@@ -19,4 +26,19 @@ class ActModel {
     required this.script,
     required this.cues,
   });
+
+  //copywith
+  ActModel copyWith({
+    int? number,
+    String? name,
+    List<ScriptLine>? script,
+    List<SoundCueModel>? cues,
+  }) {
+    return ActModel(
+      number: number ?? this.number,
+      name: name ?? this.name,
+      script: script ?? this.script,
+      cues: cues ?? this.cues,
+    );
+  }
 }

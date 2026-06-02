@@ -110,6 +110,9 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get singleCue => 'Deixa';
+
+  @override
   String get soundCues => 'Deixas Sonoras';
 
   @override

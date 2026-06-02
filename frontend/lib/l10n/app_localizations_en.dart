@@ -110,6 +110,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get singleCue => 'Cue';
+
+  @override
   String get soundCues => 'Sound Cues';
 
   @override

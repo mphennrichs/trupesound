@@ -3,7 +3,16 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/sound_cue_search_dialog.dart';
 
 class InlineAddCue extends StatefulWidget {
-  const InlineAddCue({super.key});
+  final int playId;
+  final int actNumber;
+  final int targetLineNumber;
+
+  const InlineAddCue({
+    super.key,
+    required this.playId,
+    required this.actNumber,
+    required this.targetLineNumber,
+  });
 
   @override
   State<InlineAddCue> createState() => _InlineAddCueState();
@@ -26,7 +35,11 @@ class _InlineAddCueState extends State<InlineAddCue> {
           Positioned(
             left: position.dx,
             top: position.dy,
-            child: const SoundCueSearchDialog(),
+            child: SoundCueSearchDialog(
+              playId: widget.playId,
+              actNumber: widget.actNumber,
+              targetLineNumber: widget.targetLineNumber,
+            ),
           ),
         ],
       ),
