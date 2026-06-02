@@ -1,7 +1,7 @@
 enum PlayMode { once, repeat }
 
 class SoundCueModel {
-  final String id;
+  final int id;
   final int line;
   final String hotkey;
   final PlayMode mode;
@@ -19,7 +19,7 @@ class SoundCueModel {
 
   //copywith
   SoundCueModel copyWith({
-    String? id,
+    int? id,
     int? line,
     String? hotkey,
     PlayMode? mode,

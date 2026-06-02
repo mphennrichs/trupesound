@@ -191,4 +191,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noPlays => 'You don\'t have any plays yet.';
+
+  @override
+  String get hotkey => 'Hotkey';
+
+  @override
+  String get repeat => 'Repeat';
+
+  @override
+  String get once => 'Once';
+
+  @override
+  String get active => 'Active';
 }

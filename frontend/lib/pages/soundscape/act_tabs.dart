@@ -19,42 +19,40 @@ class ActTabs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final controller = DefaultTabController.of(context);
 
-    return DefaultTabController(
-      length: play.acts.length,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            right: BorderSide(color: AppThemes.colors.borderColor),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(right: BorderSide(color: AppThemes.colors.borderColor)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TabBar(
+            controller: controller,
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            indicatorColor: AppThemes.colors.primaryColor,
+            dividerColor: AppThemes.colors.borderColor,
+            labelColor: Colors.white,
+            unselectedLabelColor: AppThemes.colors.textColor,
+            tabs: play.acts
+                .map(
+                  (act) => Tab(
+                    text: '${l10n.act} ${act.number.toRomanNumeralString()}',
+                  ),
+                )
+                .toList(),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TabBar(
-              isScrollable: true,
-              tabAlignment: TabAlignment.start,
-              indicatorColor: AppThemes.colors.primaryColor,
-              dividerColor: AppThemes.colors.borderColor,
-              labelColor: Colors.white,
-              unselectedLabelColor: AppThemes.colors.textColor,
-              tabs: play.acts
-                  .map(
-                    (act) => Tab(
-                      text: '${l10n.act} ${act.number.toRomanNumeralString()}',
-                    ),
-                  )
+          Expanded(
+            child: TabBarView(
+              controller: controller,
+              children: play.acts
+                  .map((act) => _buildActContent(context, ref, act))
                   .toList(),
             ),
-            Expanded(
-              child: TabBarView(
-                children: play.acts
-                    .map((act) => _buildActContent(context, ref, act))
-                    .toList(),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

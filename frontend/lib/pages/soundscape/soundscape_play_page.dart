@@ -6,6 +6,7 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 import 'package:trupe_sound/pages/soundscape/act_tabs.dart';
+import 'package:trupe_sound/pages/soundscape/widgets/sound_cue_list.dart';
 
 class SoundscapePlayPage extends ConsumerWidget {
   final int playId;
@@ -84,26 +85,16 @@ class SoundscapePlayPage extends ConsumerWidget {
   }
 
   Widget _buildLayout(BuildContext context, Play play) {
-    final l10n = AppLocalizations.of(context)!;
-
-    return Row(
-      children: [
-        // Column 1: Acts and Script
-        Expanded(flex: 2, child: ActTabs(play: play)),
-        // Column 2: Sound Cues
-        Expanded(
-          flex: 1,
-          child: Center(
-            child: Text(
-              l10n.soundCues,
-              style: TextStyle(
-                color: AppThemes.colors.textColor,
-                fontSize: AppThemes.texts.h1FontSize,
-              ),
-            ),
-          ),
-        ),
-      ],
+    return DefaultTabController(
+      length: play.acts.length,
+      child: Row(
+        children: [
+          // Column 1: Acts and Script
+          Expanded(flex: 1, child: ActTabs(play: play)),
+          // Column 2: Sound Cues
+          Expanded(flex: 1, child: SoundCueList(play: play)),
+        ],
+      ),
     );
   }
 }

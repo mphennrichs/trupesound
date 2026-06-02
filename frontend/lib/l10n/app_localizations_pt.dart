@@ -191,4 +191,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get noPlays => 'Você ainda não tem nenhuma peça cadastrada.';
+
+  @override
+  String get hotkey => 'Atalho';
+
+  @override
+  String get repeat => 'Repetir';
+
+  @override
+  String get once => 'Uma vez';
+
+  @override
+  String get active => 'Ativo';
 }

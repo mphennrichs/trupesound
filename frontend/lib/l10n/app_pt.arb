@@ -196,5 +196,17 @@
     "@soundscapeDescription": {},
 
     "noPlays": "Você ainda não tem nenhuma peça cadastrada.",
-    "@noPlays": {}
+    "@noPlays": {},
+
+    "hotkey": "Atalho",
+    "@hotkey": {},
+
+    "repeat": "Repetir",
+    "@repeat": {},
+
+    "once": "Uma vez",
+    "@once": {},
+    
+    "active": "Ativo",
+    "@active": {}
 }

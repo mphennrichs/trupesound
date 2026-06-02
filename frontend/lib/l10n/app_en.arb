@@ -193,5 +193,17 @@
     "@soundscapeDescription": {},
 
     "noPlays": "You don't have any plays yet.",
-    "@noPlays": {}
+    "@noPlays": {},
+
+    "hotkey": "Hotkey",
+    "@hotkey": {},
+
+    "repeat": "Repeat",
+    "@repeat": {},
+
+    "once": "Once",
+    "@once": {},
+
+    "active": "Active",
+    "@active": {}
 }

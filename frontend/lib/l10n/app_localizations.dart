@@ -418,6 +418,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You don\'t have any plays yet.'**
   String get noPlays;
+
+  /// No description provided for @hotkey.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotkey'**
+  String get hotkey;
+
+  /// No description provided for @repeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get repeat;
+
+  /// No description provided for @once.
+  ///
+  /// In en, this message translates to:
+  /// **'Once'**
+  String get once;
+
+  /// No description provided for @active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -74,7 +74,7 @@ class SoundCueSearchDialog extends HookConsumerWidget {
                     sound.category.getText(context),
                     style: TextStyle(
                       color: AppThemes.colors.textColor,
-                      fontSize: AppThemes.texts.verySmallmallFontSize,
+                      fontSize: AppThemes.texts.verySmallFontSize,
                     ),
                   ),
                 ],
@@ -127,7 +127,7 @@ class SoundCueSearchDialog extends HookConsumerWidget {
 
         // Create the new cue and add it to the list
         final newCue = SoundCueModel(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          id: DateTime.now().millisecondsSinceEpoch,
           line: targetLineNumber,
           hotkey: '',
           mode: PlayMode.once,
