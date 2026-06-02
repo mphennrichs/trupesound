@@ -14,6 +14,7 @@ class PlayVisualUtils {
     Colors.indigo,
     Colors.amber,
     Colors.cyan,
+    Colors.black,
   ];
 
   static const List<IconData> defaultIcons = [

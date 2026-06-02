@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/common/navigation_pages_enum.dart';

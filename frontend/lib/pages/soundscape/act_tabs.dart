@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:numerus/numerus.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
-import 'package:trupe_sound/pages/plays/models/act.dart';
+import 'package:trupe_sound/pages/plays/models/act.dart' as models;
 import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/script_line.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/inline_add_cue.dart';
@@ -55,10 +55,8 @@ class ActTabs extends StatelessWidget {
     );
   }
 
-  Widget _buildActContent(BuildContext context, Act act) {
+  Widget _buildActContent(BuildContext context, models.ActModel act) {
     final l10n = AppLocalizations.of(context)!;
-    // Split script text into lines for numbering
-    final lines = act.script.split('\n');
 
     return Padding(
       padding: EdgeInsets.all(AppThemes.spacings.doubleValue),
@@ -76,12 +74,13 @@ class ActTabs extends StatelessWidget {
           AppThemes.spacings.doubleSpace,
           Expanded(
             child: ListView.builder(
-              itemCount: lines.length + 1,
+              itemCount: act.script.length + 1,
               itemBuilder: (context, index) {
-                if (index == lines.length) {
+                if (index == act.script.length) {
                   return const InlineAddCue();
                 }
-                return ScriptLine(lineNumber: index + 1, text: lines[index]);
+                final line = act.script[index];
+                return ScriptLine(lineNumber: line.lineNumber, text: line.text);
               },
             ),
           ),

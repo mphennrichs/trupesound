@@ -5,10 +5,9 @@ class Play {
   final int id;
   final String title;
   final String author;
-  final List<Act> acts;
+  final List<ActModel> acts;
   final DateTime creationDate;
   final DateTime lastModifyDate;
-  final int cueCount;
   final bool archived;
   final IconData? icon;
   final Color? backgroundColor;
@@ -21,16 +20,19 @@ class Play {
     required this.creationDate,
     required this.lastModifyDate,
     this.archived = false,
-    required this.cueCount,
     this.icon,
     this.backgroundColor,
   });
+
+  int get cueCount {
+    return acts.fold(0, (sum, act) => sum + act.cues.length);
+  }
 
   Play copyWith({
     int? id,
     String? title,
     String? author,
-    List<Act>? acts,
+    List<ActModel>? acts,
     DateTime? creationDate,
     DateTime? lastModifyDate,
     bool? archived,
@@ -46,7 +48,6 @@ class Play {
       creationDate: creationDate ?? this.creationDate,
       lastModifyDate: lastModifyDate ?? this.lastModifyDate,
       archived: archived ?? this.archived,
-      cueCount: cueCount ?? this.cueCount,
       icon: icon ?? this.icon,
       backgroundColor: backgroundColor ?? this.backgroundColor,
     );

@@ -94,7 +94,9 @@ class PlayFormController extends _$PlayFormController {
       author: play.author,
       icon: play.icon,
       backgroundColor: play.backgroundColor,
-      actScripts: play.acts.map((a) => a.script).toList(),
+      actScripts: play.acts
+          .map((a) => a.script.map((line) => line.text).join('\n'))
+          .toList(),
     );
   }
 
@@ -139,14 +141,28 @@ class PlayFormController extends _$PlayFormController {
       author: state.author,
       creationDate: DateTime.now(),
       lastModifyDate: DateTime.now(),
-      cueCount: state.actScripts.length,
       icon: state.icon,
       backgroundColor: state.backgroundColor,
       acts: state.actScripts
           .asMap()
           .entries
           .map(
-            (e) => Act(number: e.key + 1, name: '', script: e.value, cues: []),
+            (e) => ActModel(
+              number: e.key + 1,
+              name: '',
+              script: e.value
+                  .split('\n')
+                  .asMap()
+                  .entries
+                  .map(
+                    (lineEntry) => ScriptLine(
+                      lineNumber: lineEntry.key + 1,
+                      text: lineEntry.value,
+                    ),
+                  )
+                  .toList(),
+              cues: [],
+            ),
           )
           .toList(),
     );
