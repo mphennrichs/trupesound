@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
@@ -8,6 +7,8 @@ import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
 import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/sound_playback_provider.dart';
+import 'package:trupe_sound/pages/soundscape/widgets/active_tag.dart';
+import 'package:trupe_sound/pages/soundscape/widgets/hotkey_capture_dialog.dart';
 
 class CuePlayCard extends ConsumerWidget {
   final SoundCueModel cue;
@@ -25,27 +26,6 @@ class CuePlayCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
 
-    Container activeTag = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-      decoration: BoxDecoration(
-        color: Colors.green.withValues(alpha: 0.1),
-        borderRadius: AppThemes.borders.defaultBorderRadius,
-        border: Border.all(
-          color: Colors.green.withValues(alpha: 0.2),
-          width: 1.0,
-        ),
-      ),
-
-      child: Text(
-        l10n.active.toUpperCase(),
-        style: TextStyle(
-          color: Colors.green,
-          fontWeight: FontWeight.bold,
-          fontSize: AppThemes.texts.verySmallFontSize,
-        ),
-      ),
-    );
-
     // Optimization: Only listen to the sound data relevant to this cue
     final soundsAsync = ref.watch(filteredSoundsProvider);
     final sound = soundsAsync.maybeWhen(
@@ -59,7 +39,7 @@ class CuePlayCard extends ConsumerWidget {
 
     final playbackState = ref.watch(soundPlaybackProvider);
     final isPlaying = playbackState.playingIds.contains(cue.id);
-    final isRepeat = playbackState.repeatSettings[cue.id] ?? true;
+    final isRepeat = cue.mode == PlayMode.repeat;
 
     final activeColor = isPlaying
         ? AppThemes.colors.primaryColor
@@ -102,7 +82,9 @@ class CuePlayCard extends ConsumerWidget {
                   Text(
                     cue.hotkey.isEmpty ? '?' : cue.hotkey.toUpperCase(),
                     style: TextStyle(
-                      color: Colors.white,
+                      color: isPlaying
+                          ? Colors.white
+                          : AppThemes.colors.textColor,
                       fontSize: AppThemes.texts.normalFontSize,
                       fontWeight: FontWeight.bold,
                     ),
@@ -130,7 +112,7 @@ class CuePlayCard extends ConsumerWidget {
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    if (isPlaying) activeTag,
+                    if (isPlaying) const ActiveTag(),
                   ],
                 ),
                 Text(
@@ -164,12 +146,16 @@ class CuePlayCard extends ConsumerWidget {
                     value: isRepeat,
                     activeThumbColor: AppThemes.colors.primaryColor,
                     inactiveTrackColor: AppThemes.colors.cardColor,
-
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     onChanged: (value) {
                       ref
-                          .read(soundPlaybackProvider.notifier)
-                          .setRepeat(cue.id, value);
+                          .read(playsProvider.notifier)
+                          .updateCueMode(
+                            playId: playId,
+                            actNumber: actNumber,
+                            cueId: cue.id,
+                            mode: value ? PlayMode.repeat : PlayMode.once,
+                          );
                     },
                   ),
                 ),
@@ -196,7 +182,7 @@ class CuePlayCard extends ConsumerWidget {
   void _showHotkeyDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
-      builder: (context) => _HotkeyCaptureDialog(
+      builder: (context) => HotkeyCaptureDialog(
         onHotkeyCaptured: (key) {
           ref
               .read(playsProvider.notifier)
@@ -207,74 +193,6 @@ class CuePlayCard extends ConsumerWidget {
                 hotkey: key,
               );
         },
-      ),
-    );
-  }
-}
-
-class _HotkeyCaptureDialog extends StatefulWidget {
-  final ValueChanged<String> onHotkeyCaptured;
-
-  const _HotkeyCaptureDialog({required this.onHotkeyCaptured});
-
-  @override
-  State<_HotkeyCaptureDialog> createState() => _HotkeyCaptureDialogState();
-}
-
-class _HotkeyCaptureDialogState extends State<_HotkeyCaptureDialog> {
-  final FocusNode _focusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.requestFocus();
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return KeyboardListener(
-      focusNode: _focusNode,
-      autofocus: true,
-      onKeyEvent: (event) {
-        if (event is KeyDownEvent) {
-          final label = event.logicalKey.keyLabel;
-          if (label.length == 1) {
-            widget.onHotkeyCaptured(label);
-            Navigator.of(context).pop();
-          }
-        }
-      },
-      child: AlertDialog(
-        backgroundColor: AppThemes.colors.backgroundColor,
-        surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: AppThemes.borders.defaultBorderRadius,
-          side: BorderSide(color: AppThemes.colors.borderColor),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.keyboard,
-              color: AppThemes.colors.primaryColor,
-              size: 48,
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Press a key to set hotkey',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
