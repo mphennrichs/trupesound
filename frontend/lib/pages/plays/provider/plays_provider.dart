@@ -25,11 +25,41 @@ class Plays extends _$Plays {
   }
 
   Future<void> updatePlay(Play play) async {
-    final result = await ref.read(playServiceProvider).update(play);
+    // 1. Retrieve the existing play from current state to preserve cues
+    final currentPlay = state.value?.where((p) => p.id == play.id).firstOrNull;
+
+    // 2. Merge existing cues into the object sent to the server.
+    // This protects data if the update comes from a form that doesn't handle cues.
+    final playToSend = play.copyWith(
+      acts: play.acts.map((newAct) {
+        final existingAct = currentPlay?.acts
+            .where((a) => a.number == newAct.number)
+            .firstOrNull;
+
+        // If the newAct is missing cues, restore them from existing state
+        return newAct.copyWith(
+          cues: newAct.cues.isNotEmpty
+              ? newAct.cues
+              : (existingAct?.cues ?? []),
+        );
+      }).toList(),
+    );
+
+    final result = await ref.read(playServiceProvider).update(playToSend);
 
     if (result != null && state.hasValue) {
+      // 3. Merge cues back into the server result to update local state
+      final playWithCues = result.copyWith(
+        acts: result.acts.map((resAct) {
+          final sourceAct = playToSend.acts
+              .where((a) => a.number == resAct.number)
+              .firstOrNull;
+          return resAct.copyWith(cues: sourceAct?.cues ?? []);
+        }).toList(),
+      );
+
       state = AsyncData(
-        state.value!.map((p) => p.id == result.id ? result : p).toList(),
+        state.value!.map((p) => p.id == result.id ? playWithCues : p).toList(),
       );
     }
   }
@@ -158,24 +188,7 @@ class Plays extends _$Plays {
   /// Updates play info (Title, Author, Script) while preserving all existing sound cues.
   /// This should be used by the Edit Play form to prevent losing soundscape data.
   Future<void> updatePlayMetadata(Play updatedPlayData) async {
-    if (!state.hasValue) return;
-
-    final currentPlay = state.value!.firstWhere(
-      (p) => p.id == updatedPlayData.id,
-    );
-
-    // Map through the incoming acts and attach existing cues to them based on act number
-    final mergedActs = updatedPlayData.acts.map((newAct) {
-      final existingAct = currentPlay.acts.firstWhere(
-        (a) => a.number == newAct.number,
-        orElse: () => newAct,
-      );
-
-      // Return the new act metadata/script but keep the existing cues
-      return newAct.copyWith(cues: existingAct.cues);
-    }).toList();
-
-    final finalPlay = updatedPlayData.copyWith(acts: mergedActs);
-    await updatePlay(finalPlay);
+    // leverages the improved updatePlay logic to preserve cues
+    await updatePlay(updatedPlayData);
   }
 }
