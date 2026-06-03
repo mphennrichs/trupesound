@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_cue_model.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
+import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/sound_playback_provider.dart';
 
 class CuePlayCard extends ConsumerWidget {
   final SoundCueModel cue;
+  final int playId;
+  final int actNumber;
 
-  const CuePlayCard({super.key, required this.cue});
+  const CuePlayCard({
+    super.key,
+    required this.cue,
+    required this.playId,
+    required this.actNumber,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,32 +75,40 @@ class CuePlayCard extends ConsumerWidget {
       child: Row(
         children: [
           // Column 1: Hotkey Square
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: activeColor,
-              borderRadius: AppThemes.borders.defaultBorderRadius,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  l10n.hotkey.toUpperCase(),
-                  style: TextStyle(
-                    color: AppThemes.colors.textColor,
-                    fontSize: AppThemes.texts.verySmallFontSize,
-                  ),
+          InkWell(
+            onTap: () => _showHotkeyDialog(context, ref),
+            borderRadius: AppThemes.borders.defaultBorderRadius,
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: activeColor,
+                borderRadius: AppThemes.borders.defaultBorderRadius,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.1),
+                  width: 1,
                 ),
-                Text(
-                  cue.hotkey.toUpperCase(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: AppThemes.texts.normalFontSize,
-                    fontWeight: FontWeight.bold,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    l10n.hotkey.toUpperCase(),
+                    style: TextStyle(
+                      color: AppThemes.colors.textColor,
+                      fontSize: AppThemes.texts.verySmallFontSize,
+                    ),
                   ),
-                ),
-              ],
+                  Text(
+                    cue.hotkey.isEmpty ? '?' : cue.hotkey.toUpperCase(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: AppThemes.texts.normalFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           AppThemes.spacings.singleSpace,
@@ -164,17 +181,100 @@ class CuePlayCard extends ConsumerWidget {
           IconButton(
             icon: Icon(
               isPlaying ? Icons.stop_circle : Icons.play_circle_fill_outlined,
-              color: isPlaying
-                  ? AppThemes.colors.primaryColor
-                  : AppThemes.colors.textColor,
-              size: AppThemes.texts.h1FontSize * 2,
+              color: AppThemes.colors.primaryColor,
+              size: AppThemes.texts.h1FontSize * 1.8,
             ),
-            color: activeColor,
             onPressed: () {
               ref.read(soundPlaybackProvider.notifier).togglePlayback(cue.id);
             },
           ),
         ],
+      ),
+    );
+  }
+
+  void _showHotkeyDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => _HotkeyCaptureDialog(
+        onHotkeyCaptured: (key) {
+          ref
+              .read(playsProvider.notifier)
+              .updateCueHotkey(
+                playId: playId,
+                actNumber: actNumber,
+                cueId: cue.id,
+                hotkey: key,
+              );
+        },
+      ),
+    );
+  }
+}
+
+class _HotkeyCaptureDialog extends StatefulWidget {
+  final ValueChanged<String> onHotkeyCaptured;
+
+  const _HotkeyCaptureDialog({required this.onHotkeyCaptured});
+
+  @override
+  State<_HotkeyCaptureDialog> createState() => _HotkeyCaptureDialogState();
+}
+
+class _HotkeyCaptureDialogState extends State<_HotkeyCaptureDialog> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.requestFocus();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyboardListener(
+      focusNode: _focusNode,
+      autofocus: true,
+      onKeyEvent: (event) {
+        if (event is KeyDownEvent) {
+          final label = event.logicalKey.keyLabel;
+          if (label.length == 1) {
+            widget.onHotkeyCaptured(label);
+            Navigator.of(context).pop();
+          }
+        }
+      },
+      child: AlertDialog(
+        backgroundColor: AppThemes.colors.backgroundColor,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: AppThemes.borders.defaultBorderRadius,
+          side: BorderSide(color: AppThemes.colors.borderColor),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.keyboard,
+              color: AppThemes.colors.primaryColor,
+              size: 48,
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Press a key to set hotkey',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

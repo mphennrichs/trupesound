@@ -53,7 +53,11 @@ class SoundCueList extends ConsumerWidget {
                           separatorBuilder: (context, index) =>
                               AppThemes.spacings.singleSpace,
                           itemBuilder: (context, index) {
-                            return CuePlayCard(cue: sortedCues[index]);
+                            return CuePlayCard(
+                              cue: sortedCues[index],
+                              playId: play.id,
+                              actNumber: act.number,
+                            );
                           },
                         ),
                 ),
