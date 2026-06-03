@@ -42,6 +42,7 @@ class AppSpacings {
 
   final double singleValue = 13.0;
   final double doubleValue = 26.0;
+  final SizedBox halfSpace = const SizedBox(height: 13.0 / 2, width: 13.0 / 2);
   final SizedBox singleSpace = const SizedBox(height: 13.0, width: 13.0);
   final SizedBox doubleSpace = const SizedBox(height: 26.0, width: 13.0);
 }

@@ -154,4 +154,28 @@ class Plays extends _$Plays {
 
     await updatePlay(updatedPlay);
   }
+
+  /// Updates play info (Title, Author, Script) while preserving all existing sound cues.
+  /// This should be used by the Edit Play form to prevent losing soundscape data.
+  Future<void> updatePlayMetadata(Play updatedPlayData) async {
+    if (!state.hasValue) return;
+
+    final currentPlay = state.value!.firstWhere(
+      (p) => p.id == updatedPlayData.id,
+    );
+
+    // Map through the incoming acts and attach existing cues to them based on act number
+    final mergedActs = updatedPlayData.acts.map((newAct) {
+      final existingAct = currentPlay.acts.firstWhere(
+        (a) => a.number == newAct.number,
+        orElse: () => newAct,
+      );
+
+      // Return the new act metadata/script but keep the existing cues
+      return newAct.copyWith(cues: existingAct.cues);
+    }).toList();
+
+    final finalPlay = updatedPlayData.copyWith(acts: mergedActs);
+    await updatePlay(finalPlay);
+  }
 }

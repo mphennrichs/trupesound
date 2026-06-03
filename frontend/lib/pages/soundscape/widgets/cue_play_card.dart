@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
@@ -33,9 +34,6 @@ class CuePlayCard extends ConsumerWidget {
           sounds.where((s) => s.id.toString() == cue.soundId).firstOrNull,
       orElse: () => null,
     );
-
-    final soundName = sound?.name ?? 'Unknown Sound';
-    final soundCategory = sound?.category.getText(context) ?? 'Unknown Type';
 
     final playbackState = ref.watch(soundPlaybackProvider);
     final isPlaying = playbackState.playingIds.contains(cue.id);
@@ -103,25 +101,51 @@ class CuePlayCard extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      soundName,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: AppThemes.texts.normalFontSize,
-                        fontWeight: FontWeight.w500,
+                    if (sound != null)
+                      Text(
+                        sound.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: AppThemes.texts.normalFontSize,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    else
+                      Shimmer.fromColors(
+                        baseColor: AppThemes.colors.borderColor,
+                        highlightColor: AppThemes.colors.cardColor,
+                        child: Container(
+                          width: 120,
+                          height: AppThemes.texts.normalFontSize,
+                          decoration: BoxDecoration(color: Colors.white),
+                        ),
                       ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
                     if (isPlaying) const ActiveTag(),
                   ],
                 ),
-                Text(
-                  soundCategory.toUpperCase(),
-                  style: TextStyle(
-                    color: AppThemes.colors.hintTextColor,
-                    fontSize: AppThemes.texts.smallFontSize,
+                if (sound == null) AppThemes.spacings.halfSpace,
+                if (sound != null)
+                  Text(
+                    sound.category.getText(context).toUpperCase(),
+                    style: TextStyle(
+                      color: AppThemes.colors.hintTextColor,
+                      fontSize: AppThemes.texts.smallFontSize,
+                    ),
+                  )
+                else
+                  Shimmer.fromColors(
+                    baseColor: AppThemes.colors.borderColor,
+                    highlightColor: AppThemes.colors.cardColor,
+                    child: Container(
+                      width: 80,
+                      height: AppThemes.texts.smallFontSize,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        // borderRadius: AppThemes.borders.defaultBorderRadius,
+                      ),
+                    ),
                   ),
-                ),
               ],
             ),
           ),
