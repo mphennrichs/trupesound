@@ -203,4 +203,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get active => 'Ativo';
+
+  @override
+  String get pressForHotkey => 'Pressione uma tecla para usar como atalho';
 }

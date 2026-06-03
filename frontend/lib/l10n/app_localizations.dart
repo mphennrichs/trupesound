@@ -442,6 +442,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Active'**
   String get active;
+
+  /// No description provided for @pressForHotkey.
+  ///
+  /// In en, this message translates to:
+  /// **'Press a key to set hotkey'**
+  String get pressForHotkey;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

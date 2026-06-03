@@ -205,5 +205,8 @@
     "@once": {},
 
     "active": "Active",
-    "@active": {}
+    "@active": {},
+
+    "pressForHotkey": "Press a key to set hotkey",
+    "@pressForHotkey": {}
 }

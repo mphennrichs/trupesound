@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trupe_sound/common/app_themes.dart';
+import 'package:trupe_sound/l10n/app_localizations.dart';
 
 class HotkeyCaptureDialog extends StatefulWidget {
   final ValueChanged<String> onHotkeyCaptured;
@@ -28,6 +29,8 @@ class _HotkeyCaptureDialogState extends State<HotkeyCaptureDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return KeyboardListener(
       focusNode: _focusNode,
       autofocus: true,
@@ -57,8 +60,8 @@ class _HotkeyCaptureDialogState extends State<HotkeyCaptureDialog> {
               size: 48,
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Press a key to set hotkey',
+            Text(
+              l10n.pressForHotkey,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

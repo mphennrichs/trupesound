@@ -206,7 +206,10 @@
 
     "once": "Uma vez",
     "@once": {},
-    
+
     "active": "Ativo",
-    "@active": {}
+    "@active": {},
+
+    "pressForHotkey": "Pressione uma tecla para usar como atalho",
+    "@pressForHotkey": {}
 }

@@ -118,7 +118,9 @@ class CuePlayCard extends ConsumerWidget {
                         child: Container(
                           width: 120,
                           height: AppThemes.texts.normalFontSize,
-                          decoration: BoxDecoration(color: Colors.white),
+                          decoration: BoxDecoration(
+                            color: AppThemes.colors.cardColor,
+                          ),
                         ),
                       ),
                     if (isPlaying) const ActiveTag(),
@@ -141,8 +143,7 @@ class CuePlayCard extends ConsumerWidget {
                       width: 80,
                       height: AppThemes.texts.smallFontSize,
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        // borderRadius: AppThemes.borders.defaultBorderRadius,
+                        color: AppThemes.colors.cardColor,
                       ),
                     ),
                   ),

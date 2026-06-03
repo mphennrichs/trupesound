@@ -203,4 +203,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get active => 'Active';
+
+  @override
+  String get pressForHotkey => 'Press a key to set hotkey';
 }
