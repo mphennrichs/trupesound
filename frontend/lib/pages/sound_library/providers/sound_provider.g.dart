@@ -153,3 +153,107 @@ final class FilteredSoundsProvider
 }
 
 String _$filteredSoundsHash() => r'f490330194ed0043f8d6a790c83f82ea6c69eab7';
+
+/// Returns all sounds from the repository, defaulting to an empty list if data is loading.
+
+@ProviderFor(allSounds)
+final allSoundsProvider = AllSoundsProvider._();
+
+/// Returns all sounds from the repository, defaulting to an empty list if data is loading.
+
+final class AllSoundsProvider
+    extends
+        $FunctionalProvider<
+          List<SoundModel>,
+          List<SoundModel>,
+          List<SoundModel>
+        >
+    with $Provider<List<SoundModel>> {
+  /// Returns all sounds from the repository, defaulting to an empty list if data is loading.
+  AllSoundsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'allSoundsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$allSoundsHash();
+
+  @$internal
+  @override
+  $ProviderElement<List<SoundModel>> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  List<SoundModel> create(Ref ref) {
+    return allSounds(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(List<SoundModel> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<List<SoundModel>>(value),
+    );
+  }
+}
+
+String _$allSoundsHash() => r'529ce8748077bb5bd08aa8f59c83f2f73bda6cc9';
+
+/// Computes the quantity of sounds available for each category.
+
+@ProviderFor(soundCountsByCategory)
+final soundCountsByCategoryProvider = SoundCountsByCategoryProvider._();
+
+/// Computes the quantity of sounds available for each category.
+
+final class SoundCountsByCategoryProvider
+    extends
+        $FunctionalProvider<
+          Map<SoundCategory, int>,
+          Map<SoundCategory, int>,
+          Map<SoundCategory, int>
+        >
+    with $Provider<Map<SoundCategory, int>> {
+  /// Computes the quantity of sounds available for each category.
+  SoundCountsByCategoryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'soundCountsByCategoryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$soundCountsByCategoryHash();
+
+  @$internal
+  @override
+  $ProviderElement<Map<SoundCategory, int>> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  Map<SoundCategory, int> create(Ref ref) {
+    return soundCountsByCategory(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(Map<SoundCategory, int> value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<Map<SoundCategory, int>>(value),
+    );
+  }
+}
+
+String _$soundCountsByCategoryHash() =>
+    r'038416b15a8d8c4c80f949b3b0b6f6dd4dc3effb';

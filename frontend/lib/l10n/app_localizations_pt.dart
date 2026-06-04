@@ -206,4 +206,31 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get pressForHotkey => 'Pressione uma tecla para usar como atalho';
+
+  @override
+  String get system => 'System';
+
+  @override
+  String get systemTitle => 'Dados do Sistema';
+
+  @override
+  String get systemDescription => 'Application Overview.';
+
+  @override
+  String get applicationID => 'ID da Aplicação';
+
+  @override
+  String get applicationIDDescription => 'Identificador únicao da instalação, para uso em multi-tenant.';
+
+  @override
+  String get totalPlays => 'Total de Peças';
+
+  @override
+  String get totalSounds => 'Total de Sons';
+
+  @override
+  String get platform => 'Plataforma';
+
+  @override
+  String get soundsPerCategory => 'Sons por Categoria';
 }

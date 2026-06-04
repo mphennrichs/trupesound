@@ -448,6 +448,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Press a key to set hotkey'**
   String get pressForHotkey;
+
+  /// No description provided for @system.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get system;
+
+  /// No description provided for @systemTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Application Data'**
+  String get systemTitle;
+
+  /// No description provided for @systemDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Application Overview.'**
+  String get systemDescription;
+
+  /// No description provided for @applicationID.
+  ///
+  /// In en, this message translates to:
+  /// **'Application ID'**
+  String get applicationID;
+
+  /// No description provided for @applicationIDDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Unique session identifier for multi-tenant strategy'**
+  String get applicationIDDescription;
+
+  /// No description provided for @totalPlays.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Plays'**
+  String get totalPlays;
+
+  /// No description provided for @totalSounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Sounds'**
+  String get totalSounds;
+
+  /// No description provided for @platform.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform'**
+  String get platform;
+
+  /// No description provided for @soundsPerCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Sounds per Category'**
+  String get soundsPerCategory;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

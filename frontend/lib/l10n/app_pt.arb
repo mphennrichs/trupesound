@@ -211,5 +211,26 @@
     "@active": {},
 
     "pressForHotkey": "Pressione uma tecla para usar como atalho",
-    "@pressForHotkey": {}
+    "@pressForHotkey": {},
+
+    "systemTitle": "Dados do Sistema",
+    "@systemTitle": {},
+
+    "applicationID": "ID da Aplicação",
+    "@applicationID": {},
+
+    "applicationIDDescription": "Identificador únicao da instalação, para uso em multi-tenant.",
+    "@applicationIDDescription": {},
+
+    "totalPlays": "Total de Peças",
+    "@totalPlays": {},
+
+    "totalSounds": "Total de Sons",
+    "@totalSounds": {},
+
+    "platform": "Plataforma",
+    "@platform": {},
+
+    "soundsPerCategory": "Sons por Categoria",
+    "@soundsPerCategory": {}
 }

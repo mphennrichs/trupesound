@@ -206,4 +206,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pressForHotkey => 'Press a key to set hotkey';
+
+  @override
+  String get system => 'System';
+
+  @override
+  String get systemTitle => 'Application Data';
+
+  @override
+  String get systemDescription => 'Application Overview.';
+
+  @override
+  String get applicationID => 'Application ID';
+
+  @override
+  String get applicationIDDescription => 'Unique session identifier for multi-tenant strategy';
+
+  @override
+  String get totalPlays => 'Total Plays';
+
+  @override
+  String get totalSounds => 'Total Sounds';
+
+  @override
+  String get platform => 'Platform';
+
+  @override
+  String get soundsPerCategory => 'Sounds per Category';
 }

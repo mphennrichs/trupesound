@@ -8,6 +8,7 @@ import 'package:trupe_sound/pages/plays/new_play/new_play.dart';
 import 'package:trupe_sound/pages/soundscape/soundscape_page.dart';
 import 'package:trupe_sound/pages/sound_library/sound_library_page.dart';
 import 'package:trupe_sound/pages/soundscape/soundscape_play_page.dart';
+import 'package:trupe_sound/pages/system/system_overview_page.dart';
 
 part 'router_provider.g.dart';
 
@@ -77,6 +78,15 @@ GoRouter router(Ref ref) {
                 path: NavigationPage.soundLibrary.path,
                 name: NavigationPage.soundLibrary.name,
                 builder: (context, state) => const SoundLibraryPage(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: NavigationPage.system.path,
+                name: NavigationPage.system.name,
+                builder: (context, state) => const SystemOverviewPage(),
               ),
             ],
           ),

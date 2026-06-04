@@ -36,6 +36,12 @@ class BasePage extends ConsumerWidget {
         Icon(Icons.library_music_outlined, color: AppThemes.colors.textColor),
         Icon(Icons.library_music, color: AppThemes.colors.primaryColor),
       ),
+      NavigationItem(
+        NavigationPage.system,
+        (context) => AppLocalizations.of(context)!.systemTitle,
+        Icon(Icons.settings_outlined, color: AppThemes.colors.textColor),
+        Icon(Icons.settings, color: AppThemes.colors.primaryColor),
+      ),
     ];
 
     return Scaffold(

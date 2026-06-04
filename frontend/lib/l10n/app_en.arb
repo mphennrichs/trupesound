@@ -208,5 +208,32 @@
     "@active": {},
 
     "pressForHotkey": "Press a key to set hotkey",
-    "@pressForHotkey": {}
+    "@pressForHotkey": {},
+
+    "system": "System",
+    "@system": {},
+
+    "systemTitle": "Application Data",
+    "@systemTitle": {},
+
+    "systemDescription": "Application Overview.",
+    "@systemDescription": {},
+
+    "applicationID": "Application ID",
+    "@applicationID": {},
+
+    "applicationIDDescription": "Unique session identifier for multi-tenant strategy",
+    "@applicationIDDescription": {},
+
+    "totalPlays": "Total Plays",
+    "@totalPlays": {},
+
+    "totalSounds": "Total Sounds",
+    "@totalSounds": {},
+
+    "platform": "Platform",
+    "@platform": {},
+
+    "soundsPerCategory": "Sounds per Category",
+    "@soundsPerCategory": {}
 }

@@ -4,7 +4,8 @@ enum NavigationPage {
   newPlay,
   soundscape,
   playSoundscape,
-  editPlay;
+  editPlay,
+  system;
 
   String get path => switch (this) {
     NavigationPage.plays => '/plays',
@@ -13,5 +14,6 @@ enum NavigationPage {
     NavigationPage.soundscape => '/soundscape',
     NavigationPage.playSoundscape => ':playId/soundscape',
     NavigationPage.editPlay => ':playId/edit',
+    NavigationPage.system => '/system',
   };
 }

@@ -71,3 +71,22 @@ AsyncValue<List<SoundModel>> filteredSounds(Ref ref) {
     }).toList();
   });
 }
+
+/// Returns all sounds from the repository, defaulting to an empty list if data is loading.
+@riverpod
+List<SoundModel> allSounds(Ref ref) {
+  return ref.watch(soundRepositoryProvider).value ?? [];
+}
+
+/// Computes the quantity of sounds available for each category.
+@riverpod
+Map<SoundCategory, int> soundCountsByCategory(Ref ref) {
+  final sounds = ref.watch(allSoundsProvider);
+  final counts = <SoundCategory, int>{};
+
+  for (final sound in sounds) {
+    counts[sound.category] = (counts[sound.category] ?? 0) + 1;
+  }
+
+  return counts;
+}
