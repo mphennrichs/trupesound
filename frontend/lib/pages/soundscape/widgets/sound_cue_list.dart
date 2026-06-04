@@ -5,7 +5,7 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/cue_play_card.dart';
-import 'package:trupe_sound/pages/soundscape/widgets/sound_playback_provider.dart';
+import 'package:trupe_sound/pages/soundscape/provider/sound_playback_provider.dart';
 
 class SoundCueList extends ConsumerWidget {
   final Play play;

@@ -16,20 +16,6 @@ class ScriptLine extends StatelessWidget {
     required this.text,
   });
 
-  ScriptLine copyWith({
-    int? playId,
-    int? actNumber,
-    int? lineNumber,
-    String? text,
-  }) {
-    return ScriptLine(
-      playId: playId ?? this.playId,
-      actNumber: actNumber ?? this.actNumber,
-      lineNumber: lineNumber ?? this.lineNumber,
-      text: text ?? this.text,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(

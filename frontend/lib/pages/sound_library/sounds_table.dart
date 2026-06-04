@@ -214,7 +214,7 @@ class SoundsTable extends ConsumerWidget {
             );
 
             if (confirmed == true && context.mounted) {
-              ref.read(soundRepositoryProvider.notifier).deleteSound(sound.id);
+              ref.read(soundsProvider.notifier).deleteSound(sound.id);
             }
           },
           icon: Icon(Icons.delete_outline, size: AppThemes.texts.h1FontSize),

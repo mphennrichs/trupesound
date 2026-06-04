@@ -9,33 +9,33 @@ part of 'sound_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(SoundRepository)
-final soundRepositoryProvider = SoundRepositoryProvider._();
+@ProviderFor(Sounds)
+final soundsProvider = SoundsProvider._();
 
-final class SoundRepositoryProvider
-    extends $AsyncNotifierProvider<SoundRepository, List<SoundModel>> {
-  SoundRepositoryProvider._()
+final class SoundsProvider
+    extends $AsyncNotifierProvider<Sounds, List<SoundModel>> {
+  SoundsProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'soundRepositoryProvider',
+        name: r'soundsProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$soundRepositoryHash();
+  String debugGetCreateSourceHash() => _$soundsHash();
 
   @$internal
   @override
-  SoundRepository create() => SoundRepository();
+  Sounds create() => Sounds();
 }
 
-String _$soundRepositoryHash() => r'79fd8c4f24f88b87d203bd493714395f8a7a6553';
+String _$soundsHash() => r'52fc4b6188493cf22a52cb7c141b9150aad8faaf';
 
-abstract class _$SoundRepository extends $AsyncNotifier<List<SoundModel>> {
+abstract class _$Sounds extends $AsyncNotifier<List<SoundModel>> {
   FutureOr<List<SoundModel>> build();
   @$mustCallSuper
   @override
@@ -152,14 +152,10 @@ final class FilteredSoundsProvider
   }
 }
 
-String _$filteredSoundsHash() => r'f490330194ed0043f8d6a790c83f82ea6c69eab7';
-
-/// Returns all sounds from the repository, defaulting to an empty list if data is loading.
+String _$filteredSoundsHash() => r'3269ff2a11ff99d5b2ef012dfc4db6d1521f6aa8';
 
 @ProviderFor(allSounds)
 final allSoundsProvider = AllSoundsProvider._();
-
-/// Returns all sounds from the repository, defaulting to an empty list if data is loading.
 
 final class AllSoundsProvider
     extends
@@ -169,7 +165,6 @@ final class AllSoundsProvider
           List<SoundModel>
         >
     with $Provider<List<SoundModel>> {
-  /// Returns all sounds from the repository, defaulting to an empty list if data is loading.
   AllSoundsProvider._()
     : super(
         from: null,
@@ -203,14 +198,10 @@ final class AllSoundsProvider
   }
 }
 
-String _$allSoundsHash() => r'529ce8748077bb5bd08aa8f59c83f2f73bda6cc9';
-
-/// Computes the quantity of sounds available for each category.
+String _$allSoundsHash() => r'58792311218973264f85b5f781423c86314beb78';
 
 @ProviderFor(soundCountsByCategory)
 final soundCountsByCategoryProvider = SoundCountsByCategoryProvider._();
-
-/// Computes the quantity of sounds available for each category.
 
 final class SoundCountsByCategoryProvider
     extends
@@ -220,7 +211,6 @@ final class SoundCountsByCategoryProvider
           Map<SoundCategory, int>
         >
     with $Provider<Map<SoundCategory, int>> {
-  /// Computes the quantity of sounds available for each category.
   SoundCountsByCategoryProvider._()
     : super(
         from: null,

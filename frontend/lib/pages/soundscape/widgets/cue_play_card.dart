@@ -7,7 +7,7 @@ import 'package:trupe_sound/pages/sound_library/models/sound_cue_model.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
 import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
-import 'package:trupe_sound/pages/soundscape/widgets/sound_playback_provider.dart';
+import 'package:trupe_sound/pages/soundscape/provider/sound_playback_provider.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/active_tag.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/hotkey_capture_dialog.dart';
 

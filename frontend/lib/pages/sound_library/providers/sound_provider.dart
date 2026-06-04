@@ -1,50 +1,25 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
+import 'package:trupe_sound/pages/sound_library/service/sound_service.dart';
 
 part 'sound_provider.g.dart';
 
 @riverpod
-class SoundRepository extends _$SoundRepository {
+class Sounds extends _$Sounds {
   @override
   FutureOr<List<SoundModel>> build() async {
-    // This acts as your "Source of Truth"
-    // Simulating a fetch from a database or API
-    await Future.delayed(const Duration(seconds: 1));
-    return [
-      SoundModel(
-        id: 1,
-        name: 'Ambient Forest',
-        category: SoundCategory.effect,
-        duration: const Duration(minutes: 2),
-        url: '',
-        createdAt: DateTime.now(),
-      ),
-      SoundModel(
-        id: 2,
-        name: 'Crowd Cheering',
-        category: SoundCategory.ambient,
-        duration: const Duration(seconds: 45),
-        url: '',
-        createdAt: DateTime.now(),
-      ),
-      SoundModel(
-        id: 3,
-        name: 'Deslizes',
-        category: SoundCategory.song,
-        duration: const Duration(minutes: 5, seconds: 12),
-        url: '',
-        createdAt: DateTime.now(),
-      ),
-    ];
+    return ref.read(soundServiceProvider).list();
   }
 
   Future<void> deleteSound(int id) async {
     if (!state.hasValue) return;
-    state = AsyncData(state.value!.where((a) => a.id != id).toList());
+    await ref.read(soundServiceProvider).delete(id);
+    state = AsyncData(state.value!.where((s) => s.id != id).toList());
   }
 
   Future<void> addSound(SoundModel sound) async {
     if (!state.hasValue) return;
+    await ref.read(soundServiceProvider).add(sound);
     state = AsyncData([...state.value!, sound]);
   }
 }
@@ -60,7 +35,7 @@ class SoundCategoryFilter extends _$SoundCategoryFilter {
 @riverpod
 AsyncValue<List<SoundModel>> filteredSounds(Ref ref) {
   final category = ref.watch(soundCategoryFilterProvider);
-  final soundsAsync = ref.watch(soundRepositoryProvider);
+  final soundsAsync = ref.watch(soundsProvider);
 
   return soundsAsync.whenData((sounds) {
     return sounds.where((sound) {
@@ -72,13 +47,11 @@ AsyncValue<List<SoundModel>> filteredSounds(Ref ref) {
   });
 }
 
-/// Returns all sounds from the repository, defaulting to an empty list if data is loading.
 @riverpod
 List<SoundModel> allSounds(Ref ref) {
-  return ref.watch(soundRepositoryProvider).value ?? [];
+  return ref.watch(soundsProvider).value ?? [];
 }
 
-/// Computes the quantity of sounds available for each category.
 @riverpod
 Map<SoundCategory, int> soundCountsByCategory(Ref ref) {
   final sounds = ref.watch(allSoundsProvider);

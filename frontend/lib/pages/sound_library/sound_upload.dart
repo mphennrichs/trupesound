@@ -77,7 +77,7 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
               createdAt: DateTime.now(),
             );
 
-            ref.read(soundRepositoryProvider.notifier).addSound(newSound).then((
+            ref.read(soundsProvider.notifier).addSound(newSound).then((
               _,
             ) {
               if (context.mounted) Navigator.of(context).pop();

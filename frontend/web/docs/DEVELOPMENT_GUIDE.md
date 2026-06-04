@@ -1,6 +1,8 @@
 # Development Guide: UI & Architecture Patterns
 
-This document outlines the patterns and structures used in the TrupeSound (Cuesmith) frontend to ensure consistency across pages and widgets.
+This document outlines the patterns and structures used in the TrupeSound frontend to ensure consistency across pages and widgets.
+
+For domain terminology (Play, Act, SoundCue, etc.) refer to [`CONTEXT.md`](../../CONTEXT.md) at the project root.
 
 ## 1. Architectural Principles
 - **Navigation:** Use `go_router`. Always reference routes via the `NavigationPage` enum found in `lib/common/navigation_pages_enum.dart` using `context.goNamed(...)`.
@@ -75,20 +77,36 @@ return dataAsync.when(
 );
 ```
 
-## 7. Project Configuration
-- **Analysis:** Follow the rules in `analysis_options.yaml` (currently extending `flutter_lints`).
-- **Platform Support:** 
-  - **Windows:** Configured for C++17 with Unicode support.
-  - **Linux:** Configured for GTK3 using C++14.
+## 7. Layer Architecture
+
+Every feature follows a strict 3-layer pattern. Widgets never call services directly.
+
+```
+Widget
+  └── watches/calls → Provider  (lib/pages/<feature>/provider/)
+        └── calls → Service     (lib/pages/<feature>/service/)
+              └── calls → REST API (or in-memory stub during development)
 ```
 
-### Summary of Findings & Suggestions
+**Providers** own all state and business logic. Use `@riverpod` annotation with code generation. All provider files must have a corresponding `.g.dart` part file — run `flutter pub run build_runner build` after changes.
 
-1.  **State Management:** Based on `soundscape_play_page.dart`, you are using `StatelessWidget`. As the application grows (e.g., the Cuesmith editor from the mockup), you will likely need a state management solution like `Provider`, `Riverpod`, or `Bloc`.
-2.  **Theme Consistency:** You've done a great job centralizing the theme in `AppThemes`. Ensure that any "Glass" effects seen in the HTML mockups (the `glass-panel` class) are added to `AppThemes` as a reusable `BoxDecoration` or a custom `GlassCard` widget.
-3.  **Naming Convention:** You are using a clear naming convention: `<feature>_<subfeature>_page.dart`. Stick to this to keep the `lib/pages` directory organized.
+**Services** handle API communication only. No state. No UI logic.
 
-<!--
-[PROMPT_SUGGESTION]Create a reusable GlassCard widget in Flutter that matches the glass-panel style in the HTML mockup.[/PROMPT_SUGGESTION]
-[PROMPT_SUGGESTION]Update the DEVELOPMENT_GUIDE.md to include a section on how to handle responsive layouts for desktop and web.[/PROMPT_SUGGESTION]
-->
+**Current backend status:** the backend is not ready. All services use in-memory maps to simulate API calls — this is intentional and must be kept until the backend is available. Do not add Dio, `fromJson`/`toJson`, or any HTTP calls. New features should follow the same in-memory pattern as `PlayRepository`.
+
+## 8. Naming Conventions
+
+| Artifact | Convention | Example |
+|---|---|---|
+| Page widget | `<Feature>Page` | `PlaysPage`, `SoundLibraryPage` |
+| Page file | `<feature>_page.dart` | `plays_page.dart` |
+| Provider class | `<Feature>` (Riverpod generates `<feature>Provider`) | `class Plays` → `playsProvider` |
+| Service class | `<Feature>Service` | `PlayService` |
+| Model class | `<Entity>Model` or plain `<Entity>` | `ActModel`, `Play`, `SoundModel` |
+| Custom shared widgets | `custom_<name>.dart` in `lib/pages/custom/` | `custom_app_bar.dart` |
+| Page-specific widgets | `lib/pages/<feature>/widgets/<name>.dart` | `cue_play_card.dart` |
+
+## 9. Project Configuration
+- **Analysis:** Follow the rules in `analysis_options.yaml` (currently extending `flutter_lints`).
+- **Code generation:** Run `flutter pub run build_runner build --delete-conflicting-outputs` after adding or modifying any `@riverpod` provider.
+- **Platform target:** Web (primary). Windows and Linux are configured but not the active target.
