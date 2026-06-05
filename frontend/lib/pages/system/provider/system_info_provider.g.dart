@@ -8,20 +8,13 @@ part of 'system_info_provider.dart';
 
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
-/// Provides a unique Application ID generated at startup.
-/// keepAlive is set to true to ensure the ID remains constant during the app lifecycle.
 
 @ProviderFor(applicationId)
 final applicationIdProvider = ApplicationIdProvider._();
 
-/// Provides a unique Application ID generated at startup.
-/// keepAlive is set to true to ensure the ID remains constant during the app lifecycle.
-
 final class ApplicationIdProvider
-    extends $FunctionalProvider<String, String, String>
-    with $Provider<String> {
-  /// Provides a unique Application ID generated at startup.
-  /// keepAlive is set to true to ensure the ID remains constant during the app lifecycle.
+    extends $FunctionalProvider<AsyncValue<String>, String, FutureOr<String>>
+    with $FutureModifier<String>, $FutureProvider<String> {
   ApplicationIdProvider._()
     : super(
         from: null,
@@ -38,24 +31,16 @@ final class ApplicationIdProvider
 
   @$internal
   @override
-  $ProviderElement<String> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $FutureProviderElement<String> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
 
   @override
-  String create(Ref ref) {
+  FutureOr<String> create(Ref ref) {
     return applicationId(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(String value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<String>(value),
-    );
   }
 }
 
-String _$applicationIdHash() => r'cbe336254ebeb72e32b8a054f02145736c43d25f';
+String _$applicationIdHash() => r'd7f8a79cbf92a9e0a790cb9b4ed80757ba66e853';
 
 /// Identifies the quantity of sounds per category using data from [soundsProvider].
 

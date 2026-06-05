@@ -13,7 +13,11 @@ class SystemOverviewPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final appId = ref.watch(applicationIdProvider);
+    final appId = ref.watch(applicationIdProvider).when(
+          data: (id) => id,
+          loading: () => '...',
+          error: (_, _) => '—',
+        );
     final playsAsync = ref.watch(playsProvider);
     final categories = ref.watch(soundsByCategoryProvider);
 
