@@ -232,5 +232,47 @@
     "@platform": {},
 
     "soundsPerCategory": "Sons por Categoria",
-    "@soundsPerCategory": {}
+    "@soundsPerCategory": {},
+
+    "storageSettingsTitle": "Configurações de Armazenamento",
+    "@storageSettingsTitle": {},
+
+    "storageSettingsDescription": "Configure a conexão com seu armazenamento de objetos.",
+    "@storageSettingsDescription": {},
+
+    "storageEndpoint": "Endpoint",
+    "@storageEndpoint": {},
+
+    "storageEndpointHint": "ex. s3.seudominio.com",
+    "@storageEndpointHint": {},
+
+    "storageAccessKey": "Chave de Acesso",
+    "@storageAccessKey": {},
+
+    "storageAccessKeyHint": "Sua chave de acesso S3",
+    "@storageAccessKeyHint": {},
+
+    "storageSecretKey": "Chave Secreta",
+    "@storageSecretKey": {},
+
+    "storageSecretKeyHint": "Sua chave secreta S3",
+    "@storageSecretKeyHint": {},
+
+    "storageUseSSL": "Usar SSL",
+    "@storageUseSSL": {},
+
+    "storageSaved": "Configurações salvas.",
+    "@storageSaved": {},
+
+    "storageNotConfigured": "Armazenamento não configurado. Preencha as configurações na página do Sistema.",
+    "@storageNotConfigured": {},
+
+    "changeFile": "Trocar arquivo",
+    "@changeFile": {},
+
+    "uploading": "Enviando...",
+    "@uploading": {},
+
+    "uploadComplete": "Envio concluído",
+    "@uploadComplete": {}
 }

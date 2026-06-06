@@ -5,12 +5,16 @@ class CustomTextInput extends StatelessWidget {
   final String title;
   final String exampleText;
   final TextEditingController controller;
+  final bool obscureText;
+  final Widget? suffixIcon;
 
   const CustomTextInput({
     super.key,
     required this.title,
     required this.exampleText,
     required this.controller,
+    this.obscureText = false,
+    this.suffixIcon,
   });
 
   @override
@@ -29,6 +33,7 @@ class CustomTextInput extends StatelessWidget {
         const SizedBox(height: 8),
         TextField(
           controller: controller,
+          obscureText: obscureText,
           style: TextStyle(
             color: AppThemes.colors.textColor,
             fontSize: AppThemes.texts.normalFontSize,
@@ -36,6 +41,7 @@ class CustomTextInput extends StatelessWidget {
           decoration: InputDecoration(
             hintText: exampleText,
             hintStyle: TextStyle(color: AppThemes.colors.hintTextColor),
+            suffixIcon: suffixIcon,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16.0,
               vertical: 12.0,

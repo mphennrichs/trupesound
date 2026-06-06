@@ -233,4 +233,46 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get soundsPerCategory => 'Sons por Categoria';
+
+  @override
+  String get storageSettingsTitle => 'Configurações de Armazenamento';
+
+  @override
+  String get storageSettingsDescription => 'Configure a conexão com seu armazenamento de objetos.';
+
+  @override
+  String get storageEndpoint => 'Endpoint';
+
+  @override
+  String get storageEndpointHint => 'ex. s3.seudominio.com';
+
+  @override
+  String get storageAccessKey => 'Chave de Acesso';
+
+  @override
+  String get storageAccessKeyHint => 'Sua chave de acesso S3';
+
+  @override
+  String get storageSecretKey => 'Chave Secreta';
+
+  @override
+  String get storageSecretKeyHint => 'Sua chave secreta S3';
+
+  @override
+  String get storageUseSSL => 'Usar SSL';
+
+  @override
+  String get storageSaved => 'Configurações salvas.';
+
+  @override
+  String get storageNotConfigured => 'Armazenamento não configurado. Preencha as configurações na página do Sistema.';
+
+  @override
+  String get changeFile => 'Trocar arquivo';
+
+  @override
+  String get uploading => 'Enviando...';
+
+  @override
+  String get uploadComplete => 'Envio concluído';
 }

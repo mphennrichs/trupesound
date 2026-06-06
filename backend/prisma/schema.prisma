@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model AppConfig {
+  id    Int    @id @default(1)
+  appId String @unique
+}
+
+model Play {
+  id              Int       @id @default(autoincrement())
+  title           String
+  author          String
+  status          String
+  active          Boolean   @default(true)
+  icon            Int?
+  backgroundColor String?
+  acts            Act[]
+  createdAt       DateTime
+  createdBy       Int?
+  lastUpdatedAt   DateTime?
+  lastUpdatedBy   Int?
+}
+
+model Act {
+  id            Int       @id @default(autoincrement())
+  playId        Int
+  play          Play      @relation(fields: [playId], references: [id], onDelete: Cascade)
+  number        Int
+  name          String
+  script        Json      @default("[]")
+  createdAt     DateTime
+  createdBy     Int?
+  lastUpdatedAt DateTime?
+  lastUpdatedBy Int?
+}

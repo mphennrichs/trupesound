@@ -1,0 +1,18 @@
+meta {
+  name: Create Play
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/plays
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Hamlet",
+    "author": "William Shakespeare"
+  }
+}

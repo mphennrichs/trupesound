@@ -1,6 +1,10 @@
+include:
+  - ../backend/compose.yml
+
 networks:
   traefik:
     external: true
+
 services:
   frontend:
     build:
@@ -10,6 +14,25 @@ services:
     restart: unless-stopped
     networks:
       - traefik
+    depends_on:
+      app:
+        condition: service_healthy
+    command:
+      - sh
+      - -c
+      - |
+        printf '\n'
+        printf '  ============================================\n'
+        printf '  TrupeSound is up and running\n'
+        printf '  ============================================\n'
+        printf '\n'
+        printf '  App:     https://trupesound.foguinhodogoias.com\n'
+        printf '  API:     http://localhost:3000/api/v1\n'
+        printf '  Swagger: http://localhost:3000/api\n'
+        printf '\n'
+        printf '  ============================================\n'
+        printf '\n'
+        exec nginx -g "daemon off;"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
@@ -18,7 +41,7 @@ services:
       - "traefik.http.services.trupesound.loadbalancer.server.port=80"
       - "traefik.http.routers.trupesound.tls.certresolver=cloudflare"
       - "traefik.http.middlewares.trupesound-auth.basicauth.removeHeader=true"
-      - "traefik.http.middlewares.trupesound-auth.basicauth.users=lucoelho:$$2y$$05$$yVDK8eByB5LUO7MnWYHfZuNMfms/QV/aYS4e0Dl.rBTE4yw8DlEe6"       
+      - "traefik.http.middlewares.trupesound-auth.basicauth.users=lucoelho:$$2y$$05$$yVDK8eByB5LUO7MnWYHfZuNMfms/QV/aYS4e0Dl.rBTE4yw8DlEe6"
       # how to set a real password:
       # sudo apt-get install apache2-utils
-      # htpasswd -Bnb username password | sed -e s/\\$/\\$\\$/g ⁠
+      # htpasswd -Bnb username password | sed -e s/\\$/\\$\\$/g

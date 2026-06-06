@@ -1,82 +1,90 @@
+import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:trupe_sound/common/providers/dio_provider.dart';
+import 'package:trupe_sound/pages/plays/models/act.dart';
 import 'package:trupe_sound/pages/plays/models/play.dart';
-import 'package:trupe_sound/pages/plays/service/repository.dart';
-// Assuming a global dioProvider exists
-// import 'package:trupe_sound/common/providers/dio_provider.dart';
 
 part 'play_service.g.dart';
 
 @Riverpod()
 PlayService playService(Ref ref) {
-  // Replace with your actual dioProvider
-  // final dio = ref.watch(dioProvider);
-  // return PlayService(Dio());
-  return PlayService();
+  return PlayService(ref.watch(dioProvider));
 }
 
 class PlayService {
-  // final Dio _dio;
+  final Dio _dio;
 
-  // PlayService(this._dio);
-
-  final PlayRepository playRepo = PlayRepository();
+  PlayService(this._dio);
 
   Future<List<Play>> list() async {
-    try {
-      return playRepo.list();
-      // final response = await _dio.get('/plays');
-      // final List data = response.data;
-      // // Mapping logic depends on your model having fromJson
-      // // return data.map((json) => Play.fromJson(json)).toList();
-      // return []; // Placeholder for actual implementation
-    } catch (e) {
-      return [];
-    }
+    final response = await _dio.get('/v1/plays');
+    final plays = (response.data['data'] as List).cast<Map<String, dynamic>>();
+
+    return Future.wait(
+      plays.map((playJson) async {
+        final acts = await _fetchActs(playJson['id'] as int);
+        return Play.fromJson(playJson, acts: acts);
+      }),
+    );
   }
 
   Future<Play?> save(Play play) async {
-    try {
-      // final response = await _dio.post('/plays', data: play.toJson());
-      // return Play.fromJson(response.data);
-      // return play; // Placeholder
-      return playRepo.save(play);
-    } catch (e) {
-      return null;
-    }
+    final playResponse = await _dio.post('/v1/plays', data: play.toJson());
+    final saved = Play.fromJson(playResponse.data as Map<String, dynamic>);
+
+    final savedActs = await Future.wait(
+      play.acts.map((act) async {
+        final r = await _dio.post('/v1/acts', data: {
+          'playId': saved.id,
+          ...act.toJson(),
+        });
+        return ActModel.fromJson(r.data as Map<String, dynamic>);
+      }),
+    );
+
+    return saved.copyWith(acts: savedActs);
   }
 
   Future<Play?> update(Play play) async {
-    try {
-      // await _dio.put('/plays/${play.id}', data: play.toJson());
+    await _dio.put('/v1/plays/${play.id}', data: play.toJson());
 
-      Play currentPlay = playRepo
-          .get(play.id)!
-          .copyWith(
-            title: play.title,
-            author: play.author,
-            acts: play.acts,
-            cueCount: play.cueCount,
-            icon: play.icon,
-            backgroundColor: play.backgroundColor,
-            lastModifyDate: DateTime.now(),
-          );
-      return playRepo.save(currentPlay);
-    } catch (e) {
-      return null;
-    }
+    final serverActs = await _fetchActs(play.id);
+    final serverByNumber = {for (final a in serverActs) a.number: a};
+    final newByNumber = {for (final a in play.acts) a.number: a};
+
+    final toDelete = serverActs.where((a) => !newByNumber.containsKey(a.number));
+
+    await Future.wait(toDelete.map((a) => _dio.delete('/v1/acts/${a.id}')));
+
+    final updatedActs = await Future.wait(
+      play.acts.map((act) async {
+        final existing = serverByNumber[act.number];
+        if (existing != null) {
+          final r = await _dio.put('/v1/acts/${existing.id}', data: act.toJson());
+          return ActModel.fromJson(r.data as Map<String, dynamic>)
+              .copyWith(cues: act.cues);
+        } else {
+          final r = await _dio.post('/v1/acts', data: {
+            'playId': play.id,
+            ...act.toJson(),
+          });
+          return ActModel.fromJson(r.data as Map<String, dynamic>);
+        }
+      }),
+    );
+
+    return play.copyWith(acts: updatedActs);
   }
 
   Future<bool> delete(int id) async {
-    try {
-      // await _dio.delete('/plays/$id');
-      // return true;
-      Play currentPlay = playRepo
-          .get(id)!
-          .copyWith(archived: true, lastModifyDate: DateTime.now());
-      playRepo.save(currentPlay);
-      return true;
-    } catch (e) {
-      return false;
-    }
+    await _dio.delete('/v1/plays/$id');
+    return true;
+  }
+
+  Future<List<ActModel>> _fetchActs(int playId) async {
+    final r = await _dio.get('/v1/acts', queryParameters: {'playId': playId});
+    return (r.data['data'] as List)
+        .map((e) => ActModel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

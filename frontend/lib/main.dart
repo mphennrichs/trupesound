@@ -8,6 +8,7 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/router_provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   runApp(const ProviderScope(child: TrupeSound()));
 }

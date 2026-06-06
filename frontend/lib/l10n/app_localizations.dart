@@ -502,6 +502,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sounds per Category'**
   String get soundsPerCategory;
+
+  /// No description provided for @storageSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage Settings'**
+  String get storageSettingsTitle;
+
+  /// No description provided for @storageSettingsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure the connection to your object storage.'**
+  String get storageSettingsDescription;
+
+  /// No description provided for @storageEndpoint.
+  ///
+  /// In en, this message translates to:
+  /// **'Endpoint'**
+  String get storageEndpoint;
+
+  /// No description provided for @storageEndpointHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. s3.yourdomain.com'**
+  String get storageEndpointHint;
+
+  /// No description provided for @storageAccessKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Access Key'**
+  String get storageAccessKey;
+
+  /// No description provided for @storageAccessKeyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your S3 access key'**
+  String get storageAccessKeyHint;
+
+  /// No description provided for @storageSecretKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret Key'**
+  String get storageSecretKey;
+
+  /// No description provided for @storageSecretKeyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your S3 secret key'**
+  String get storageSecretKeyHint;
+
+  /// No description provided for @storageUseSSL.
+  ///
+  /// In en, this message translates to:
+  /// **'Use SSL'**
+  String get storageUseSSL;
+
+  /// No description provided for @storageSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings saved.'**
+  String get storageSaved;
+
+  /// No description provided for @storageNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage not configured. Fill in the settings on the System page.'**
+  String get storageNotConfigured;
+
+  /// No description provided for @changeFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Change file'**
+  String get changeFile;
+
+  /// No description provided for @uploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading...'**
+  String get uploading;
+
+  /// No description provided for @uploadComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload complete'**
+  String get uploadComplete;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

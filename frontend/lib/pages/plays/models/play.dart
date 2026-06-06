@@ -28,6 +28,29 @@ class Play {
     return acts.fold(0, (sum, act) => sum + act.cues.length);
   }
 
+  factory Play.fromJson(Map<String, dynamic> json, {List<ActModel> acts = const []}) {
+    final iconCode = json['icon'] as int?;
+    final bgHex = json['backgroundColor'] as String?;
+    return Play(
+      id: json['id'] as int,
+      title: json['title'] as String,
+      author: json['author'] as String,
+      acts: acts,
+      creationDate: DateTime.now(),
+      lastModifyDate: DateTime.now(),
+      archived: false,
+      icon: iconCode != null ? IconData(iconCode, fontFamily: 'MaterialIcons') : null,
+      backgroundColor: bgHex != null ? Color(int.parse(bgHex, radix: 16)) : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'title': title,
+    'author': author,
+    if (icon != null) 'icon': icon!.codePoint,
+    if (backgroundColor != null) 'backgroundColor': backgroundColor!.value.toRadixString(16),
+  };
+
   Play copyWith({
     int? id,
     String? title,

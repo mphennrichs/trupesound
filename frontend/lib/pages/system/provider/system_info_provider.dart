@@ -1,13 +1,15 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:trupe_sound/common/providers/dio_provider.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
-import 'package:trupe_sound/pages/system/service/app_data_service.dart';
 
 part 'system_info_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-Future<String> applicationId(Ref ref) {
-  return ref.read(appDataServiceProvider).loadOrCreateAppId();
+Future<String> applicationId(Ref ref) async {
+  final dio = ref.read(dioProvider);
+  final response = await dio.post('/v1/app/init');
+  return response.data['appId'] as String;
 }
 
 /// Identifies the quantity of sounds per category using data from [soundsProvider].

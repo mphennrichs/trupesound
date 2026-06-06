@@ -233,4 +233,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get soundsPerCategory => 'Sounds per Category';
+
+  @override
+  String get storageSettingsTitle => 'Storage Settings';
+
+  @override
+  String get storageSettingsDescription => 'Configure the connection to your object storage.';
+
+  @override
+  String get storageEndpoint => 'Endpoint';
+
+  @override
+  String get storageEndpointHint => 'e.g. s3.yourdomain.com';
+
+  @override
+  String get storageAccessKey => 'Access Key';
+
+  @override
+  String get storageAccessKeyHint => 'Your S3 access key';
+
+  @override
+  String get storageSecretKey => 'Secret Key';
+
+  @override
+  String get storageSecretKeyHint => 'Your S3 secret key';
+
+  @override
+  String get storageUseSSL => 'Use SSL';
+
+  @override
+  String get storageSaved => 'Settings saved.';
+
+  @override
+  String get storageNotConfigured => 'Storage not configured. Fill in the settings on the System page.';
+
+  @override
+  String get changeFile => 'Change file';
+
+  @override
+  String get uploading => 'Uploading...';
+
+  @override
+  String get uploadComplete => 'Upload complete';
 }

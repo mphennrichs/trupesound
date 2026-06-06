@@ -1,0 +1,19 @@
+meta {
+  name: Update Play
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/v1/plays/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Hamlet - Revised",
+    "author": "William Shakespeare",
+    "status": "active"
+  }
+}

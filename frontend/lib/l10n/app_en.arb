@@ -235,5 +235,47 @@
     "@platform": {},
 
     "soundsPerCategory": "Sounds per Category",
-    "@soundsPerCategory": {}
+    "@soundsPerCategory": {},
+
+    "storageSettingsTitle": "Storage Settings",
+    "@storageSettingsTitle": {},
+
+    "storageSettingsDescription": "Configure the connection to your object storage.",
+    "@storageSettingsDescription": {},
+
+    "storageEndpoint": "Endpoint",
+    "@storageEndpoint": {},
+
+    "storageEndpointHint": "e.g. s3.yourdomain.com",
+    "@storageEndpointHint": {},
+
+    "storageAccessKey": "Access Key",
+    "@storageAccessKey": {},
+
+    "storageAccessKeyHint": "Your S3 access key",
+    "@storageAccessKeyHint": {},
+
+    "storageSecretKey": "Secret Key",
+    "@storageSecretKey": {},
+
+    "storageSecretKeyHint": "Your S3 secret key",
+    "@storageSecretKeyHint": {},
+
+    "storageUseSSL": "Use SSL",
+    "@storageUseSSL": {},
+
+    "storageSaved": "Settings saved.",
+    "@storageSaved": {},
+
+    "storageNotConfigured": "Storage not configured. Fill in the settings on the System page.",
+    "@storageNotConfigured": {},
+
+    "changeFile": "Change file",
+    "@changeFile": {},
+
+    "uploading": "Uploading...",
+    "@uploading": {},
+
+    "uploadComplete": "Upload complete",
+    "@uploadComplete": {}
 }

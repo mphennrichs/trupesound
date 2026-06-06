@@ -1,0 +1,23 @@
+meta {
+  name: Update Act
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/v1/acts/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "number": 1,
+    "name": "Act I - Revised",
+    "script": [
+      { "lineNumber": 1, "text": "Who's there?" },
+      { "lineNumber": 2, "text": "Nay, answer me. Stand and unfold yourself." },
+      { "lineNumber": 3, "text": "Long live the king!" }
+    ]
+  }
+}

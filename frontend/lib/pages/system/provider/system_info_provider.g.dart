@@ -40,7 +40,7 @@ final class ApplicationIdProvider
   }
 }
 
-String _$applicationIdHash() => r'd7f8a79cbf92a9e0a790cb9b4ed80757ba66e853';
+String _$applicationIdHash() => r'98a36dd7bbfb83183ff3c3154b16a9939c6abd9d';
 
 /// Identifies the quantity of sounds per category using data from [soundsProvider].
 

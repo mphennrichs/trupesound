@@ -1,32 +1,36 @@
 # Stage 1: Build the Flutter web application
-FROM debian:latest AS build
+FROM debian:bookworm-slim AS build
 
-RUN apt-get update && apt-get install -y \
-    curl git unzip xz-utils zip libglu1-mesa \
+ARG FLUTTER_VERSION=3.38.3
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl ca-certificates git unzip xz-utils zip libglu1-mesa \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+RUN curl -fsSL \
+    "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz" \
+    | tar -xJ -C /usr/local/ \
+    && git config --global --add safe.directory /usr/local/flutter
+
 ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
+
+RUN flutter precache --web --no-android --no-ios --no-linux --no-macos --no-windows --no-fuchsia
 
 WORKDIR /app
 
-# Optimization: Pre-cache dependencies to speed up future builds
 COPY pubspec.yaml pubspec.lock* ./
 RUN flutter pub get
 
 COPY . .
 RUN flutter gen-l10n
-# Generate code for Riverpod and GoRouter
 RUN dart run build_runner build --delete-conflicting-outputs
 RUN flutter build web --release
 
-# Stage 2: Serve the application using Nginx
+# Stage 2: Serve with Nginx
 FROM nginx:stable-alpine
 
-# Required for the healthcheck defined in compose.yml
 RUN apk add --no-cache curl
 
-# Configure Nginx to support Flutter Web routing (Single Page Application)
 RUN echo 'server { \
     listen 80; \
     location / { \

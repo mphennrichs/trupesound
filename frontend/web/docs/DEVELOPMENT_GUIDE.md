@@ -94,7 +94,38 @@ Widget
 
 **Current backend status:** the backend is not ready. All services use in-memory maps to simulate API calls — this is intentional and must be kept until the backend is available. Do not add Dio, `fromJson`/`toJson`, or any HTTP calls. New features should follow the same in-memory pattern as `PlayRepository`.
 
-## 8. Naming Conventions
+## 8. Internationalization (i18n)
+
+**Every user-facing string must be defined in the ARB files.** Never hardcode strings directly in widget code.
+
+### Adding a new string
+
+1. Add the key to `lib/l10n/app_en.arb`:
+```json
+"myNewKey": "My English text",
+"@myNewKey": {}
+```
+
+2. Add the Portuguese translation to `lib/l10n/app_pt.arb`:
+```json
+"myNewKey": "Meu texto em português",
+"@myNewKey": {}
+```
+
+3. Regenerate the localization class:
+```sh
+flutter gen-l10n
+```
+
+4. Use it in widgets via `AppLocalizations.of(context)!.myNewKey`.
+
+### Rules
+- This applies to **all** user-visible text: labels, hints, placeholders, button text, error messages, tooltips, and dialog content.
+- Exception: strings that never reach the user (developer logs, exception messages thrown inside services) do not need ARB entries.
+- After adding keys, always run `flutter gen-l10n` before referencing the new key in code — the generated class won't have the getter until then.
+- Both ARB files must be updated together. A key present in `app_en.arb` but missing from `app_pt.arb` will generate a build warning.
+
+## 10. Naming Conventions
 
 | Artifact | Convention | Example |
 |---|---|---|
@@ -106,7 +137,7 @@ Widget
 | Custom shared widgets | `custom_<name>.dart` in `lib/pages/custom/` | `custom_app_bar.dart` |
 | Page-specific widgets | `lib/pages/<feature>/widgets/<name>.dart` | `cue_play_card.dart` |
 
-## 9. Project Configuration
+## 11. Project Configuration
 - **Analysis:** Follow the rules in `analysis_options.yaml` (currently extending `flutter_lints`).
 - **Code generation:** Run `flutter pub run build_runner build --delete-conflicting-outputs` after adding or modifying any `@riverpod` provider.
 - **Platform target:** Web (primary). Windows and Linux are configured but not the active target.
