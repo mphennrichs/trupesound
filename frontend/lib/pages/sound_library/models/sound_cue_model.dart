@@ -17,7 +17,24 @@ class SoundCueModel {
     required this.createdAt,
   });
 
-  //copywith
+  factory SoundCueModel.fromJson(Map<String, dynamic> json) => SoundCueModel(
+    id: json['id'] as int,
+    line: json['line'] as int,
+    hotkey: json['hotkey'] as String,
+    mode: json['mode'] == 'repeat' ? PlayMode.repeat : PlayMode.once,
+    soundId: json['soundId'] as String,
+    createdAt: DateTime.parse(json['createdAt'] as String),
+  );
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'line': line,
+    'hotkey': hotkey,
+    'mode': mode == PlayMode.repeat ? 'repeat' : 'once',
+    'soundId': soundId,
+    'createdAt': createdAt.toIso8601String(),
+  };
+
   SoundCueModel copyWith({
     int? id,
     int? line,

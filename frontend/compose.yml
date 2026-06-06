@@ -1,8 +1,7 @@
-include:
-  - ../backend/compose.yml
-
 networks:
   traefik:
+    external: true
+  trupesound-internal:
     external: true
 
 services:
@@ -14,25 +13,7 @@ services:
     restart: unless-stopped
     networks:
       - traefik
-    depends_on:
-      app:
-        condition: service_healthy
-    command:
-      - sh
-      - -c
-      - |
-        printf '\n'
-        printf '  ============================================\n'
-        printf '  TrupeSound is up and running\n'
-        printf '  ============================================\n'
-        printf '\n'
-        printf '  App:     https://trupesound.foguinhodogoias.com\n'
-        printf '  API:     http://localhost:3000/api/v1\n'
-        printf '  Swagger: http://localhost:3000/api\n'
-        printf '\n'
-        printf '  ============================================\n'
-        printf '\n'
-        exec nginx -g "daemon off;"
+      - trupesound-internal
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"

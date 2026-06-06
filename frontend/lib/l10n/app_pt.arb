@@ -228,9 +228,6 @@
     "totalSounds": "Total de Sons",
     "@totalSounds": {},
 
-    "platform": "Plataforma",
-    "@platform": {},
-
     "soundsPerCategory": "Sons por Categoria",
     "@soundsPerCategory": {},
 
@@ -274,5 +271,11 @@
     "@uploading": {},
 
     "uploadComplete": "Envio concluído",
-    "@uploadComplete": {}
+    "@uploadComplete": {},
+
+    "localFolder": "Pasta Local",
+    "@localFolder": {},
+
+    "localFolderHint": "Endereço da sua pasta local de sons.",
+    "@localFolderHint": {}
 }

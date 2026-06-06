@@ -102,7 +102,21 @@ class SoundModel {
     this.archived = false,
   });
 
-  // Logic for persistence or comparison can be added here
+  factory SoundModel.fromJson(Map<String, dynamic> json) {
+    return SoundModel(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      category: SoundCategory.values.firstWhere(
+        (c) => c.name == json['category'],
+        orElse: () => SoundCategory.effect,
+      ),
+      duration: Duration(milliseconds: (json['durationMs'] as int?) ?? 0),
+      url: json['url'] as String,
+      archived: (json['archived'] as bool?) ?? false,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
+  }
+
   SoundModel copyWith({
     String? name,
     SoundCategory? category,

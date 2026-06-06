@@ -69,16 +69,12 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
         onProgress: (progress) => setState(() => _uploadProgress = progress),
       );
 
-      final newSound = SoundModel(
-        id: DateTime.now().millisecondsSinceEpoch,
+      await ref.read(soundsProvider.notifier).addSound(
         name: _nameController.text,
         category: _selectedCategory!,
-        duration: Duration.zero,
         url: url,
-        createdAt: DateTime.now(),
+        durationMs: 0,
       );
-
-      await ref.read(soundsProvider.notifier).addSound(newSound);
 
       if (mounted) Navigator.of(context).pop();
     } catch (e) {
@@ -121,10 +117,9 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
       child: Container(
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: AppThemes.spacings.doubleValue),
-        child:
-            _selectedFile == null
-                ? _buildPickerPrompt(l10n)
-                : _buildSelectedFile(),
+        child: _selectedFile == null
+            ? _buildPickerPrompt(l10n)
+            : _buildSelectedFile(),
       ),
     );
   }
@@ -232,14 +227,18 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.error_outline, color: Colors.redAccent, size: 16),
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.redAccent,
+                  size: 16,
+                ),
                 SizedBox(width: AppThemes.spacings.singleValue / 2),
                 Expanded(
                   child: Text(
                     _errorMessage!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.redAccent,
-                      fontSize: 12,
+                      fontSize: AppThemes.texts.smallFontSize,
                     ),
                   ),
                 ),
@@ -283,7 +282,11 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
           onPressed: _canSave(storageReady) ? _upload : null,
           child: Row(
             children: [
-              const Icon(Icons.note_add_outlined, color: Colors.white, size: 18),
+              const Icon(
+                Icons.note_add_outlined,
+                color: Colors.white,
+                size: 18,
+              ),
               SizedBox(width: AppThemes.spacings.singleValue / 2),
               Text(l10n.save, style: const TextStyle(color: Colors.white)),
             ],
@@ -298,7 +301,11 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
       padding: EdgeInsets.only(bottom: AppThemes.spacings.singleValue),
       child: Row(
         children: [
-          const Icon(Icons.warning_amber_rounded, color: Colors.orangeAccent, size: 16),
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: Colors.orangeAccent,
+            size: 16,
+          ),
           SizedBox(width: AppThemes.spacings.singleValue / 2),
           Expanded(
             child: Text(
@@ -316,8 +323,9 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
     final l10n = AppLocalizations.of(context)!;
     final storageAsync = ref.watch(storageServiceProvider);
     final storageReady = storageAsync.hasValue;
-    final categories =
-        SoundCategory.values.where((c) => c != SoundCategory.all).toList();
+    final categories = SoundCategory.values
+        .where((c) => c != SoundCategory.all)
+        .toList();
 
     return Dialog(
       backgroundColor: AppThemes.colors.cardColor,

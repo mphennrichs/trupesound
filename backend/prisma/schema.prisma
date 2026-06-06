@@ -7,8 +7,12 @@ datasource db {
 }
 
 model AppConfig {
-  id    Int    @id @default(1)
-  appId String @unique
+  id               Int     @id @default(1)
+  appId            String  @unique
+  storageEndpoint  String?
+  storageAccessKey String?
+  storageSecretKey String?
+  localFolder      String?
 }
 
 model Play {
@@ -26,6 +30,16 @@ model Play {
   lastUpdatedBy   Int?
 }
 
+model Sound {
+  id          Int      @id @default(autoincrement())
+  name        String
+  category    String
+  durationMs  Int      @default(0)
+  url         String
+  archived    Boolean  @default(false)
+  createdAt   DateTime
+}
+
 model Act {
   id            Int       @id @default(autoincrement())
   playId        Int
@@ -33,6 +47,7 @@ model Act {
   number        Int
   name          String
   script        Json      @default("[]")
+  cues          Json      @default("[]")
   createdAt     DateTime
   createdBy     Int?
   lastUpdatedAt DateTime?

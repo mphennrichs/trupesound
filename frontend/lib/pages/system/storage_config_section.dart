@@ -1,10 +1,11 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_text_input.dart';
 import 'package:trupe_sound/pages/sound_library/service/storage_service.dart';
-import 'package:trupe_sound/pages/system/service/app_data_service.dart';
+import 'package:trupe_sound/pages/system/service/storage_config_service.dart';
 
 class StorageConfigSection extends ConsumerStatefulWidget {
   const StorageConfigSection({super.key});
@@ -18,6 +19,7 @@ class _StorageConfigSectionState extends ConsumerState<StorageConfigSection> {
   final _endpointController = TextEditingController();
   final _accessKeyController = TextEditingController();
   final _secretKeyController = TextEditingController();
+  final _localFolderController = TextEditingController();
   bool _obscureSecret = true;
   bool _isSaving = false;
   String? _successMessage;
@@ -34,17 +36,29 @@ class _StorageConfigSectionState extends ConsumerState<StorageConfigSection> {
     _endpointController.dispose();
     _accessKeyController.dispose();
     _secretKeyController.dispose();
+    _localFolderController.dispose();
     super.dispose();
   }
 
+  Future<void> _pickFolder() async {
+    final result = await FilePicker.platform.getDirectoryPath();
+    if (result != null && mounted) {
+      setState(() => _localFolderController.text = result);
+    }
+  }
+
   Future<void> _loadConfig() async {
-    final config = await ref.read(appDataServiceProvider).loadStorageConfig();
-    if (config != null && mounted) {
-      setState(() {
-        _endpointController.text = config.endpoint;
-        _accessKeyController.text = config.accessKey;
-        _secretKeyController.text = config.secretKey;
-      });
+    try {
+      final config = await ref.read(storageConfigServiceProvider).load();
+      if (config != null && mounted) {
+        setState(() {
+          _endpointController.text = config.endpoint;
+          _accessKeyController.text = config.accessKey;
+          _localFolderController.text = config.localFolder;
+        });
+      }
+    } catch (_) {
+      // No config yet — leave fields empty
     }
   }
 
@@ -56,12 +70,14 @@ class _StorageConfigSectionState extends ConsumerState<StorageConfigSection> {
     });
 
     try {
-      final config = StorageConfig(
-        endpoint: _endpointController.text.trim(),
-        accessKey: _accessKeyController.text.trim(),
-        secretKey: _secretKeyController.text.trim(),
-      );
-      await ref.read(appDataServiceProvider).saveStorageConfig(config);
+      await ref
+          .read(storageConfigServiceProvider)
+          .save(
+            endpoint: _endpointController.text.trim(),
+            accessKey: _accessKeyController.text.trim(),
+            secretKey: _secretKeyController.text.trim(),
+            localFolder: _localFolderController.text.trim(),
+          );
       ref.invalidate(storageServiceProvider);
       if (mounted) {
         setState(() {
@@ -89,8 +105,8 @@ class _StorageConfigSectionState extends ConsumerState<StorageConfigSection> {
         Text(
           l10n.storageSettingsTitle,
           style: TextStyle(
-            color: AppThemes.colors.textColor,
-            fontSize: 18,
+            color: Colors.white,
+            fontSize: AppThemes.texts.h1FontSize,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -141,6 +157,20 @@ class _StorageConfigSectionState extends ConsumerState<StorageConfigSection> {
                     ),
                     onPressed: () =>
                         setState(() => _obscureSecret = !_obscureSecret),
+                  ),
+                ),
+                AppThemes.spacings.singleSpace,
+                CustomTextInput(
+                  title: l10n.localFolder,
+                  exampleText: l10n.localFolderHint,
+                  controller: _localFolderController,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.folder_open_outlined,
+                      color: AppThemes.colors.hintTextColor,
+                      size: 20,
+                    ),
+                    onPressed: _pickFolder,
                   ),
                 ),
                 AppThemes.spacings.singleSpace,
@@ -195,7 +225,7 @@ class _StorageConfigSectionState extends ConsumerState<StorageConfigSection> {
               isSuccess ? _successMessage! : _errorMessage!,
               style: TextStyle(
                 color: isSuccess ? Colors.greenAccent : Colors.redAccent,
-                fontSize: 12,
+                fontSize: AppThemes.texts.smallFontSize,
               ),
             ),
           ),

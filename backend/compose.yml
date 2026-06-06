@@ -1,12 +1,20 @@
+networks:
+  traefik:
+    external: true
+  trupesound-internal:
+    name: trupesound-internal
+
 services:
   db:
     image: postgres:16-alpine
+    container_name: trupe-sound-db
+    restart: unless-stopped
     environment:
       POSTGRES_USER: trupesound
       POSTGRES_PASSWORD: trupesound
       POSTGRES_DB: trupesound
-    ports:
-      - "5432:5432"
+    networks:
+      - trupesound-internal
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -17,11 +25,14 @@ services:
 
   app:
     build: .
-    ports:
-      - "3000:3000"
+    container_name: trupe-sound-backend
+    restart: unless-stopped
     environment:
       DATABASE_URL: postgresql://trupesound:trupesound@db:5432/trupesound
       NODE_ENV: production
+    networks:
+      - traefik
+      - trupesound-internal
     depends_on:
       db:
         condition: service_healthy
@@ -31,6 +42,12 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.trupesound-api.rule=Host(`trupesound.foguinhodogoias.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.trupesound-api.entrypoints=web-secure"
+      - "traefik.http.routers.trupesound-api.tls.certresolver=cloudflare"
+      - "traefik.http.services.trupesound-api.loadbalancer.server.port=3000"
 
 volumes:
   postgres_data:

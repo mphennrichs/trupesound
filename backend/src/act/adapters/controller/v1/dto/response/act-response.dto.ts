@@ -1,9 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ActEntity, ScriptLine } from '../../../../../entities/act.entity';
+import { ActEntity, ScriptLine, SoundCue } from '../../../../../entities/act.entity';
 
 export class ScriptLineResponseDto {
-  @ApiProperty() lineNumber: number;
+  @ApiProperty() line: number;
   @ApiProperty() text: string;
+}
+
+export class SoundCueResponseDto {
+  @ApiProperty() id: number;
+  @ApiProperty() line: number;
+  @ApiProperty() hotkey: string;
+  @ApiProperty({ enum: ['once', 'repeat'] }) mode: 'once' | 'repeat';
+  @ApiProperty() soundId: string;
+  @ApiProperty() createdAt: string;
 }
 
 export class ActResponseDto {
@@ -12,6 +21,7 @@ export class ActResponseDto {
   @ApiProperty() number: number;
   @ApiProperty() name: string;
   @ApiProperty({ type: [ScriptLineResponseDto] }) script: ScriptLine[];
+  @ApiProperty({ type: [SoundCueResponseDto] }) cues: SoundCue[];
 
   static fromDomain(entity: ActEntity): ActResponseDto {
     return {
@@ -20,6 +30,7 @@ export class ActResponseDto {
       number: entity.number,
       name: entity.name,
       script: entity.script,
+      cues: entity.cues,
     };
   }
 }

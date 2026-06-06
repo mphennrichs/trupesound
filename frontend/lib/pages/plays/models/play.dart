@@ -40,7 +40,7 @@ class Play {
       lastModifyDate: DateTime.now(),
       archived: false,
       icon: iconCode != null ? IconData(iconCode, fontFamily: 'MaterialIcons') : null,
-      backgroundColor: bgHex != null ? Color(int.parse(bgHex, radix: 16)) : null,
+      backgroundColor: bgHex != null ? Color(int.parse(bgHex.padLeft(8, '0'), radix: 16)) : null,
     );
   }
 

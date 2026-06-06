@@ -64,14 +64,14 @@ class ActTabs extends ConsumerWidget {
   ) {
     final l10n = AppLocalizations.of(context)!;
 
-    // Combine script lines and cues into a single list sorted by lineNumber
+    // Combine script lines and cues into a single list sorted by line
     final List<dynamic> items = [...act.script, ...act.cues];
     items.sort((a, b) {
       final aLine = a is models.ScriptLine
-          ? a.lineNumber
+          ? a.line
           : (a as SoundCueModel).line;
       final bLine = b is models.ScriptLine
-          ? b.lineNumber
+          ? b.line
           : (b as SoundCueModel).line;
       return aLine.compareTo(bLine);
     });
@@ -96,13 +96,13 @@ class ActTabs extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final targetLine = index < items.length
                     ? (items[index] is models.ScriptLine
-                          ? (items[index] as models.ScriptLine).lineNumber
+                          ? (items[index] as models.ScriptLine).line
                           : (items[index] as SoundCueModel).line)
                     : (items.isEmpty
                           ? 1
                           : (items.last is models.ScriptLine
                                     ? (items.last as models.ScriptLine)
-                                          .lineNumber
+                                          .line
                                     : (items.last as SoundCueModel).line) +
                                 1);
 
@@ -119,7 +119,7 @@ class ActTabs extends ConsumerWidget {
                   return ScriptLine(
                     playId: play.id,
                     actNumber: act.number,
-                    lineNumber: item.lineNumber,
+                    line: item.line,
                     text: item.text,
                   );
                 } else {

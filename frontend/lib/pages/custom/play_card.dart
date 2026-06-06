@@ -156,9 +156,9 @@ class PlayCard extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white54,
-            fontSize: 10,
+            fontSize: AppThemes.texts.smallFontSize,
             fontWeight: FontWeight.bold,
           ),
           maxLines: 1,

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:trupe_sound/l10n/app_localizations.dart';
-import 'dart:io' show Platform;
+import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
-
 import 'package:trupe_sound/pages/system/info_card.dart';
 import 'package:trupe_sound/pages/system/stat_card.dart';
 
 class SystemDashboard extends StatelessWidget {
   final String appId;
-  final AsyncValue<List<dynamic>> playsAsync; // Changed to be more specific
+  final AsyncValue<List<Play>> playsAsync;
   final Map<SoundCategory, int> categories;
 
   const SystemDashboard({
@@ -26,12 +24,12 @@ class SystemDashboard extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     final playsCount = playsAsync.when(
-      data: (plays) => (plays).length.toString(),
+      data: (plays) => plays.length.toString(),
       loading: () => '...',
       error: (_, _) => '!',
     );
 
-    final totalSounds = categories.values.fold(0, (sum, count) => sum + count);
+    final totalSounds = categories.values.fold(0, (sum, c) => sum + c);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,7 +40,7 @@ class SystemDashboard extends StatelessWidget {
           value: appId,
           isSelectable: true,
         ),
-        SizedBox(height: AppThemes.spacings.doubleValue),
+        SizedBox(height: AppThemes.spacings.singleValue),
         Row(
           children: [
             Expanded(
@@ -60,57 +58,109 @@ class SystemDashboard extends StatelessWidget {
                 icon: Icons.audiotrack,
               ),
             ),
-            SizedBox(width: AppThemes.spacings.singleValue),
-            Expanded(
-              child: StatCard(
-                label: l10n.platform,
-                value: _getPlatformName(),
-                icon: Icons.computer,
-              ),
-            ),
           ],
         ),
         SizedBox(height: AppThemes.spacings.doubleValue),
         Text(
           l10n.soundsPerCategory,
           style: TextStyle(
-            color: AppThemes.colors.textColor,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            fontSize: AppThemes.texts.normalFontSize,
+            fontWeight: FontWeight.w600,
           ),
         ),
         SizedBox(height: AppThemes.spacings.singleValue),
-        ...categories.entries.map(
-          (e) => _buildCategoryItem(e.key.getText(context), e.value),
-        ), // Use e.key.name
+        Container(
+          decoration: BoxDecoration(
+            color: AppThemes.colors.cardColor,
+            borderRadius: AppThemes.borders.defaultBorderRadius,
+            border: Border.all(color: AppThemes.colors.borderColor),
+          ),
+          child: Column(
+            children: categories.entries
+                .where((e) => e.key != SoundCategory.all)
+                .toList()
+                .asMap()
+                .entries
+                .map((indexed) {
+                  final isLast =
+                      indexed.key ==
+                      categories.entries
+                              .where((e) => e.key != SoundCategory.all)
+                              .length -
+                          1;
+                  return _CategoryRow(
+                    entry: indexed.value,
+                    total: totalSounds,
+                    showDivider: !isLast,
+                  );
+                })
+                .toList(),
+          ),
+        ),
       ],
     );
   }
+}
 
-  Widget _buildCategoryItem(String name, int count) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Text(name, style: TextStyle(color: AppThemes.colors.textColor)),
-          const Spacer(),
-          Text(
-            count.toString(),
-            style: TextStyle(
-              color: AppThemes.colors.textColor,
-              fontWeight: FontWeight.bold,
-            ),
+class _CategoryRow extends StatelessWidget {
+  final MapEntry<SoundCategory, int> entry;
+  final int total;
+  final bool showDivider;
+
+  const _CategoryRow({
+    required this.entry,
+    required this.total,
+    required this.showDivider,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final fraction = total > 0 ? entry.value / total : 0.0;
+
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppThemes.spacings.singleValue,
+            vertical: AppThemes.spacings.singleValue * 0.75,
           ),
-        ],
-      ),
+          child: Row(
+            children: [
+              SizedBox(width: 80, child: entry.key.getLabel(context, true)),
+              SizedBox(width: AppThemes.spacings.singleValue),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: fraction,
+                    minHeight: 6,
+                    backgroundColor: AppThemes.colors.borderColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppThemes.colors.primaryColor.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: AppThemes.spacings.singleValue),
+              SizedBox(
+                width: 28,
+                child: Text(
+                  entry.value.toString(),
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: AppThemes.texts.smallFontSize,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (showDivider)
+          Divider(height: 1, color: AppThemes.colors.borderColor),
+      ],
     );
-  }
-
-  String _getPlatformName() {
-    if (kIsWeb) return 'Web';
-    if (Platform.isWindows) return 'Windows';
-    if (Platform.isLinux) return 'Linux';
-    if (Platform.isMacOS) return 'macOS';
-    return 'Mobile/Unknown';
   }
 }

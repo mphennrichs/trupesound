@@ -1,21 +1,21 @@
 import 'package:trupe_sound/pages/sound_library/models/sound_cue_model.dart';
 
 class ScriptLine {
-  final int lineNumber;
+  final int line;
   final String text;
 
-  const ScriptLine({required this.lineNumber, required this.text});
+  const ScriptLine({required this.line, required this.text});
 
   factory ScriptLine.fromJson(Map<String, dynamic> json) => ScriptLine(
-    lineNumber: json['lineNumber'] as int,
+    line: json['line'] as int,
     text: json['text'] as String,
   );
 
-  Map<String, dynamic> toJson() => {'lineNumber': lineNumber, 'text': text};
+  Map<String, dynamic> toJson() => {'line': line, 'text': text};
 
-  ScriptLine copyWith({int? lineNumber, String? text}) {
+  ScriptLine copyWith({int? line, String? text}) {
     return ScriptLine(
-      lineNumber: lineNumber ?? this.lineNumber,
+      line: line ?? this.line,
       text: text ?? this.text,
     );
   }
@@ -44,13 +44,17 @@ class ActModel {
         (json['script'] as List)
             .map((e) => ScriptLine.fromJson(e as Map<String, dynamic>))
             .toList(),
-    cues: [],
+    cues:
+        (json['cues'] as List? ?? [])
+            .map((e) => SoundCueModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
   );
 
   Map<String, dynamic> toJson() => {
     'number': number,
     'name': name,
     'script': script.map((s) => s.toJson()).toList(),
+    'cues': cues.map((c) => c.toJson()).toList(),
   };
 
   ActModel copyWith({

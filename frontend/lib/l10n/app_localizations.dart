@@ -491,12 +491,6 @@ abstract class AppLocalizations {
   /// **'Total Sounds'**
   String get totalSounds;
 
-  /// No description provided for @platform.
-  ///
-  /// In en, this message translates to:
-  /// **'Platform'**
-  String get platform;
-
   /// No description provided for @soundsPerCategory.
   ///
   /// In en, this message translates to:
@@ -586,6 +580,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upload complete'**
   String get uploadComplete;
+
+  /// No description provided for @localFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Folder'**
+  String get localFolder;
+
+  /// No description provided for @localFolderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Path to your local sound folder.'**
+  String get localFolderHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -112,8 +112,8 @@ class SoundCueSearchDialog extends HookConsumerWidget {
         if (act.number != actNumber) return act;
 
         final updatedScript = act.script.map((line) {
-          if (line.lineNumber >= targetLineNumber) {
-            return line.copyWith(lineNumber: line.lineNumber + 1);
+          if (line.line >= targetLineNumber) {
+            return line.copyWith(line: line.line + 1);
           }
           return line;
         }).toList();

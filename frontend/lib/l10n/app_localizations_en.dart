@@ -229,9 +229,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalSounds => 'Total Sounds';
 
   @override
-  String get platform => 'Platform';
-
-  @override
   String get soundsPerCategory => 'Sounds per Category';
 
   @override
@@ -275,4 +272,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get uploadComplete => 'Upload complete';
+
+  @override
+  String get localFolder => 'Local Folder';
+
+  @override
+  String get localFolderHint => 'Path to your local sound folder.';
 }

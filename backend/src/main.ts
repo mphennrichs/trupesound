@@ -7,6 +7,7 @@ import { ValidationExceptionFilter } from './common/application/filters/validati
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.useGlobalFilters(new HttpExceptionFilter(), new ValidationExceptionFilter());
   app.setGlobalPrefix('/api');

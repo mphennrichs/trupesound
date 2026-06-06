@@ -156,7 +156,7 @@ class PlayFormController extends _$PlayFormController {
                   .entries
                   .map(
                     (lineEntry) => ScriptLine(
-                      lineNumber: lineEntry.key + 1,
+                      line: lineEntry.key + 1,
                       text: lineEntry.value,
                     ),
                   )

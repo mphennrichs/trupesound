@@ -59,7 +59,7 @@ final class PlayFormControllerProvider
 }
 
 String _$playFormControllerHash() =>
-    r'1a8a5016d058526a57dc07f5394445fc6f722eeb';
+    r'defdfdc58c5c7b05934957fa6be4fc65fef5194d';
 
 final class PlayFormControllerFamily extends $Family
     with

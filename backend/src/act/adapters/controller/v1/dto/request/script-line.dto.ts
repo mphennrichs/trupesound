@@ -5,7 +5,7 @@ export class ScriptLineDto {
   @ApiProperty()
   @IsInt()
   @Min(1)
-  lineNumber: number;
+  line: number;
 
   @ApiProperty()
   @IsString()

@@ -20,6 +20,7 @@ export class UpdateActUseCase {
       ...(partial.number !== undefined && { number: partial.number }),
       ...(partial.name !== undefined && { name: partial.name }),
       ...(partial.script !== undefined && { script: partial.script }),
+      ...(partial.cues !== undefined && { cues: partial.cues }),
       lastUpdatedAt: new Date(),
       lastUpdatedBy: null,
     };

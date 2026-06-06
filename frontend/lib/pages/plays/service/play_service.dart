@@ -61,8 +61,7 @@ class PlayService {
         final existing = serverByNumber[act.number];
         if (existing != null) {
           final r = await _dio.put('/v1/acts/${existing.id}', data: act.toJson());
-          return ActModel.fromJson(r.data as Map<String, dynamic>)
-              .copyWith(cues: act.cues);
+          return ActModel.fromJson(r.data as Map<String, dynamic>);
         } else {
           final r = await _dio.post('/v1/acts', data: {
             'playId': play.id,

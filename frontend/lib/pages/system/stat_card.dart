@@ -15,35 +15,45 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: AppThemes.colors.cardColor,
-      child: Padding(
-        padding: EdgeInsets.all(AppThemes.spacings.singleValue),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              color: AppThemes.colors.textColor,
-              size: AppThemes.texts.h1FontSize * 1.5,
+    return Container(
+      padding: EdgeInsets.all(AppThemes.spacings.singleValue),
+      decoration: BoxDecoration(
+        color: AppThemes.colors.cardColor,
+        borderRadius: AppThemes.borders.defaultBorderRadius,
+        border: Border.all(color: AppThemes.colors.borderColor),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppThemes.colors.primaryColor.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(10),
             ),
-            AppThemes.spacings.singleSpace,
-            Text(
-              value,
-              style: TextStyle(
-                color: AppThemes.colors.textColor,
-                fontSize: AppThemes.texts.h1FontSize,
-                fontWeight: FontWeight.bold,
+            child: Icon(icon, color: AppThemes.colors.primaryColor, size: 22),
+          ),
+          SizedBox(width: AppThemes.spacings.singleValue),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: AppThemes.texts.h1FontSize,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              label,
-              style: TextStyle(
-                color: AppThemes.colors.textColor,
-                fontSize: AppThemes.texts.normalFontSize,
+              Text(
+                label,
+                style: TextStyle(
+                  color: AppThemes.colors.hintTextColor,
+                  fontSize: AppThemes.texts.smallFontSize,
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

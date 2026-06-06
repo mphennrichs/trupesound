@@ -31,7 +31,8 @@ class SoundscapePlayPage extends ConsumerWidget {
         ),
         title: playsAsync.maybeWhen(
           data: (plays) {
-            final play = plays.firstWhere((p) => p.id == playId);
+            final play = plays.where((p) => p.id == playId).firstOrNull;
+            if (play == null) return null;
             return Text.rich(
               TextSpan(
                 children: [
@@ -70,7 +71,8 @@ class SoundscapePlayPage extends ConsumerWidget {
       ),
       body: playsAsync.when(
         data: (plays) {
-          final play = plays.firstWhere((p) => p.id == playId);
+          final play = plays.where((p) => p.id == playId).firstOrNull;
+          if (play == null) return const SizedBox.shrink();
           return _buildLayout(context, play);
         },
         loading: () => const Center(child: CircularProgressIndicator()),

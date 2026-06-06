@@ -3,8 +3,17 @@ import { Entity } from '../../common/entities/entity';
 import { ActModel } from '../adapters/repository/model/act.model';
 
 export interface ScriptLine {
-  lineNumber: number;
+  line: number;
   text: string;
+}
+
+export interface SoundCue {
+  id: number;
+  line: number;
+  hotkey: string;
+  mode: 'once' | 'repeat';
+  soundId: string;
+  createdAt: string;
 }
 
 export interface ActProps {
@@ -12,6 +21,7 @@ export interface ActProps {
   number: number;
   name: string;
   script: ScriptLine[];
+  cues: SoundCue[];
   audit: Audit;
 }
 
@@ -35,6 +45,9 @@ export class ActEntity extends Entity<ActProps> {
   get script(): ScriptLine[] { return this.props.script; }
   set script(v: ScriptLine[]) { this.props.script = v; }
 
+  get cues(): SoundCue[] { return this.props.cues; }
+  set cues(v: SoundCue[]) { this.props.cues = v; }
+
   get audit(): Audit { return this.props.audit; }
 
   static fromModel(model: ActModel): ActEntity {
@@ -44,6 +57,7 @@ export class ActEntity extends Entity<ActProps> {
         number: model.number,
         name: model.name,
         script: (model.script as unknown as ScriptLine[]) ?? [],
+        cues: (model.cues as unknown as SoundCue[]) ?? [],
         audit: Audit.new({
           createdAt: model.createdAt,
           createdBy: model.createdBy,

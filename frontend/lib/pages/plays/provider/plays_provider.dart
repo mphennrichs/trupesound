@@ -25,41 +25,11 @@ class Plays extends _$Plays {
   }
 
   Future<void> updatePlay(Play play) async {
-    // 1. Retrieve the existing play from current state to preserve cues
-    final currentPlay = state.value?.where((p) => p.id == play.id).firstOrNull;
-
-    // 2. Merge existing cues into the object sent to the server.
-    // This protects data if the update comes from a form that doesn't handle cues.
-    final playToSend = play.copyWith(
-      acts: play.acts.map((newAct) {
-        final existingAct = currentPlay?.acts
-            .where((a) => a.number == newAct.number)
-            .firstOrNull;
-
-        // If the newAct is missing cues, restore them from existing state
-        return newAct.copyWith(
-          cues: newAct.cues.isNotEmpty
-              ? newAct.cues
-              : (existingAct?.cues ?? []),
-        );
-      }).toList(),
-    );
-
-    final result = await ref.read(playServiceProvider).update(playToSend);
+    final result = await ref.read(playServiceProvider).update(play);
 
     if (result != null && state.hasValue) {
-      // 3. Merge cues back into the server result to update local state
-      final playWithCues = result.copyWith(
-        acts: result.acts.map((resAct) {
-          final sourceAct = playToSend.acts
-              .where((a) => a.number == resAct.number)
-              .firstOrNull;
-          return resAct.copyWith(cues: sourceAct?.cues ?? []);
-        }).toList(),
-      );
-
       state = AsyncData(
-        state.value!.map((p) => p.id == result.id ? playWithCues : p).toList(),
+        state.value!.map((p) => p.id == result.id ? result : p).toList(),
       );
     }
   }
@@ -85,10 +55,10 @@ class Plays extends _$Plays {
         // 3. Sort by current line number to maintain relative order
         allItems.sort((a, b) {
           final aPos = a is models.ScriptLine
-              ? a.lineNumber
+              ? a.line
               : (a as SoundCueModel).line;
           final bPos = b is models.ScriptLine
-              ? b.lineNumber
+              ? b.line
               : (b as SoundCueModel).line;
           if (aPos != bPos) return aPos.compareTo(bPos);
           // Tie-breaker: ScriptLines before Cues if they share the same index
@@ -103,7 +73,7 @@ class Plays extends _$Plays {
           final item = allItems[i];
           final newIndex = i + 1;
           if (item is models.ScriptLine) {
-            updatedScript.add(item.copyWith(lineNumber: newIndex));
+            updatedScript.add(item.copyWith(line: newIndex));
           } else if (item is SoundCueModel) {
             updatedCues.add(item.copyWith(line: newIndex));
           }
@@ -185,10 +155,4 @@ class Plays extends _$Plays {
     await updatePlay(updatedPlay);
   }
 
-  /// Updates play info (Title, Author, Script) while preserving all existing sound cues.
-  /// This should be used by the Edit Play form to prevent losing soundscape data.
-  Future<void> updatePlayMetadata(Play updatedPlayData) async {
-    // leverages the improved updatePlay logic to preserve cues
-    await updatePlay(updatedPlayData);
-  }
 }

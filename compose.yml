@@ -1,0 +1,105 @@
+networks:
+  traefik:
+    external: true
+  trupesound-internal:
+    name: trupesound-internal
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: trupe-sound-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: trupesound
+      POSTGRES_PASSWORD: trupesound
+      POSTGRES_DB: trupesound
+    networks:
+      - trupesound-internal
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trupesound"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: trupe-sound-backend:latest
+    container_name: trupe-sound-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://trupesound:trupesound@db:5432/trupesound
+      NODE_ENV: production
+    networks:
+      - traefik
+      - trupesound-internal
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/v1/plays || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.trupesound-api.rule=Host(`trupesound.foguinhodogoias.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.trupesound-api.entrypoints=web-secure"
+      - "traefik.http.routers.trupesound-api.tls.certresolver=cloudflare"
+      - "traefik.http.services.trupesound-api.loadbalancer.server.port=3000"
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: trupe-sound-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mphennrichs@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: trupesound
+    networks:
+      - traefik
+      - trupesound-internal
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      db:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.trupesound-pgadmin.rule=Host(`pgadmin.foguinhodogoias.com`)"
+      - "traefik.http.routers.trupesound-pgadmin.entrypoints=web-secure"
+      - "traefik.http.routers.trupesound-pgadmin.tls.certresolver=cloudflare"
+      - "traefik.http.services.trupesound-pgadmin.loadbalancer.server.port=80"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: trupe-sound-frontend:latest
+    container_name: trupe-sound-frontend
+    restart: unless-stopped
+    networks:
+      - traefik
+      - trupesound-internal
+    depends_on:
+      backend:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
+      - "traefik.http.routers.trupesound.entrypoints=web-secure"
+      - "traefik.http.routers.trupesound.middlewares=trupesound-auth"
+      - "traefik.http.services.trupesound.loadbalancer.server.port=80"
+      - "traefik.http.routers.trupesound.tls.certresolver=cloudflare"
+      - "traefik.http.middlewares.trupesound-auth.basicauth.removeHeader=true"
+      - "traefik.http.middlewares.trupesound-auth.basicauth.users=lucoelho:$$2y$$05$$yVDK8eByB5LUO7MnWYHfZuNMfms/QV/aYS4e0Dl.rBTE4yw8DlEe6"
+      # how to set a real password:
+      # sudo apt-get install apache2-utils
+      # htpasswd -Bnb username password | sed -e s/\\$/\\$\\$/g

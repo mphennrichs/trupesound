@@ -17,10 +17,22 @@ class Sounds extends _$Sounds {
     state = AsyncData(state.value!.where((s) => s.id != id).toList());
   }
 
-  Future<void> addSound(SoundModel sound) async {
-    if (!state.hasValue) return;
-    await ref.read(soundServiceProvider).add(sound);
-    state = AsyncData([...state.value!, sound]);
+  Future<SoundModel> addSound({
+    required String name,
+    required SoundCategory category,
+    required String url,
+    required int durationMs,
+  }) async {
+    final sound = await ref.read(soundServiceProvider).add(
+      name: name,
+      category: category,
+      url: url,
+      durationMs: durationMs,
+    );
+    if (state.hasValue) {
+      state = AsyncData([sound, ...state.value!]);
+    }
+    return sound;
   }
 }
 

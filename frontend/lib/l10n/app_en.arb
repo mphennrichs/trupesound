@@ -231,9 +231,6 @@
     "totalSounds": "Total Sounds",
     "@totalSounds": {},
 
-    "platform": "Platform",
-    "@platform": {},
-
     "soundsPerCategory": "Sounds per Category",
     "@soundsPerCategory": {},
 
@@ -277,5 +274,11 @@
     "@uploading": {},
 
     "uploadComplete": "Upload complete",
-    "@uploadComplete": {}
+    "@uploadComplete": {},
+
+    "localFolder": "Local Folder",
+    "@localFolder": {},
+
+    "localFolderHint": "Path to your local sound folder.",
+    "@localFolderHint": {}
 }

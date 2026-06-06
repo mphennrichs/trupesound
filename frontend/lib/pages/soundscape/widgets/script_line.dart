@@ -5,14 +5,14 @@ import 'package:trupe_sound/pages/soundscape/widgets/inline_add_cue.dart';
 class ScriptLine extends StatelessWidget {
   final int playId;
   final int actNumber;
-  final int lineNumber;
+  final int line;
   final String text;
 
   const ScriptLine({
     super.key,
     required this.playId,
     required this.actNumber,
-    required this.lineNumber,
+    required this.line,
     required this.text,
   });
 
@@ -23,7 +23,7 @@ class ScriptLine extends StatelessWidget {
         InlineAddCue(
           playId: playId,
           actNumber: actNumber,
-          targetLineNumber: lineNumber,
+          targetLineNumber: line,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 2.0),
@@ -33,7 +33,7 @@ class ScriptLine extends StatelessWidget {
               SizedBox(
                 width: 40,
                 child: Text(
-                  lineNumber.toString(),
+                  line.toString(),
                   style: TextStyle(
                     color: AppThemes.colors.hintTextColor,
                     fontSize: AppThemes.texts.smallFontSize,
