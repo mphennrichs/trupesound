@@ -24,7 +24,7 @@ RUN flutter pub get
 COPY . .
 RUN flutter gen-l10n
 RUN dart run build_runner build --delete-conflicting-outputs
-RUN flutter build web --release
+RUN flutter build web --release --no-tree-shake-icons
 
 # Stage 2: Serve with Nginx
 FROM nginx:stable-alpine
