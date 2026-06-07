@@ -73,7 +73,7 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.trupesound-pgadmin.rule=Host(`pgadmin.foguinhodogoias.com`)"
+      - "traefik.http.routers.trupesound-pgadmin.rule=Host(`trupedb.foguinhodogoias.com`)"
       - "traefik.http.routers.trupesound-pgadmin.entrypoints=web-secure"
       - "traefik.http.routers.trupesound-pgadmin.tls.certresolver=cloudflare"
       - "traefik.http.services.trupesound-pgadmin.loadbalancer.server.port=80"
