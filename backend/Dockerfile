@@ -7,7 +7,7 @@ COPY prisma ./prisma
 RUN npm install -g pnpm@8 && pnpm install --frozen-lockfile
 
 COPY . .
-RUN pnpm run build
+RUN rm -f tsconfig*.tsbuildinfo && pnpm run build
 
 # --- Runtime stage ---
 FROM node:22-alpine
