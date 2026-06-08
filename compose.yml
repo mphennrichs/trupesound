@@ -40,11 +40,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound-api.rule=Host(`trupesound.foguinhodogoias.com`) && PathPrefix(`/api`)"
       - "traefik.http.routers.trupesound-api.entrypoints=web-secure"
       - "traefik.http.routers.trupesound-api.tls.certresolver=cloudflare"
+      - "traefik.http.routers.trupesound-api.priority=10"
       - "traefik.http.services.trupesound-api.loadbalancer.server.port=3000"
 
   pgadmin:
@@ -83,6 +90,7 @@ services:
       - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
       - "traefik.http.routers.trupesound.entrypoints=web-secure"
       - "traefik.http.routers.trupesound.middlewares=trupesound-auth"
+      - "traefik.http.routers.trupesound.priority=1"
       - "traefik.http.services.trupesound.loadbalancer.server.port=80"
       - "traefik.http.routers.trupesound.tls.certresolver=cloudflare"
       - "traefik.http.middlewares.trupesound-auth.basicauth.removeHeader=true"
