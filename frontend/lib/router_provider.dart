@@ -19,8 +19,6 @@ GoRouter router(Ref ref) {
     errorBuilder: (context, state) => const PageNotFound(),
     debugLogDiagnostics: false, // Útil para ver as rotas no console
     redirect: (context, state) {
-      // Remove or correct the unconditional redirect.
-      // If you want to redirect the root to /plays, check the state.matchedLocation
       return null;
     },
     routes: [

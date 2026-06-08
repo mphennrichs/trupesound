@@ -50,6 +50,18 @@ Images are built and pushed to `ghcr.io/mphennrichs/` via GitHub Actions on push
 
 ## Known Pitfalls
 
+### `postgres_data` volume credentials mismatch (P1000)
+
+Postgres only initialises `POSTGRES_USER` / `POSTGRES_PASSWORD` on **first volume creation**. If the `postgres_data` volume already exists (from a prior deployment with different credentials), those env vars are silently ignored and the backend gets `P1000: Authentication failed`.
+
+**Diagnostic:** `docker exec trupe-sound-db psql -U postgres -c "\du"` — check whether the `trupesound` role exists and has login.
+
+**Fix (without data loss):** `docker exec trupe-sound-db psql -U postgres -c "ALTER USER trupesound WITH PASSWORD 'trupesound';"`
+
+**Fix (with data loss):** `docker volume rm trupesound_postgres_data` then redeploy.
+
+---
+
 ### `tsconfig.build.tsbuildinfo` must not be committed (fixed 2026-06-08)
 If this file is present in the Docker build context, `tsc` treats the project as already compiled and emits only `.d.ts` declarations — no `.js` files. The backend container will crash-loop with `Error: Cannot find module '/app/dist/main'`.
 

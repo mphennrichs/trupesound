@@ -4,12 +4,16 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/application/filters/http-exception.filter';
 import { ValidationExceptionFilter } from './common/application/filters/validation-exception.filter';
+import { LoggingInterceptor } from './common/application/interceptors/logging.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: ['error', 'warn', 'log', 'debug'],
+  });
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.useGlobalFilters(new HttpExceptionFilter(), new ValidationExceptionFilter());
+  app.useGlobalInterceptors(new LoggingInterceptor());
   app.setGlobalPrefix('/api');
 
   const config = new DocumentBuilder()

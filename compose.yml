@@ -26,6 +26,12 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    logging:
+      driver: json-file
+      options:
+        tag: "db"
+        max-size: "10m"
+        max-file: "3"
 
   backend:
     image: ghcr.io/mphennrichs/trupesound-backend:latest
@@ -43,6 +49,18 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        tag: "backend"
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/ping || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound-api.rule=Host(`trupesound.foguinhodogoias.com`) && PathPrefix(`/api`)"
@@ -82,12 +100,19 @@ services:
       - trupesound-internal
     depends_on:
       - backend
+    logging:
+      driver: json-file
+      options:
+        tag: "frontend"
+        max-size: "10m"
+        max-file: "3"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
       - "traefik.http.routers.trupesound.entrypoints=web-secure"
       - "traefik.http.routers.trupesound.priority=1"
       - "traefik.http.routers.trupesound.middlewares=trupesound-auth"
+      - "traefik.http.routers.trupesound.priority=1"
       - "traefik.http.services.trupesound.loadbalancer.server.port=80"
       - "traefik.http.routers.trupesound.tls.certresolver=cloudflare"
       - "traefik.http.middlewares.trupesound-auth.basicauth.removeHeader=true"
