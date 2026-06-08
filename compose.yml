@@ -38,7 +38,7 @@ services:
     container_name: trupe-sound-backend
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgresql://trupesound:trupesound@db:5432/trupesound
+      DATABASE_URL: ${DATABASE_URL}
       NODE_ENV: production
     networks:
       - traefik
