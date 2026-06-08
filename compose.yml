@@ -40,12 +40,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/ping || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound-api.rule=Host(`trupesound.foguinhodogoias.com`) && PathPrefix(`/api`)"
@@ -83,8 +77,7 @@ services:
       - traefik
       - trupesound-internal
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
