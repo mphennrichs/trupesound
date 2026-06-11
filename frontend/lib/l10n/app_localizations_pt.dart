@@ -232,37 +232,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get soundsPerCategory => 'Sons por Categoria';
 
   @override
-  String get storageSettingsTitle => 'Configurações de Armazenamento';
+  String get storageInfoTitle => 'Armazenamento';
 
   @override
-  String get storageSettingsDescription => 'Configure a conexão com seu armazenamento de objetos.';
-
-  @override
-  String get storageEndpoint => 'Endpoint';
-
-  @override
-  String get storageEndpointHint => 'ex. s3.seudominio.com';
-
-  @override
-  String get storageAccessKey => 'Chave de Acesso';
-
-  @override
-  String get storageAccessKeyHint => 'Sua chave de acesso S3';
-
-  @override
-  String get storageSecretKey => 'Chave Secreta';
-
-  @override
-  String get storageSecretKeyHint => 'Sua chave secreta S3';
-
-  @override
-  String get storageUseSSL => 'Usar SSL';
-
-  @override
-  String get storageSaved => 'Configurações salvas.';
-
-  @override
-  String get storageNotConfigured => 'Armazenamento não configurado. Preencha as configurações na página do Sistema.';
+  String get storageInfoDescription => 'Por padrão, os sons são armazenados em um serviço de nuvem compatível com S3 (SeaweedFS). O armazenamento local está disponível para desenvolvimento — defina STORAGE_LOCAL_FOLDER no ambiente do backend para usá-lo.';
 
   @override
   String get changeFile => 'Trocar arquivo';
@@ -272,12 +245,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get uploadComplete => 'Envio concluído';
-
-  @override
-  String get localFolder => 'Pasta Local';
-
-  @override
-  String get localFolderHint => 'Endereço da sua pasta local de sons.';
 
   @override
   String get syncSounds => 'Sincronizar Sons';

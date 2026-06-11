@@ -234,38 +234,11 @@
     "soundsPerCategory": "Sounds per Category",
     "@soundsPerCategory": {},
 
-    "storageSettingsTitle": "Storage Settings",
-    "@storageSettingsTitle": {},
+    "storageInfoTitle": "Storage",
+    "@storageInfoTitle": {},
 
-    "storageSettingsDescription": "Configure the connection to your object storage.",
-    "@storageSettingsDescription": {},
-
-    "storageEndpoint": "Endpoint",
-    "@storageEndpoint": {},
-
-    "storageEndpointHint": "e.g. s3.yourdomain.com",
-    "@storageEndpointHint": {},
-
-    "storageAccessKey": "Access Key",
-    "@storageAccessKey": {},
-
-    "storageAccessKeyHint": "Your S3 access key",
-    "@storageAccessKeyHint": {},
-
-    "storageSecretKey": "Secret Key",
-    "@storageSecretKey": {},
-
-    "storageSecretKeyHint": "Your S3 secret key",
-    "@storageSecretKeyHint": {},
-
-    "storageUseSSL": "Use SSL",
-    "@storageUseSSL": {},
-
-    "storageSaved": "Settings saved.",
-    "@storageSaved": {},
-
-    "storageNotConfigured": "Storage not configured. Fill in the settings on the System page.",
-    "@storageNotConfigured": {},
+    "storageInfoDescription": "By default, sounds are stored in a cloud S3-compatible service (SeaweedFS). Local storage is available for development — set STORAGE_LOCAL_FOLDER in the backend environment to use it.",
+    "@storageInfoDescription": {},
 
     "changeFile": "Change file",
     "@changeFile": {},

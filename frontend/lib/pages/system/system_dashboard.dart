@@ -4,10 +4,11 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
+import 'package:trupe_sound/pages/sound_library/providers/storage_mode_provider.dart';
 import 'package:trupe_sound/pages/system/info_card.dart';
 import 'package:trupe_sound/pages/system/stat_card.dart';
 
-class SystemDashboard extends StatelessWidget {
+class SystemDashboard extends ConsumerWidget {
   final String appId;
   final AsyncValue<List<Play>> playsAsync;
   final Map<SoundCategory, int> categories;
@@ -20,8 +21,18 @@ class SystemDashboard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final storageMode = ref.watch(storageModeProvider).when(
+          data: (m) => m,
+          loading: () => StorageMode.unknown,
+          error: (_, _) => StorageMode.unknown,
+        );
+    final storageModeLabel = switch (storageMode) {
+      StorageMode.cloud => 'Cloud (SeaweedFS)',
+      StorageMode.local => 'Local',
+      StorageMode.unknown => '—',
+    };
 
     final playsCount = playsAsync.when(
       data: (plays) => plays.length.toString(),
@@ -39,6 +50,12 @@ class SystemDashboard extends StatelessWidget {
           subtitle: l10n.applicationIDDescription,
           value: appId,
           isSelectable: true,
+        ),
+        SizedBox(height: AppThemes.spacings.singleValue),
+        InfoCard(
+          title: l10n.storageInfoTitle,
+          subtitle: l10n.storageInfoDescription,
+          value: storageModeLabel,
         ),
         SizedBox(height: AppThemes.spacings.singleValue),
         Row(
