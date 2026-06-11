@@ -2,6 +2,7 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { json, urlencoded } from 'express';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/application/filters/http-exception.filter';
 import { ValidationExceptionFilter } from './common/application/filters/validation-exception.filter';
@@ -10,8 +11,19 @@ import { LoggingInterceptor } from './common/application/interceptors/logging.in
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log', 'debug'],
+    bodyParser: false,
   });
   app.enableCors();
+
+  // Re-enable body-parser for all routes except raw binary uploads.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  app.use((req: any, res: any, next: any) => {
+    if (req.path.startsWith('/api/v1/sounds/upload/')) return next();
+    json()(req, res, (err: unknown) => {
+      if (err) return next(err);
+      urlencoded({ extended: true })(req, res, next);
+    });
+  });
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.useGlobalFilters(new HttpExceptionFilter(), new ValidationExceptionFilter());
   app.useGlobalInterceptors(new LoggingInterceptor());
