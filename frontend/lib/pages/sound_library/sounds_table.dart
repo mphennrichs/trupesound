@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/common/providers/audio_player_provider.dart';
+import 'package:trupe_sound/common/providers/dio_provider.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
@@ -172,7 +173,12 @@ class SoundsTable extends ConsumerWidget {
       cells: [
         DataCell(
           IconButton(
-            onPressed: () => ref.read(audioPlayerProvider.notifier).play(asset.id, asset.url),
+            onPressed: () async {
+              final dio = ref.read(dioProvider);
+              final resp = await dio.get<Map<String, dynamic>>('/v1/sounds/${asset.id}/play-url');
+              final url = (resp.data?['url'] as String?) ?? asset.url;
+              await ref.read(audioPlayerProvider.notifier).play(asset.id, url);
+            },
             icon: Icon(
               isPlaying ? Icons.stop_circle_outlined : Icons.play_circle_outline,
               color: AppThemes.colors.primaryColor,

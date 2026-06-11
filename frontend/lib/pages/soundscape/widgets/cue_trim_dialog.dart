@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
+import 'package:trupe_sound/common/providers/dio_provider.dart';
 import 'package:trupe_sound/common/volume_slider/provider/volume_provider.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
@@ -81,9 +82,9 @@ class _CueTrimDialogState extends ConsumerState<CueTrimDialog> {
 
     final volume = ref.read(volumeProvider);
     await _player.setVolume(volume);
-    final source = widget.sound.url.startsWith('http')
-        ? UrlSource(widget.sound.url)
-        : DeviceFileSource(widget.sound.url);
+    final resp = await ref.read(dioProvider).get<Map<String, dynamic>>('/v1/sounds/${widget.sound.id}/play-url');
+    final url = (resp.data?['url'] as String?) ?? widget.sound.url;
+    final source = url.startsWith('http') ? UrlSource(url) : DeviceFileSource(url);
     await _player.play(source);
     await _player.seek(Duration(milliseconds: _startMs.round()));
 
