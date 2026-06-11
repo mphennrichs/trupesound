@@ -18,7 +18,11 @@ async function bootstrap() {
   // Re-enable body-parser for all routes except raw binary uploads.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   app.use((req: any, res: any, next: any) => {
-    if (req.path.startsWith('/api/v1/sounds/upload/')) return next();
+    console.log(`[body-parser middleware] ${req.method} ${req.path}`);
+    if (req.path.startsWith('/v1/sounds/upload/')) {
+      console.log('[body-parser middleware] skipping body-parser for upload route');
+      return next();
+    }
     json()(req, res, (err: unknown) => {
       if (err) return next(err);
       urlencoded({ extended: true })(req, res, next);
