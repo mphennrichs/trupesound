@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/common/providers/audio_player_provider.dart';
+import 'package:trupe_sound/common/providers/dio_provider.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
 
 part 'sound_playback_provider.g.dart';
@@ -39,11 +40,14 @@ class SoundPlayback extends _$SoundPlayback {
       newIds.remove(cueId);
       await ref.read(audioPlayerProvider.notifier).stop();
     } else {
+      final response = await ref.read(dioProvider).get<Map<String, dynamic>>('/v1/sounds/${sound.id}/play-url');
+      final playUrl = (response.data?['url'] as String?) ?? sound.url;
+
       newIds.clear();
       newIds.add(cueId);
       await ref.read(audioPlayerProvider.notifier).play(
         sound.id,
-        sound.url,
+        playUrl,
         startMs: startMs ?? 0,
         endMs: endMs,
         loop: loop,

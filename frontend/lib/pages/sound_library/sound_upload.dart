@@ -1,3 +1,4 @@
+import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,6 +43,18 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
       _nameController.text.isNotEmpty &&
       _selectedCategory != null &&
       !_isUploading;
+
+  Future<void> _onFileDrop(DropDoneDetails details) async {
+    if (_isUploading) return;
+    final xfile = details.files.firstOrNull;
+    if (xfile == null) return;
+    final bytes = await xfile.readAsBytes();
+    setState(() {
+      _selectedFile = PlatformFile(name: xfile.name, size: bytes.length, bytes: bytes);
+      _errorMessage = null;
+      _uploadProgress = 0.0;
+    });
+  }
 
   Future<void> _pickFile() async {
     final result = await FilePicker.platform.pickFiles(
@@ -114,14 +127,17 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
   }
 
   Widget _buildDropzone(AppLocalizations l10n) {
-    return DashedContainer(
-      onTap: _isUploading ? null : _pickFile,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: AppThemes.spacings.doubleValue),
-        child: _selectedFile == null
-            ? _buildPickerPrompt(l10n)
-            : _buildSelectedFile(),
+    return DropTarget(
+      onDragDone: _onFileDrop,
+      child: DashedContainer(
+        onTap: _isUploading ? null : _pickFile,
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: AppThemes.spacings.doubleValue),
+          child: _selectedFile == null
+              ? _buildPickerPrompt(l10n)
+              : _buildSelectedFile(),
+        ),
       ),
     );
   }

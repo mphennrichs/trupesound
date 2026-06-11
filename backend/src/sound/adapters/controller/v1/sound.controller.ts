@@ -8,6 +8,7 @@ import { UpdateSoundUseCase } from '../../../use-cases/update-sound.use-case';
 import { UploadLocalSoundUseCase } from '../../../use-cases/upload-local-sound.use-case';
 import { ServeLocalSoundUseCase } from '../../../use-cases/serve-local-sound.use-case';
 import { SyncLocalSoundsUseCase } from '../../../use-cases/sync-local-sounds.use-case';
+import { GeneratePlayUrlUseCase } from '../../../use-cases/generate-play-url.use-case';
 import { Sound } from '../../../entities/sound.entity';
 import { CreateSoundRequestDto } from './dto/request/create-sound-request.dto';
 import { UpdateSoundRequestDto } from './dto/request/update-sound-request.dto';
@@ -24,6 +25,7 @@ export class SoundController {
     private readonly uploadLocalSound: UploadLocalSoundUseCase,
     private readonly serveLocalSound: ServeLocalSoundUseCase,
     private readonly syncLocalSounds: SyncLocalSoundsUseCase,
+    private readonly generatePlayUrl: GeneratePlayUrlUseCase,
   ) {}
 
   private toDto(sound: Sound): SoundResponseDto {
@@ -105,5 +107,15 @@ export class SoundController {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     stream.pipe(res);
+  }
+
+  @Get(':id/play-url')
+  @ApiResponse({ status: 200, schema: { properties: { url: { type: 'string' } } } })
+  async playUrl(@Param('id', ParseIntPipe) id: number): Promise<{ url: string }> {
+    const sounds = await this.listSounds.execute();
+    const sound = sounds.find((s) => s.id === id);
+    if (!sound) return { url: '' };
+    const url = await this.generatePlayUrl.execute(sound.url);
+    return { url };
   }
 }

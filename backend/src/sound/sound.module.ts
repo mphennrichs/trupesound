@@ -11,6 +11,7 @@ import { ArchiveSoundUseCase } from './use-cases/archive-sound.use-case';
 import { UploadLocalSoundUseCase } from './use-cases/upload-local-sound.use-case';
 import { ServeLocalSoundUseCase } from './use-cases/serve-local-sound.use-case';
 import { SyncLocalSoundsUseCase } from './use-cases/sync-local-sounds.use-case';
+import { GeneratePlayUrlUseCase } from './use-cases/generate-play-url.use-case';
 
 @Module({
   imports: [AppConfigModule],
@@ -24,6 +25,7 @@ import { SyncLocalSoundsUseCase } from './use-cases/sync-local-sounds.use-case';
     UploadLocalSoundUseCase,
     ServeLocalSoundUseCase,
     SyncLocalSoundsUseCase,
+    GeneratePlayUrlUseCase,
     { provide: SoundRepository, useClass: SoundPrismaRepository },
   ],
 })
