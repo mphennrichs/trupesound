@@ -62,6 +62,18 @@ Postgres only initialises `POSTGRES_USER` / `POSTGRES_PASSWORD` on **first volum
 
 ---
 
+### Storage mode detection broken for local-only config (fixed 2026-06-11)
+`StorageConfigService.load()` on the frontend returned `null` whenever `endpoint` was empty, even when `localFolder` was set. This caused `storageModeProvider` to resolve to `unknown` and hide both the Sync and Upload buttons.
+
+**Fix:** `load()` now returns a valid config if either `endpoint` or `localFolder` is non-empty.
+
+---
+
+### SeaweedFS presign uses virtual-hosted URLs (fixed 2026-06-11)
+The MinIO JS client defaults to virtual-hosted style (`https://bucket.host/...`), which SeaweedFS does not support without wildcard DNS. Added `pathStyle: true` to the MinIO client instantiation in `GenerateUploadUrlUseCase`.
+
+---
+
 ### `tsconfig.build.tsbuildinfo` must not be committed (fixed 2026-06-08)
 If this file is present in the Docker build context, `tsc` treats the project as already compiled and emits only `.d.ts` declarations — no `.js` files. The backend container will crash-loop with `Error: Cannot find module '/app/dist/main'`.
 

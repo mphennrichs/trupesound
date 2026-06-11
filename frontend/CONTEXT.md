@@ -63,3 +63,41 @@ A UUID generated once per app startup. Used to identify the running instance. No
 - A SoundCue references a Sound by ID (`soundId`). The Sound itself lives in the Sound Library, not inside the Play.
 - Editing Play metadata (title, author, script) must never destroy existing SoundCues — this is a hard invariant enforced in `PlaysProvider.updatePlay`.
 - ScriptLines and SoundCues within an Act share a sequential, gap-free line-number space. Removing any item requires re-numbering the remaining items.
+
+---
+
+## Storage & Sound Library
+
+**StorageMode** (`local` | `cloud` | `unknown`)
+Derived at runtime from the AppConfig fetched from the backend. `local` = `localFolder` is set; `cloud` = `storageEndpoint` is set; `unknown` = neither. Exposed by `storageModeProvider`.
+
+In `local` mode the Sound Library shows a **Sync** button (triggers `POST /v1/sounds/sync`). In `cloud` mode it shows an **Upload** button (presign → PUT flow). In `unknown` mode no action button is shown.
+
+**SoundCue Trim**
+`startMs` and `endMs` on `SoundCueModel` define the playback segment. Both are nullable integers. When null, the full sound plays. The cue duration displayed on the card is `(endMs ?? soundDurationMs) - (startMs ?? 0)`.
+
+**Hotkey uniqueness**
+Hotkeys are unique per Act. `HotkeyCaptureDialog` receives the set of already-used hotkeys and shows a warning if the selected key is taken.
+
+---
+
+## Playback Architecture
+
+**`AudioPlayerNotifier`** (keepAlive singleton)
+Owns the `audioplayers` `AudioPlayer` instance. Enforces `startMs`/`endMs` trim via `Future.delayed`. Loops via `onPlayerComplete` when `loop = true`. Exposes `AudioPlayerState { playingId, playerState, isLooping }`.
+
+`isLooping` stays `true` during the stop→restart cycle of a repeat loop so listeners do not incorrectly interpret the transient `stopped` state as the sound ending.
+
+**`SoundPlaybackProvider`** (per-session)
+Tracks which cue IDs are currently playing (`playingIds: Set<int>`). Listens to `audioPlayerProvider` and clears `playingIds` only when `!next.isPlaying && !next.isLooping`. Both `CuePlayCard` and `ScriptCueItem` read from this provider, so their play/stop icons stay in sync regardless of which widget triggered playback.
+
+**Panic**
+ESC key on `BasePage` calls `panicActionProvider.execute()` → `SoundPlaybackProvider.stopAll()`. Stops all audio and clears playback state.
+
+---
+
+## Next Steps
+
+- [ ] Audio file upload for web: `FilePicker` must use `withData: true`; bytes are uploaded via presigned PUT — no `dart:io` dependency
+- [ ] Test SeaweedFS upload end-to-end on homelab (`s3.foguinhodogoias.com`)
+- [ ] `CueTrimDialog`: consider displaying a real waveform instead of the custom paint trim bar (requires a waveform package or server-side peak data)

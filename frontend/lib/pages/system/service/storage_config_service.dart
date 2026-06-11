@@ -29,13 +29,14 @@ class StorageConfigService {
   Future<StorageConfigData?> load() async {
     final response = await _dio.get('/v1/app/storage-config');
     final data = response.data as Map<String, dynamic>?;
-    if (data == null || (data['endpoint'] as String?)?.isEmpty != false) {
-      return null;
-    }
+    if (data == null) return null;
+    final endpoint = (data['endpoint'] as String?) ?? '';
+    final localFolder = (data['localFolder'] as String?) ?? '';
+    if (endpoint.isEmpty && localFolder.isEmpty) return null;
     return StorageConfigData(
-      endpoint: data['endpoint'] as String,
-      accessKey: data['accessKey'] as String,
-      localFolder: (data['localFolder'] as String?) ?? '',
+      endpoint: endpoint,
+      accessKey: (data['accessKey'] as String?) ?? '',
+      localFolder: localFolder,
     );
   }
 

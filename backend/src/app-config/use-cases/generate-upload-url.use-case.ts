@@ -50,6 +50,7 @@ export class GenerateUploadUrlUseCase {
       accessKey: config.accessKey,
       secretKey: config.secretKey,
       useSSL,
+      pathStyle: true,
     });
 
     const bucketExists = await client.bucketExists(appId);
