@@ -32,6 +32,11 @@ export class SoundPrismaRepository implements SoundRepository {
     return row ? this.toEntity(row) : null;
   }
 
+  async findByUrl(url: string): Promise<Sound | null> {
+    const row = await this.prisma.sound.findFirst({ where: { url } });
+    return row ? this.toEntity(row) : null;
+  }
+
   async create(input: CreateSoundInput): Promise<Sound> {
     const row = await this.prisma.sound.create({
       data: {
@@ -54,6 +59,10 @@ export class SoundPrismaRepository implements SoundRepository {
       },
     });
     return this.toEntity(row);
+  }
+
+  async updateDuration(id: number, durationMs: number): Promise<void> {
+    await this.prisma.sound.update({ where: { id }, data: { durationMs } });
   }
 
   async archive(id: number): Promise<void> {

@@ -11,6 +11,13 @@ class Sounds extends _$Sounds {
     return ref.read(soundServiceProvider).list();
   }
 
+  void updateSound(SoundModel updated) {
+    if (!state.hasValue) return;
+    state = AsyncData(
+      state.value!.map((s) => s.id == updated.id ? updated : s).toList(),
+    );
+  }
+
   Future<void> deleteSound(int id) async {
     if (!state.hasValue) return;
     await ref.read(soundServiceProvider).delete(id);

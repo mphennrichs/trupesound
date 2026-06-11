@@ -19,9 +19,10 @@ export class AppConfigPrismaRepository implements AppConfigRepository {
 
   async getStorageConfig(): Promise<StorageConfig | null> {
     const row = await this.prisma.appConfig.findUnique({ where: { id: 1 } });
-    if (!row?.storageEndpoint) return null;
+    if (!row) return null;
+    if (!row.storageEndpoint && !row.localFolder) return null;
     return {
-      endpoint: row.storageEndpoint,
+      endpoint: row.storageEndpoint ?? '',
       accessKey: row.storageAccessKey ?? '',
       secretKey: row.storageSecretKey ?? '',
       localFolder: row.localFolder ?? '',

@@ -104,13 +104,13 @@ class SoundModel {
 
   factory SoundModel.fromJson(Map<String, dynamic> json) {
     return SoundModel(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       category: SoundCategory.values.firstWhere(
         (c) => c.name == json['category'],
         orElse: () => SoundCategory.effect,
       ),
-      duration: Duration(milliseconds: (json['durationMs'] as int?) ?? 0),
+      duration: Duration(milliseconds: (json['durationMs'] as num?)?.toInt() ?? 0),
       url: json['url'] as String,
       archived: (json['archived'] as bool?) ?? false,
       createdAt: DateTime.parse(json['createdAt'] as String),

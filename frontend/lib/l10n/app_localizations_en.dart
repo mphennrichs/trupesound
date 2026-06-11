@@ -278,4 +278,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get localFolderHint => 'Path to your local sound folder.';
+
+  @override
+  String get syncSounds => 'Sync Sounds';
+
+  @override
+  String get hotkeyInUse => 'is already in use. Press a different key.';
+
+  @override
+  String get trimStart => 'Start';
+
+  @override
+  String get trimEnd => 'End';
+
+  @override
+  String get cueDuration => 'Cue Duration';
 }

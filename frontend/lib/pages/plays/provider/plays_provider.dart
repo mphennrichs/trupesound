@@ -127,6 +127,40 @@ class Plays extends _$Plays {
     await updatePlay(updatedPlay);
   }
 
+  Future<void> updateCueTrim({
+    required int playId,
+    required int actNumber,
+    required int cueId,
+    required int? startMs,
+    required int? endMs,
+  }) async {
+    if (!state.hasValue) return;
+
+    final plays = state.value!;
+    final playIndex = plays.indexWhere((p) => p.id == playId);
+    if (playIndex == -1) return;
+
+    final play = plays[playIndex];
+    final updatedPlay = play.copyWith(
+      acts: play.acts.map((act) {
+        if (act.number != actNumber) return act;
+        return act.copyWith(
+          cues: act.cues.map((cue) {
+            if (cue.id != cueId) return cue;
+            return cue.copyWith(
+              startMs: startMs,
+              endMs: endMs,
+              clearStart: startMs == null,
+              clearEnd: endMs == null,
+            );
+          }).toList(),
+        );
+      }).toList(),
+    );
+
+    await updatePlay(updatedPlay);
+  }
+
   Future<void> updateCueMode({
     required int playId,
     required int actNumber,

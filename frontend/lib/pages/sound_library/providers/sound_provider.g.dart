@@ -33,7 +33,7 @@ final class SoundsProvider
   Sounds create() => Sounds();
 }
 
-String _$soundsHash() => r'd00459500cbc77d0316e50f70bee3594e5eb86b3';
+String _$soundsHash() => r'29cd540b4d81a50a628663bbdbcc26930beaaf43';
 
 abstract class _$Sounds extends $AsyncNotifier<List<SoundModel>> {
   FutureOr<List<SoundModel>> build();

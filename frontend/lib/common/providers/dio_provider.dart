@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'dio_provider.g.dart';
 
-const String _baseUrl = '/api';
+const String _baseUrl = String.fromEnvironment('API_URL', defaultValue: '/api');
 
 @Riverpod(keepAlive: true)
 Dio dio(Ref ref) {

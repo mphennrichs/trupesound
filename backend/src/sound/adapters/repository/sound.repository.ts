@@ -15,7 +15,9 @@ export interface UpdateSoundInput {
 export abstract class SoundRepository {
   abstract list(): Promise<Sound[]>;
   abstract findById(id: number): Promise<Sound | null>;
+  abstract findByUrl(url: string): Promise<Sound | null>;
   abstract create(input: CreateSoundInput): Promise<Sound>;
   abstract update(id: number, input: UpdateSoundInput): Promise<Sound>;
+  abstract updateDuration(id: number, durationMs: number): Promise<void>;
   abstract archive(id: number): Promise<void>;
 }

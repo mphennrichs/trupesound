@@ -1,9 +1,13 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Req, Res, Body } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
 import { ArchiveSoundUseCase } from '../../../use-cases/archive-sound.use-case';
 import { CreateSoundUseCase } from '../../../use-cases/create-sound.use-case';
 import { ListSoundsUseCase } from '../../../use-cases/list-sounds.use-case';
 import { UpdateSoundUseCase } from '../../../use-cases/update-sound.use-case';
+import { UploadLocalSoundUseCase } from '../../../use-cases/upload-local-sound.use-case';
+import { ServeLocalSoundUseCase } from '../../../use-cases/serve-local-sound.use-case';
+import { SyncLocalSoundsUseCase } from '../../../use-cases/sync-local-sounds.use-case';
 import { Sound } from '../../../entities/sound.entity';
 import { CreateSoundRequestDto } from './dto/request/create-sound-request.dto';
 import { UpdateSoundRequestDto } from './dto/request/update-sound-request.dto';
@@ -17,6 +21,9 @@ export class SoundController {
     private readonly createSound: CreateSoundUseCase,
     private readonly updateSound: UpdateSoundUseCase,
     private readonly archiveSound: ArchiveSoundUseCase,
+    private readonly uploadLocalSound: UploadLocalSoundUseCase,
+    private readonly serveLocalSound: ServeLocalSoundUseCase,
+    private readonly syncLocalSounds: SyncLocalSoundsUseCase,
   ) {}
 
   private toDto(sound: Sound): SoundResponseDto {
@@ -70,5 +77,33 @@ export class SoundController {
   @ApiResponse({ status: 204 })
   async archive(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.archiveSound.execute(id);
+  }
+
+  @Post('sync')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: 204 })
+  async syncLocal(): Promise<void> {
+    await this.syncLocalSounds.execute();
+  }
+
+  @Put('upload/:fileName')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: 204 })
+  @ApiResponse({ status: 409, description: 'Local storage not configured' })
+  async uploadLocal(@Param('fileName') fileName: string, @Req() req: Request): Promise<void> {
+    await this.uploadLocalSound.execute(fileName, req);
+  }
+
+  @Get('file/:fileName')
+  @ApiResponse({ status: 200 })
+  @ApiResponse({ status: 404 })
+  async serveLocal(@Param('fileName') fileName: string, @Res() res: Response): Promise<void> {
+    const { stream, mimeType, size } = await this.serveLocalSound.execute(fileName);
+    res.setHeader('Content-Type', mimeType);
+    res.setHeader('Content-Length', size);
+    res.setHeader('Accept-Ranges', 'bytes');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    stream.pipe(res);
   }
 }

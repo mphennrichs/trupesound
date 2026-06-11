@@ -134,6 +134,8 @@ class ActTabs extends ConsumerWidget {
                       ),
                       ScriptCueItem(
                         cue: cueItem,
+                        playId: play.id,
+                        actNumber: act.number,
                         onDelete: () {
                           ref
                               .read(playsProvider.notifier)

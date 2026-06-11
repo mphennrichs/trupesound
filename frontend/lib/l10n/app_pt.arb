@@ -106,10 +106,10 @@
     "singleCue": "Deixa",
     "@singleCue": {},
 
-    "soundCues": "Deixas Sonoras",
+    "soundCues": "Deixas",
     "@soundCues": {},
 
-    "lastModified": "Última Modificação",
+    "lastModified": "Modificado",
     "@lastModified": {},
 
     "editPlayFormTitle": "Editar Peça",
@@ -213,8 +213,14 @@
     "pressForHotkey": "Pressione uma tecla para usar como atalho",
     "@pressForHotkey": {},
 
+    "system": "Sistema",
+    "@system": {},
+
     "systemTitle": "Dados do Sistema",
     "@systemTitle": {},
+
+    "systemDescription": "Visão geral da aplicação.",
+    "@systemDescription": {},
 
     "applicationID": "ID da Aplicação",
     "@applicationID": {},
@@ -277,5 +283,20 @@
     "@localFolder": {},
 
     "localFolderHint": "Endereço da sua pasta local de sons.",
-    "@localFolderHint": {}
+    "@localFolderHint": {},
+
+    "syncSounds": "Sincronizar Sons",
+    "@syncSounds": {},
+
+    "hotkeyInUse": "já está em uso. Pressione uma tecla diferente.",
+    "@hotkeyInUse": {},
+
+    "trimStart": "Início",
+    "@trimStart": {},
+
+    "trimEnd": "Fim",
+    "@trimEnd": {},
+
+    "cueDuration": "Duração do Cue",
+    "@cueDuration": {}
 }

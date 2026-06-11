@@ -5,8 +5,13 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 
 class HotkeyCaptureDialog extends StatefulWidget {
   final ValueChanged<String> onHotkeyCaptured;
+  final Set<String> usedHotkeys;
 
-  const HotkeyCaptureDialog({super.key, required this.onHotkeyCaptured});
+  const HotkeyCaptureDialog({
+    super.key,
+    required this.onHotkeyCaptured,
+    this.usedHotkeys = const {},
+  });
 
   @override
   State<HotkeyCaptureDialog> createState() => _HotkeyCaptureDialogState();
@@ -14,6 +19,7 @@ class HotkeyCaptureDialog extends StatefulWidget {
 
 class _HotkeyCaptureDialogState extends State<HotkeyCaptureDialog> {
   final FocusNode _focusNode = FocusNode();
+  String? _conflictKey;
 
   @override
   void initState() {
@@ -37,11 +43,16 @@ class _HotkeyCaptureDialogState extends State<HotkeyCaptureDialog> {
       onKeyEvent: (event) {
         if (event is KeyDownEvent) {
           final label = event.logicalKey.keyLabel;
-          // Only capture single character keys (A-Z, 0-9, etc.)
-          if (label.length == 1) {
-            widget.onHotkeyCaptured(label);
-            Navigator.of(context).pop();
+          if (label.length != 1) return;
+
+          if (widget.usedHotkeys.contains(label.toLowerCase())) {
+            setState(() => _conflictKey = label.toUpperCase());
+            return;
           }
+
+          setState(() => _conflictKey = null);
+          widget.onHotkeyCaptured(label);
+          Navigator.of(context).pop();
         }
       },
       child: AlertDialog(
@@ -54,19 +65,26 @@ class _HotkeyCaptureDialogState extends State<HotkeyCaptureDialog> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.keyboard,
-              color: AppThemes.colors.primaryColor,
-              size: 48,
-            ),
+            Icon(Icons.keyboard, color: AppThemes.colors.primaryColor, size: 48),
             const SizedBox(height: 16),
             Text(
               l10n.pressForHotkey,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
+            if (_conflictKey != null) ...[
+              const SizedBox(height: 12),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.warning_amber_rounded, color: Colors.orangeAccent, size: 16),
+                  const SizedBox(width: 6),
+                  Text(
+                    '"$_conflictKey" ${l10n.hotkeyInUse}',
+                    style: const TextStyle(color: Colors.orangeAccent, fontSize: 13),
+                  ),
+                ],
+              ),
+            ],
           ],
         ),
       ),

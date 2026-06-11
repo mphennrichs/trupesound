@@ -1,0 +1,63 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'audio_player_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+@ProviderFor(AudioPlayerNotifier)
+final audioPlayerProvider = AudioPlayerNotifierProvider._();
+
+final class AudioPlayerNotifierProvider
+    extends $NotifierProvider<AudioPlayerNotifier, AudioPlayerState> {
+  AudioPlayerNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'audioPlayerProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$audioPlayerNotifierHash();
+
+  @$internal
+  @override
+  AudioPlayerNotifier create() => AudioPlayerNotifier();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(AudioPlayerState value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<AudioPlayerState>(value),
+    );
+  }
+}
+
+String _$audioPlayerNotifierHash() =>
+    r'86d1874dd6e079fce45d653e2b7b41e001fea108';
+
+abstract class _$AudioPlayerNotifier extends $Notifier<AudioPlayerState> {
+  AudioPlayerState build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AudioPlayerState, AudioPlayerState>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AudioPlayerState, AudioPlayerState>,
+              AudioPlayerState,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}

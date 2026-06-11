@@ -32,7 +32,7 @@ class Play {
     final iconCode = json['icon'] as int?;
     final bgHex = json['backgroundColor'] as String?;
     return Play(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       author: json['author'] as String,
       acts: acts,

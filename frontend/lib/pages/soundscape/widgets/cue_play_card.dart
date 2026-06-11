@@ -6,6 +6,7 @@ import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_cue_model.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
+import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/plays/provider/plays_provider.dart';
 import 'package:trupe_sound/pages/soundscape/provider/sound_playback_provider.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/active_tag.dart';
@@ -70,19 +71,23 @@ class CuePlayCard extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    l10n.hotkey.toUpperCase(),
-                    style: TextStyle(
-                      color: AppThemes.colors.textColor,
-                      fontSize: AppThemes.texts.verySmallFontSize,
-                    ),
-                  ),
+                  isPlaying
+                      ? Icon(
+                          Icons.stop_circle_outlined,
+                          color: Colors.white,
+                          size: AppThemes.texts.normalFontSize,
+                        )
+                      : Text(
+                          l10n.hotkey.toUpperCase(),
+                          style: TextStyle(
+                            color: AppThemes.colors.textColor,
+                            fontSize: AppThemes.texts.verySmallFontSize,
+                          ),
+                        ),
                   Text(
                     cue.hotkey.isEmpty ? '?' : cue.hotkey.toUpperCase(),
                     style: TextStyle(
-                      color: isPlaying
-                          ? Colors.white
-                          : AppThemes.colors.textColor,
+                      color: isPlaying ? Colors.white : AppThemes.colors.textColor,
                       fontSize: AppThemes.texts.normalFontSize,
                       fontWeight: FontWeight.bold,
                     ),
@@ -99,41 +104,56 @@ class CuePlayCard extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (sound != null)
-                      Text(
-                        sound.name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: AppThemes.texts.normalFontSize,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    else
-                      Shimmer.fromColors(
-                        baseColor: AppThemes.colors.borderColor,
-                        highlightColor: AppThemes.colors.cardColor,
-                        child: Container(
-                          width: 120,
-                          height: AppThemes.texts.normalFontSize,
-                          decoration: BoxDecoration(
-                            color: AppThemes.colors.cardColor,
-                          ),
-                        ),
-                      ),
-                    if (isPlaying) const ActiveTag(),
+                    Expanded(
+                      child: sound != null
+                          ? Text(
+                              sound.name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: AppThemes.texts.normalFontSize,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          : Shimmer.fromColors(
+                              baseColor: AppThemes.colors.borderColor,
+                              highlightColor: AppThemes.colors.cardColor,
+                              child: Container(
+                                width: 120,
+                                height: AppThemes.texts.normalFontSize,
+                                decoration: BoxDecoration(
+                                  color: AppThemes.colors.cardColor,
+                                ),
+                              ),
+                            ),
+                    ),
+                    if (isPlaying) ...[
+                      SizedBox(width: AppThemes.spacings.singleValue / 2),
+                      const ActiveTag(),
+                    ],
                   ],
                 ),
                 if (sound == null) AppThemes.spacings.halfSpace,
                 if (sound != null)
-                  Text(
-                    sound.category.getText(context).toUpperCase(),
-                    style: TextStyle(
-                      color: AppThemes.colors.hintTextColor,
-                      fontSize: AppThemes.texts.smallFontSize,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        sound.category.getText(context).toUpperCase(),
+                        style: TextStyle(
+                          color: AppThemes.colors.hintTextColor,
+                          fontSize: AppThemes.texts.smallFontSize,
+                        ),
+                      ),
+                      SizedBox(width: AppThemes.spacings.singleValue / 2),
+                      Text(
+                        '· ${_formatCueDuration(sound.duration.inMilliseconds)}',
+                        style: TextStyle(
+                          color: AppThemes.colors.hintTextColor,
+                          fontSize: AppThemes.texts.smallFontSize,
+                        ),
+                      ),
+                    ],
                   )
                 else
                   Shimmer.fromColors(
@@ -191,12 +211,18 @@ class CuePlayCard extends ConsumerWidget {
           // Column 4: Play/Stop Button
           IconButton(
             icon: Icon(
-              isPlaying ? Icons.stop_circle : Icons.play_circle_fill_outlined,
+              isPlaying ? Icons.stop_circle_outlined : Icons.play_circle_outline,
               color: AppThemes.colors.primaryColor,
               size: AppThemes.texts.h1FontSize * 1.8,
             ),
             onPressed: () {
-              ref.read(soundPlaybackProvider.notifier).togglePlayback(cue.id);
+              ref.read(soundPlaybackProvider.notifier).togglePlayback(
+                cue.id,
+                cue.soundId,
+                startMs: cue.startMs,
+                endMs: cue.endMs,
+                loop: isRepeat,
+              );
             },
           ),
         ],
@@ -204,10 +230,33 @@ class CuePlayCard extends ConsumerWidget {
     );
   }
 
+  String _formatCueDuration(int soundDurationMs) {
+    final start = cue.startMs ?? 0;
+    final end = cue.endMs ?? soundDurationMs;
+    final ms = (end - start).clamp(0, soundDurationMs);
+    final d = Duration(milliseconds: ms);
+    final m = d.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final s = d.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$m:$s';
+  }
+
   void _showHotkeyDialog(BuildContext context, WidgetRef ref) {
+    final playsState = ref.read(playsProvider);
+    final plays = playsState.when(data: (v) => v, loading: () => const <Play>[], error: (e, s) => const <Play>[]);
+    final play = plays.where((p) => p.id == playId).firstOrNull;
+    final usedHotkeys = play == null
+        ? <String>{}
+        : {
+            for (final act in play.acts)
+              for (final c in act.cues)
+                if (c.id != cue.id && c.hotkey.isNotEmpty)
+                  c.hotkey.toLowerCase(),
+          };
+
     showDialog(
       context: context,
       builder: (context) => HotkeyCaptureDialog(
+        usedHotkeys: usedHotkeys,
         onHotkeyCaptured: (key) {
           ref
               .read(playsProvider.notifier)

@@ -52,4 +52,8 @@ class StorageConfigService {
       'localFolder': localFolder,
     });
   }
+
+  Future<void> syncLocalSounds() async {
+    await _dio.post('/v1/sounds/sync');
+  }
 }

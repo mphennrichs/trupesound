@@ -280,5 +280,20 @@
     "@localFolder": {},
 
     "localFolderHint": "Path to your local sound folder.",
-    "@localFolderHint": {}
+    "@localFolderHint": {},
+
+    "syncSounds": "Sync Sounds",
+    "@syncSounds": {},
+
+    "hotkeyInUse": "is already in use. Press a different key.",
+    "@hotkeyInUse": {},
+
+    "trimStart": "Start",
+    "@trimStart": {},
+
+    "trimEnd": "End",
+    "@trimEnd": {},
+
+    "cueDuration": "Cue Duration",
+    "@cueDuration": {}
 }

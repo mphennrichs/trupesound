@@ -592,6 +592,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Path to your local sound folder.'**
   String get localFolderHint;
+
+  /// No description provided for @syncSounds.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync Sounds'**
+  String get syncSounds;
+
+  /// No description provided for @hotkeyInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'is already in use. Press a different key.'**
+  String get hotkeyInUse;
+
+  /// No description provided for @trimStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get trimStart;
+
+  /// No description provided for @trimEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get trimEnd;
+
+  /// No description provided for @cueDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Cue Duration'**
+  String get cueDuration;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

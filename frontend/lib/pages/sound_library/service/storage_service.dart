@@ -1,77 +1,50 @@
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:minio/minio.dart';
+import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:trupe_sound/pages/system/provider/system_info_provider.dart';
-import 'package:trupe_sound/pages/system/service/storage_config_service.dart';
+import 'package:trupe_sound/common/providers/dio_provider.dart';
 
 part 'storage_service.g.dart';
 
 class StorageNotConfiguredException implements Exception {}
 
-class _StorageConfig {
-  final String endpoint;
-  final String accessKey;
-  final String secretKey;
-  const _StorageConfig({required this.endpoint, required this.accessKey, required this.secretKey});
-}
-
 @Riverpod(keepAlive: true)
-Future<StorageService> storageService(Ref ref) async {
-  final appId = await ref.read(applicationIdProvider.future);
-  final config = await ref.read(storageConfigServiceProvider).load();
-  if (config == null) throw StorageNotConfiguredException();
-
-  final service = StorageService(
-    appId: appId,
-    config: _StorageConfig(endpoint: config.endpoint, accessKey: config.accessKey, secretKey: ''),
-  );
-  await service.initialize();
-  return service;
+StorageService storageService(Ref ref) {
+  return StorageService(ref.read(dioProvider));
 }
 
 class StorageService {
-  static const _soundsPrefix = 'sounds';
+  final Dio _dio;
 
-  final String _appId;
-  final _StorageConfig _config;
-  late final Minio _client;
-
-  StorageService({required String appId, required _StorageConfig config})
-    : _appId = appId,
-      _config = config {
-    _client = Minio(
-      endPoint: config.endpoint,
-      accessKey: config.accessKey,
-      secretKey: config.secretKey,
-    );
-  }
-
-  Future<void> initialize() async {
-    final exists = await _client.bucketExists(_appId);
-    if (!exists) {
-      await _client.makeBucket(_appId);
-    }
-  }
+  StorageService(this._dio);
 
   Future<String> uploadSound({
     required String localFilePath,
     required String fileName,
     required void Function(double progress) onProgress,
   }) async {
-    final file = File(localFilePath);
-    final fileSize = await file.length();
-    final objectName = '$_soundsPrefix/$fileName';
-
-    await _client.putObject(
-      _appId,
-      objectName,
-      file.openRead().cast<Uint8List>(),
-      size: fileSize,
-      onProgress: (bytes) => onProgress(bytes / fileSize),
+    final presignResponse = await _dio.post<Map<String, dynamic>>(
+      '/v1/app/storage/presign',
+      data: {'fileName': fileName},
     );
 
-    return 'http://${_config.endpoint}/$_appId/$objectName';
+    final uploadUrl = presignResponse.data!['uploadUrl'] as String;
+    final objectUrl = presignResponse.data!['objectUrl'] as String;
+
+    final file = File(localFilePath);
+    final fileSize = await file.length();
+
+    await Dio().put(
+      uploadUrl,
+      data: file.openRead(),
+      options: Options(
+        headers: {Headers.contentLengthHeader: fileSize},
+      ),
+      onSendProgress: (sent, total) {
+        if (total > 0) onProgress(sent / total);
+      },
+    );
+
+    return objectUrl;
   }
 }

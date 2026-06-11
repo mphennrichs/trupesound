@@ -40,7 +40,7 @@ final class PanicActionProvider extends $NotifierProvider<PanicAction, void> {
   }
 }
 
-String _$panicActionHash() => r'7d1ea759fc7ec73c4b231b63afe4a6b5f2cc0f7d';
+String _$panicActionHash() => r'a4383a5c3182b19d798c69c9ed0dd6e6de3168ee';
 
 abstract class _$PanicAction extends $Notifier<void> {
   void build();

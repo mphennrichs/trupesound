@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:go_router/go_router.dart';
@@ -9,14 +10,42 @@ import 'package:trupe_sound/pages/custom/custom_bottom_navigation_bar.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_navigation_rail.dart';
 import 'package:trupe_sound/pages/custom/navigation_item.dart';
+import 'package:trupe_sound/pages/custom/providers/panic_provider.dart';
 
-class BasePage extends ConsumerWidget {
+class BasePage extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   const BasePage({super.key, required this.navigationShell});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BasePage> createState() => _BasePageState();
+}
+
+class _BasePageState extends ConsumerState<BasePage> {
+  late final FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  KeyEventResult _handleKey(FocusNode node, KeyEvent event) {
+    if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.escape) {
+      ref.read(panicActionProvider.notifier).execute();
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final List<NavigationItem> topNavigationDestinations = [
       NavigationItem(
         NavigationPage.plays,
@@ -44,30 +73,34 @@ class BasePage extends ConsumerWidget {
       ),
     ];
 
-    return Scaffold(
-      appBar: const CustomAppBar(),
-      body: Row(
-        children: [
-          CustomNavigationRail(
-            selectedIndex: navigationShell.currentIndex,
-            onDestinationSelected: (index) {
-              // Navega para o ramo correspondente
-              navigationShell.goBranch(
-                index,
-                initialLocation: index == navigationShell.currentIndex,
-              );
-            },
-            topDestinations: topNavigationDestinations,
-          ),
-          VerticalDivider(
-            thickness: 0.5,
-            width: 0.5,
-            color: AppThemes.colors.borderColor,
-          ),
-          Expanded(child: navigationShell),
-        ],
+    return Focus(
+      focusNode: _focusNode,
+      autofocus: true,
+      onKeyEvent: _handleKey,
+      child: Scaffold(
+        appBar: const CustomAppBar(),
+        body: Row(
+          children: [
+            CustomNavigationRail(
+              selectedIndex: widget.navigationShell.currentIndex,
+              onDestinationSelected: (index) {
+                widget.navigationShell.goBranch(
+                  index,
+                  initialLocation: index == widget.navigationShell.currentIndex,
+                );
+              },
+              topDestinations: topNavigationDestinations,
+            ),
+            VerticalDivider(
+              thickness: 0.5,
+              width: 0.5,
+              color: AppThemes.colors.borderColor,
+            ),
+            Expanded(child: widget.navigationShell),
+          ],
+        ),
+        bottomNavigationBar: const CustomBottomNavigationBar(),
       ),
-      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }

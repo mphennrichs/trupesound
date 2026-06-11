@@ -7,6 +7,8 @@ class SoundCueModel {
   final PlayMode mode;
   final String soundId;
   final DateTime createdAt;
+  final int? startMs;
+  final int? endMs;
 
   SoundCueModel({
     required this.id,
@@ -15,6 +17,8 @@ class SoundCueModel {
     required this.mode,
     required this.soundId,
     required this.createdAt,
+    this.startMs,
+    this.endMs,
   });
 
   factory SoundCueModel.fromJson(Map<String, dynamic> json) => SoundCueModel(
@@ -24,6 +28,8 @@ class SoundCueModel {
     mode: json['mode'] == 'repeat' ? PlayMode.repeat : PlayMode.once,
     soundId: json['soundId'] as String,
     createdAt: DateTime.parse(json['createdAt'] as String),
+    startMs: (json['startMs'] as num?)?.toInt(),
+    endMs: (json['endMs'] as num?)?.toInt(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -33,6 +39,8 @@ class SoundCueModel {
     'mode': mode == PlayMode.repeat ? 'repeat' : 'once',
     'soundId': soundId,
     'createdAt': createdAt.toIso8601String(),
+    if (startMs != null) 'startMs': startMs,
+    if (endMs != null) 'endMs': endMs,
   };
 
   SoundCueModel copyWith({
@@ -42,6 +50,10 @@ class SoundCueModel {
     PlayMode? mode,
     String? soundId,
     DateTime? createdAt,
+    int? startMs,
+    int? endMs,
+    bool clearStart = false,
+    bool clearEnd = false,
   }) {
     return SoundCueModel(
       id: id ?? this.id,
@@ -50,6 +62,8 @@ class SoundCueModel {
       mode: mode ?? this.mode,
       soundId: soundId ?? this.soundId,
       createdAt: createdAt ?? this.createdAt,
+      startMs: clearStart ? null : (startMs ?? this.startMs),
+      endMs: clearEnd ? null : (endMs ?? this.endMs),
     );
   }
 }

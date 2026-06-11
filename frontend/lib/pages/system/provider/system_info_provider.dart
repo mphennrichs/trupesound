@@ -9,7 +9,9 @@ part 'system_info_provider.g.dart';
 Future<String> applicationId(Ref ref) async {
   final dio = ref.read(dioProvider);
   final response = await dio.post('/v1/app/init');
-  return response.data['appId'] as String;
+  final data = response.data;
+  if (data is! Map) throw Exception('Unexpected response from /app/init');
+  return data['appId'] as String;
 }
 
 /// Identifies the quantity of sounds per category using data from [soundsProvider].

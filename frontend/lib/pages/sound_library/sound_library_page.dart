@@ -4,12 +4,31 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_title.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
-import 'package:trupe_sound/pages/sound_library/sounds_table.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
+import 'package:trupe_sound/pages/sound_library/providers/storage_mode_provider.dart';
+import 'package:trupe_sound/pages/system/service/storage_config_service.dart';
+import 'package:trupe_sound/pages/sound_library/sounds_table.dart';
 import 'package:trupe_sound/pages/sound_library/sound_upload.dart';
 
-class SoundLibraryPage extends ConsumerWidget {
+class SoundLibraryPage extends ConsumerStatefulWidget {
   const SoundLibraryPage({super.key});
+
+  @override
+  ConsumerState<SoundLibraryPage> createState() => _SoundLibraryPageState();
+}
+
+class _SoundLibraryPageState extends ConsumerState<SoundLibraryPage> {
+  bool _isSyncing = false;
+
+  Future<void> _sync() async {
+    setState(() => _isSyncing = true);
+    try {
+      await ref.read(storageConfigServiceProvider).syncLocalSounds();
+      ref.invalidate(soundsProvider);
+    } finally {
+      if (mounted) setState(() => _isSyncing = false);
+    }
+  }
 
   Widget _buildFilterItem(
     BuildContext context,
@@ -72,9 +91,76 @@ class SoundLibraryPage extends ConsumerWidget {
     );
   }
 
+  Widget _buildActionButton(BuildContext context, AppLocalizations l10n, StorageMode mode) {
+    if (mode == StorageMode.local) {
+      return ElevatedButton(
+        style: AppThemes.buttons.primaryButtonStyle,
+        onPressed: _isSyncing ? null : _sync,
+        child: Row(
+          children: [
+            _isSyncing
+                ? SizedBox(
+                    width: AppThemes.texts.h1FontSize,
+                    height: AppThemes.texts.h1FontSize,
+                    child: const CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                  )
+                : Icon(
+                    Icons.sync,
+                    color: Colors.white,
+                    size: AppThemes.texts.h1FontSize,
+                  ),
+            SizedBox(width: AppThemes.spacings.singleValue / 2),
+            Text(
+              l10n.syncSounds,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: AppThemes.texts.normalFontSize,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (mode == StorageMode.cloud) {
+      return ElevatedButton(
+        style: AppThemes.buttons.primaryButtonStyle,
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => const SoundUploadPage(),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.cloud_upload_outlined,
+              color: Colors.white,
+              size: AppThemes.texts.h1FontSize,
+            ),
+            SizedBox(width: AppThemes.spacings.singleValue / 2),
+            Text(
+              l10n.addSound,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: AppThemes.texts.normalFontSize,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final modeAsync = ref.watch(storageModeProvider);
+    final mode = modeAsync.when(
+      data: (m) => m,
+      loading: () => StorageMode.unknown,
+      error: (e, s) => StorageMode.unknown,
+    );
 
     return Container(
       width: double.infinity,
@@ -95,30 +181,7 @@ class SoundLibraryPage extends ConsumerWidget {
                 title: l10n.soundLibraryTitle,
                 description: l10n.soundLibraryDescription,
               ),
-              ElevatedButton(
-                style: AppThemes.buttons.primaryButtonStyle,
-                onPressed: () => showDialog(
-                  context: context,
-                  builder: (context) => const SoundUploadPage(),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.cloud_upload_outlined,
-                      color: Colors.white,
-                      size: AppThemes.texts.h1FontSize,
-                    ),
-                    SizedBox(width: AppThemes.spacings.singleValue / 2),
-                    Text(
-                      l10n.addSound,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: AppThemes.texts.normalFontSize,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _buildActionButton(context, l10n, mode),
             ],
           ),
           AppThemes.spacings.singleSpace,

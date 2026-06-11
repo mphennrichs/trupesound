@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:trupe_sound/common/app_themes.dart';
+import 'package:trupe_sound/common/providers/audio_player_provider.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
+import 'package:trupe_sound/pages/sound_library/service/sound_service.dart';
 import 'package:trupe_sound/pages/custom/delete_confirmation_dialog.dart';
 
 class SoundsTable extends ConsumerWidget {
@@ -163,13 +165,19 @@ class SoundsTable extends ConsumerWidget {
   }
 
   DataRow _buildDataRow(BuildContext context, WidgetRef ref, SoundModel asset) {
+    final audioState = ref.watch(audioPlayerProvider);
+    final isPlaying = audioState.isPlayingId(asset.id);
+
     return DataRow(
       cells: [
         DataCell(
-          Icon(
-            Icons.play_circle_outline,
-            color: AppThemes.colors.primaryColor,
-            size: AppThemes.texts.h1FontSize * 1.5,
+          IconButton(
+            onPressed: () => ref.read(audioPlayerProvider.notifier).play(asset.id, asset.url),
+            icon: Icon(
+              isPlaying ? Icons.stop_circle_outlined : Icons.play_circle_outline,
+              color: AppThemes.colors.primaryColor,
+              size: AppThemes.texts.h1FontSize * 1.5,
+            ),
           ),
         ),
         DataCell(Text(asset.name, style: const TextStyle(color: Colors.white))),
@@ -198,8 +206,11 @@ class SoundsTable extends ConsumerWidget {
       children: [
         IconButton(
           tooltip: l10n.edit,
-          onPressed: () {
-            print("EDIT sound ${sound.name}");
+          onPressed: () async {
+            final updated = await _SoundEditDialog.show(context, sound);
+            if (updated != null && context.mounted) {
+              ref.read(soundsProvider.notifier).updateSound(updated);
+            }
           },
           icon: Icon(Icons.edit_outlined, size: AppThemes.texts.h1FontSize),
           color: Colors.white,
@@ -212,7 +223,6 @@ class SoundsTable extends ConsumerWidget {
               title: l10n.delete,
               message: l10n.deleteSoundConfirmationMessage,
             );
-
             if (confirmed == true && context.mounted) {
               ref.read(soundsProvider.notifier).deleteSound(sound.id);
             }
@@ -221,6 +231,168 @@ class SoundsTable extends ConsumerWidget {
           color: Colors.red,
         ),
       ],
+    );
+  }
+}
+
+class _SoundEditDialog extends ConsumerStatefulWidget {
+  final SoundModel sound;
+  const _SoundEditDialog({required this.sound});
+
+  static Future<SoundModel?> show(BuildContext context, SoundModel sound) {
+    return showDialog<SoundModel>(
+      context: context,
+      builder: (_) => _SoundEditDialog(sound: sound),
+    );
+  }
+
+  @override
+  ConsumerState<_SoundEditDialog> createState() => _SoundEditDialogState();
+}
+
+class _SoundEditDialogState extends ConsumerState<_SoundEditDialog> {
+  late final TextEditingController _nameController;
+  late SoundCategory _category;
+  bool _isSaving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController(text: widget.sound.name);
+    _category = widget.sound.category;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    setState(() => _isSaving = true);
+    try {
+      final updated = await ref.read(soundServiceProvider).update(
+        widget.sound.id,
+        name: _nameController.text.trim(),
+        category: _category,
+      );
+      if (mounted) Navigator.of(context).pop(updated);
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final categories = SoundCategory.values.where((c) => c != SoundCategory.all).toList();
+
+    return Dialog(
+      backgroundColor: AppThemes.colors.cardColor,
+      shape: RoundedRectangleBorder(borderRadius: AppThemes.borders.defaultBorderRadius),
+      child: Container(
+        width: 400,
+        padding: EdgeInsets.all(AppThemes.spacings.doubleValue),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.edit_outlined, color: AppThemes.colors.primaryColor, size: 24),
+                AppThemes.spacings.singleSpace,
+                Text(
+                  l10n.edit,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: AppThemes.texts.h1FontSize,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                IconButton(
+                  onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
+                  icon: const Icon(Icons.close, color: Colors.white70),
+                ),
+              ],
+            ),
+            AppThemes.spacings.singleSpace,
+            Text(
+              l10n.soundNameColumn.toUpperCase(),
+              style: TextStyle(
+                color: AppThemes.colors.textColor.withValues(alpha: 0.6),
+                fontSize: AppThemes.texts.smallFontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: AppThemes.spacings.singleValue / 2),
+            TextField(
+              controller: _nameController,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppThemes.colors.backgroundColor,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: AppThemes.borders.defaultBorderRadius,
+                  borderSide: BorderSide(color: AppThemes.colors.borderColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: AppThemes.borders.defaultBorderRadius,
+                  borderSide: BorderSide(color: AppThemes.colors.primaryColor),
+                ),
+              ),
+            ),
+            AppThemes.spacings.singleSpace,
+            Text(
+              l10n.categoryColumn.toUpperCase(),
+              style: TextStyle(
+                color: AppThemes.colors.textColor.withValues(alpha: 0.6),
+                fontSize: AppThemes.texts.smallFontSize,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: AppThemes.spacings.singleValue / 2),
+            DropdownButtonFormField<SoundCategory>(
+              initialValue: _category,
+              dropdownColor: AppThemes.colors.cardColor,
+              isExpanded: true,
+              style: const TextStyle(color: Colors.white),
+              items: categories.map((c) => DropdownMenuItem(value: c, child: Text(c.getText(context)))).toList(),
+              onChanged: (v) { if (v != null) setState(() => _category = v); },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppThemes.colors.backgroundColor,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: AppThemes.borders.defaultBorderRadius,
+                  borderSide: BorderSide(color: AppThemes.colors.borderColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: AppThemes.borders.defaultBorderRadius,
+                  borderSide: BorderSide(color: AppThemes.colors.primaryColor),
+                ),
+              ),
+            ),
+            AppThemes.spacings.singleSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
+                  child: Text(l10n.cancel, style: const TextStyle(color: Colors.white)),
+                ),
+                AppThemes.spacings.singleSpace,
+                ElevatedButton(
+                  style: AppThemes.buttons.primaryButtonStyle,
+                  onPressed: _isSaving ? null : _save,
+                  child: _isSaving
+                      ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                      : Text(l10n.save, style: const TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

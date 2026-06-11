@@ -5,15 +5,37 @@ import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/plays/models/play.dart';
 import 'package:trupe_sound/pages/soundscape/widgets/cue_play_card.dart';
+import 'package:trupe_sound/pages/sound_library/models/sound_cue_model.dart';
 import 'package:trupe_sound/pages/soundscape/provider/sound_playback_provider.dart';
 
-class SoundCueList extends ConsumerWidget {
+class SoundCueList extends ConsumerStatefulWidget {
   final Play play;
 
   const SoundCueList({super.key, required this.play});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SoundCueList> createState() => _SoundCueListState();
+}
+
+class _SoundCueListState extends ConsumerState<SoundCueList> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _focusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final controller = DefaultTabController.of(context);
 
@@ -23,27 +45,31 @@ class SoundCueList extends ConsumerWidget {
         listenable: controller,
         builder: (context, _) {
           final currentActIndex = controller.index;
-          if (currentActIndex >= play.acts.length) {
+          if (currentActIndex >= widget.play.acts.length) {
             return const SizedBox.shrink();
           }
 
-          final act = play.acts[currentActIndex];
+          final act = widget.play.acts[currentActIndex];
 
           // Sort cues by their line number position
           final sortedCues = [...act.cues];
           sortedCues.sort((a, b) => a.line.compareTo(b.line));
 
           return Focus(
-            autofocus: true,
+            focusNode: _focusNode,
             onKeyEvent: (node, event) {
               if (event is KeyDownEvent) {
                 final keyLabel = event.logicalKey.keyLabel.toLowerCase();
                 for (final cue in act.cues) {
                   if (cue.hotkey.toLowerCase() == keyLabel &&
                       keyLabel.isNotEmpty) {
-                    ref
-                        .read(soundPlaybackProvider.notifier)
-                        .togglePlayback(cue.id);
+                    ref.read(soundPlaybackProvider.notifier).togglePlayback(
+                      cue.id,
+                      cue.soundId,
+                      startMs: cue.startMs,
+                      endMs: cue.endMs,
+                      loop: cue.mode == PlayMode.repeat,
+                    );
                     return KeyEventResult.handled;
                   }
                 }
@@ -74,7 +100,7 @@ class SoundCueList extends ConsumerWidget {
                             itemBuilder: (context, index) {
                               return CuePlayCard(
                                 cue: sortedCues[index],
-                                playId: play.id,
+                                playId: widget.play.id,
                                 actNumber: act.number,
                               );
                             },

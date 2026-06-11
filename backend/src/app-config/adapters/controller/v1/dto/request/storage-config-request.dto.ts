@@ -1,9 +1,9 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
 export class StorageConfigRequestDto {
-  @ApiProperty() @IsString() @IsNotEmpty() endpoint: string;
-  @ApiProperty() @IsString() @IsNotEmpty() accessKey: string;
-  @ApiProperty() @IsString() @IsNotEmpty() secretKey: string;
+  @ApiPropertyOptional() @IsString() @IsOptional() endpoint?: string;
+  @ApiPropertyOptional() @IsString() @IsOptional() accessKey?: string;
+  @ApiPropertyOptional() @IsString() @IsOptional() secretKey?: string;
   @ApiPropertyOptional() @IsString() @IsOptional() localFolder?: string;
 }

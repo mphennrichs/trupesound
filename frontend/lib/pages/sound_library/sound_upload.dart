@@ -62,7 +62,7 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
     });
 
     try {
-      final storageService = await ref.read(storageServiceProvider.future);
+      final storageService = ref.read(storageServiceProvider);
       final url = await storageService.uploadSound(
         localFilePath: _selectedFile!.path!,
         fileName: _selectedFile!.name,
@@ -296,33 +296,10 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
     );
   }
 
-  Widget _buildStorageBanner(AppLocalizations l10n) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: AppThemes.spacings.singleValue),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.warning_amber_rounded,
-            color: Colors.orangeAccent,
-            size: 16,
-          ),
-          SizedBox(width: AppThemes.spacings.singleValue / 2),
-          Expanded(
-            child: Text(
-              l10n.storageNotConfigured,
-              style: const TextStyle(color: Colors.orangeAccent, fontSize: 12),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final storageAsync = ref.watch(storageServiceProvider);
-    final storageReady = storageAsync.hasValue;
+    final storageReady = true;
     final categories = SoundCategory.values
         .where((c) => c != SoundCategory.all)
         .toList();
@@ -342,8 +319,7 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
             children: [
               _buildHeader(context, l10n),
               AppThemes.spacings.singleSpace,
-              if (storageAsync.hasError) _buildStorageBanner(l10n),
-              _buildDropzone(l10n),
+_buildDropzone(l10n),
               AppThemes.spacings.singleSpace,
               _buildProgressSection(l10n),
               CustomTextInput(

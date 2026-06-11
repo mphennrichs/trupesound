@@ -1,9 +1,11 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/custom/custom_text_input.dart';
+import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
 import 'package:trupe_sound/pages/sound_library/service/storage_service.dart';
 import 'package:trupe_sound/pages/system/service/storage_config_service.dart';
 
@@ -78,7 +80,9 @@ class _StorageConfigSectionState extends ConsumerState<StorageConfigSection> {
             secretKey: _secretKeyController.text.trim(),
             localFolder: _localFolderController.text.trim(),
           );
+      await ref.read(storageConfigServiceProvider).syncLocalSounds();
       ref.invalidate(storageServiceProvider);
+      ref.invalidate(soundsProvider);
       if (mounted) {
         setState(() {
           _isSaving = false;
@@ -164,7 +168,7 @@ class _StorageConfigSectionState extends ConsumerState<StorageConfigSection> {
                   title: l10n.localFolder,
                   exampleText: l10n.localFolderHint,
                   controller: _localFolderController,
-                  suffixIcon: IconButton(
+                  suffixIcon: kIsWeb ? null : IconButton(
                     icon: Icon(
                       Icons.folder_open_outlined,
                       color: AppThemes.colors.hintTextColor,

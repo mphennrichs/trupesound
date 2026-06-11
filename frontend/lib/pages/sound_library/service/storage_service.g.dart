@@ -13,13 +13,8 @@ part of 'storage_service.dart';
 final storageServiceProvider = StorageServiceProvider._();
 
 final class StorageServiceProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<StorageService>,
-          StorageService,
-          FutureOr<StorageService>
-        >
-    with $FutureModifier<StorageService>, $FutureProvider<StorageService> {
+    extends $FunctionalProvider<StorageService, StorageService, StorageService>
+    with $Provider<StorageService> {
   StorageServiceProvider._()
     : super(
         from: null,
@@ -36,14 +31,21 @@ final class StorageServiceProvider
 
   @$internal
   @override
-  $FutureProviderElement<StorageService> $createElement(
-    $ProviderPointer pointer,
-  ) => $FutureProviderElement(pointer);
+  $ProviderElement<StorageService> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
-  FutureOr<StorageService> create(Ref ref) {
+  StorageService create(Ref ref) {
     return storageService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(StorageService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<StorageService>(value),
+    );
   }
 }
 
-String _$storageServiceHash() => r'129f60d79c1cf8cfa4dbbf7e19eb717d65d0f012';
+String _$storageServiceHash() => r'f7d6dcf0ec0234c449131561dccfc72a6239632e';

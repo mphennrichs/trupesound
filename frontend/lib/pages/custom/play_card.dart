@@ -103,9 +103,10 @@ class PlayCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: cardHeight * 0.4, child: _buildBanner()),
+              Expanded(flex: 4, child: _buildBanner()),
               AppThemes.spacings.singleSpace,
               Expanded(
+                flex: 6,
                 child: Padding(
                   padding: EdgeInsets.only(
                     left: AppThemes.spacings.singleValue,
@@ -117,23 +118,11 @@ class PlayCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _buildInfoBox(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: _buildMetadataColumn(
-                              l10n.soundCues,
-                              l10n.cue(cueCount),
-                            ),
-                          ),
-                          Expanded(
-                            child: _buildMetadataColumn(
-                              l10n.lastModified,
-                              lastModified,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                            ),
-                          ),
-                        ],
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: FractionallySizedBox(
+                          child: _buildSecondaryInfo(l10n),
+                        ),
                       ),
                     ],
                   ),
@@ -143,6 +132,24 @@ class PlayCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSecondaryInfo(AppLocalizations l10n) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: _buildMetadataColumn(l10n.soundCues, l10n.cue(cueCount)),
+        ),
+        Expanded(
+          child: _buildMetadataColumn(
+            l10n.lastModified,
+            lastModified,
+            crossAxisAlignment: CrossAxisAlignment.end,
+          ),
+        ),
+      ],
     );
   }
 
@@ -167,7 +174,10 @@ class PlayCard extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           value,
-          style: const TextStyle(color: Colors.white, fontSize: 14),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: AppThemes.texts.normalFontSize,
+          ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

@@ -113,10 +113,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get singleCue => 'Deixa';
 
   @override
-  String get soundCues => 'Deixas Sonoras';
+  String get soundCues => 'Deixas';
 
   @override
-  String get lastModified => 'Última Modificação';
+  String get lastModified => 'Modificado';
 
   @override
   String get editPlayFormTitle => 'Editar Peça';
@@ -208,13 +208,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pressForHotkey => 'Pressione uma tecla para usar como atalho';
 
   @override
-  String get system => 'System';
+  String get system => 'Sistema';
 
   @override
   String get systemTitle => 'Dados do Sistema';
 
   @override
-  String get systemDescription => 'Application Overview.';
+  String get systemDescription => 'Visão geral da aplicação.';
 
   @override
   String get applicationID => 'ID da Aplicação';
@@ -278,4 +278,19 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get localFolderHint => 'Endereço da sua pasta local de sons.';
+
+  @override
+  String get syncSounds => 'Sincronizar Sons';
+
+  @override
+  String get hotkeyInUse => 'já está em uso. Pressione uma tecla diferente.';
+
+  @override
+  String get trimStart => 'Início';
+
+  @override
+  String get trimEnd => 'Fim';
+
+  @override
+  String get cueDuration => 'Duração do Cue';
 }
