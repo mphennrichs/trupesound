@@ -43,6 +43,13 @@ services:
       # caused Prisma P1000 by resolving to the wrong Postgres.
       DATABASE_URL: postgresql://trupesound:trupesound@trupe-sound-db:5432/trupesound
       NODE_ENV: production
+      APP_URL: https://trupesound.foguinhodogoias.com
+      # Storage — set ONE mode. Cloud (SeaweedFS):
+      STORAGE_ENDPOINT: s3.foguinhodogoias.com
+      STORAGE_ACCESS_KEY: changeme
+      STORAGE_SECRET_KEY: changeme
+      # Local mode (comment out cloud vars above and set this instead):
+      # STORAGE_LOCAL_FOLDER: /sounds
     networks:
       - traefik
       - trupesound-internal

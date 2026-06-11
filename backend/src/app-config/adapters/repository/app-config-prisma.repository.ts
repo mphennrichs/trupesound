@@ -18,34 +18,18 @@ export class AppConfigPrismaRepository implements AppConfigRepository {
   }
 
   async getStorageConfig(): Promise<StorageConfig | null> {
-    const row = await this.prisma.appConfig.findUnique({ where: { id: 1 } });
-    if (!row) return null;
-    if (!row.storageEndpoint && !row.localFolder) return null;
-    return {
-      endpoint: row.storageEndpoint ?? '',
-      accessKey: row.storageAccessKey ?? '',
-      secretKey: row.storageSecretKey ?? '',
-      localFolder: row.localFolder ?? '',
-    };
+    const endpoint = process.env.STORAGE_ENDPOINT ?? '';
+    const accessKey = process.env.STORAGE_ACCESS_KEY ?? '';
+    const secretKey = process.env.STORAGE_SECRET_KEY ?? '';
+    const localFolder = process.env.STORAGE_LOCAL_FOLDER ?? '';
+
+    if (!endpoint && !localFolder) return null;
+
+    return { endpoint, accessKey, secretKey, localFolder };
   }
 
-  async saveStorageConfig(config: StorageConfig): Promise<void> {
-    await this.prisma.appConfig.upsert({
-      where: { id: 1 },
-      update: {
-        storageEndpoint: config.endpoint,
-        storageAccessKey: config.accessKey,
-        storageSecretKey: config.secretKey,
-        localFolder: config.localFolder,
-      },
-      create: {
-        id: 1,
-        appId: randomUUID(),
-        storageEndpoint: config.endpoint,
-        storageAccessKey: config.accessKey,
-        storageSecretKey: config.secretKey,
-        localFolder: config.localFolder,
-      },
-    });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async saveStorageConfig(_config: StorageConfig): Promise<void> {
+    // Storage config is now managed via environment variables — this is a no-op.
   }
 }

@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:trupe_sound/pages/system/service/storage_config_service.dart';
+import 'package:trupe_sound/common/providers/dio_provider.dart';
 
 part 'storage_mode_provider.g.dart';
 
@@ -8,11 +8,14 @@ enum StorageMode { local, cloud, unknown }
 @riverpod
 Future<StorageMode> storageMode(Ref ref) async {
   try {
-    final config = await ref.watch(storageConfigServiceProvider).load();
-    if (config == null) return StorageMode.unknown;
-    if (config.localFolder.isNotEmpty) return StorageMode.local;
-    if (config.endpoint.isNotEmpty) return StorageMode.cloud;
-    return StorageMode.unknown;
+    final dio = ref.watch(dioProvider);
+    final response = await dio.get<Map<String, dynamic>>('/v1/app/storage-mode');
+    final mode = response.data?['mode'] as String?;
+    return switch (mode) {
+      'local' => StorageMode.local,
+      'cloud' => StorageMode.cloud,
+      _ => StorageMode.unknown,
+    };
   } catch (_) {
     return StorageMode.unknown;
   }

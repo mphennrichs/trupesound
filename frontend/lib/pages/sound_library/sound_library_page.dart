@@ -6,7 +6,7 @@ import 'package:trupe_sound/pages/custom/custom_title.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
 import 'package:trupe_sound/pages/sound_library/providers/sound_provider.dart';
 import 'package:trupe_sound/pages/sound_library/providers/storage_mode_provider.dart';
-import 'package:trupe_sound/pages/system/service/storage_config_service.dart';
+import 'package:trupe_sound/common/providers/dio_provider.dart';
 import 'package:trupe_sound/pages/sound_library/sounds_table.dart';
 import 'package:trupe_sound/pages/sound_library/sound_upload.dart';
 
@@ -23,7 +23,7 @@ class _SoundLibraryPageState extends ConsumerState<SoundLibraryPage> {
   Future<void> _sync() async {
     setState(() => _isSyncing = true);
     try {
-      await ref.read(storageConfigServiceProvider).syncLocalSounds();
+      await ref.read(dioProvider).post('/v1/sounds/sync');
       ref.invalidate(soundsProvider);
     } finally {
       if (mounted) setState(() => _isSyncing = false);

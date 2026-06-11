@@ -6,14 +6,12 @@ import { AppConfigRepository } from './adapters/repository/app-config.repository
 import { GenerateUploadUrlUseCase } from './use-cases/generate-upload-url.use-case';
 import { GetStorageConfigUseCase } from './use-cases/get-storage-config.use-case';
 import { InitAppUseCase } from './use-cases/init-app.use-case';
-import { SaveStorageConfigUseCase } from './use-cases/save-storage-config.use-case';
 
 @Module({
   providers: [
     PrismaService,
     InitAppUseCase,
     GetStorageConfigUseCase,
-    SaveStorageConfigUseCase,
     GenerateUploadUrlUseCase,
     {
       provide: AppConfigRepository,
