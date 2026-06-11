@@ -20,12 +20,32 @@ class SoundCueSearchDialog extends HookConsumerWidget {
     required this.targetLineNumber,
   });
 
-  Widget _buildSearchContainer() {
-    return Text(
-      'search here',
-      style: TextStyle(
-        color: AppThemes.colors.textColor,
-        fontWeight: FontWeight.bold,
+  Widget _buildSearchContainer(TextEditingController controller) {
+    return TextField(
+      controller: controller,
+      autofocus: true,
+      style: TextStyle(color: AppThemes.colors.textColor, fontSize: AppThemes.texts.smallFontSize),
+      decoration: InputDecoration(
+        hintText: 'Search...',
+        hintStyle: TextStyle(color: AppThemes.colors.hintTextColor, fontSize: AppThemes.texts.smallFontSize),
+        isDense: true,
+        contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+        prefixIcon: Icon(Icons.search, color: AppThemes.colors.hintTextColor, size: 16),
+        prefixIconConstraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+        filled: true,
+        fillColor: AppThemes.colors.backgroundColor,
+        border: OutlineInputBorder(
+          borderRadius: AppThemes.borders.defaultBorderRadius,
+          borderSide: BorderSide(color: AppThemes.colors.borderColor),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: AppThemes.borders.defaultBorderRadius,
+          borderSide: BorderSide(color: AppThemes.colors.borderColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: AppThemes.borders.defaultBorderRadius,
+          borderSide: BorderSide(color: AppThemes.colors.primaryColor),
+        ),
       ),
     );
   }
@@ -98,6 +118,13 @@ class SoundCueSearchDialog extends HookConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     final selectedSoundId = useState<int?>(null);
     final selectedSound = useState<SoundModel?>(null);
+    final searchController = useTextEditingController();
+    final searchQuery = useState('');
+    useEffect(() {
+      void listener() => searchQuery.value = searchController.text;
+      searchController.addListener(listener);
+      return () => searchController.removeListener(listener);
+    }, [searchController]);
 
     void onSave() {
       if (selectedSound.value == null) return;
@@ -162,23 +189,29 @@ class SoundCueSearchDialog extends HookConsumerWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSearchContainer(),
+            _buildSearchContainer(searchController),
             Divider(color: AppThemes.colors.borderColor),
             soundsAsync.when(
-              data: (sounds) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: sounds.map((sound) {
-                  return _buildSoundCue(
-                    context,
-                    sound,
-                    selectedSoundId.value == sound.id,
-                    () {
-                      selectedSoundId.value = sound.id;
-                      selectedSound.value = sound;
-                    },
-                  );
-                }).toList(),
-              ),
+              data: (sounds) {
+                final query = searchQuery.value.toLowerCase();
+                final filtered = query.isEmpty
+                    ? sounds
+                    : sounds.where((s) => s.name.toLowerCase().contains(query)).toList();
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: filtered.map((sound) {
+                    return _buildSoundCue(
+                      context,
+                      sound,
+                      selectedSoundId.value == sound.id,
+                      () {
+                        selectedSoundId.value = sound.id;
+                        selectedSound.value = sound;
+                      },
+                    );
+                  }).toList(),
+                );
+              },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, _) => Text(
                 'Error: $err',

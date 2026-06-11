@@ -1,6 +1,7 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/common/providers/dio_provider.dart';
 
@@ -18,28 +19,25 @@ class StorageService {
 
   StorageService(this._dio);
 
+  /// Upload [file] (must be picked with withData: true so bytes is populated).
   Future<String> uploadSound({
-    required String localFilePath,
-    required String fileName,
+    required PlatformFile file,
     required void Function(double progress) onProgress,
   }) async {
+    final bytes = file.bytes ?? Uint8List(0);
+
     final presignResponse = await _dio.post<Map<String, dynamic>>(
       '/v1/app/storage/presign',
-      data: {'fileName': fileName},
+      data: {'fileName': file.name},
     );
 
     final uploadUrl = presignResponse.data!['uploadUrl'] as String;
     final objectUrl = presignResponse.data!['objectUrl'] as String;
 
-    final file = File(localFilePath);
-    final fileSize = await file.length();
-
     await Dio().put(
       uploadUrl,
-      data: file.openRead(),
-      options: Options(
-        headers: {Headers.contentLengthHeader: fileSize},
-      ),
+      data: Stream.fromIterable([bytes]),
+      options: Options(headers: {Headers.contentLengthHeader: bytes.length}),
       onSendProgress: (sent, total) {
         if (total > 0) onProgress(sent / total);
       },

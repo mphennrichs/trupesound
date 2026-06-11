@@ -44,7 +44,10 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
       !_isUploading;
 
   Future<void> _pickFile() async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.audio);
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.audio,
+      withData: true,
+    );
     if (result != null) {
       setState(() {
         _selectedFile = result.files.single;
@@ -64,8 +67,7 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
     try {
       final storageService = ref.read(storageServiceProvider);
       final url = await storageService.uploadSound(
-        localFilePath: _selectedFile!.path!,
-        fileName: _selectedFile!.name,
+        file: _selectedFile!,
         onProgress: (progress) => setState(() => _uploadProgress = progress),
       );
 
