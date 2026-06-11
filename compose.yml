@@ -115,11 +115,11 @@ services:
         max-file: "3"
     labels:
       - "traefik.enable=true"
+      # Main router — basic auth required
       - "traefik.http.routers.trupesound.rule=Host(`trupesound.foguinhodogoias.com`)"
       - "traefik.http.routers.trupesound.entrypoints=web-secure"
       - "traefik.http.routers.trupesound.priority=1"
       - "traefik.http.routers.trupesound.middlewares=trupesound-auth"
-      - "traefik.http.routers.trupesound.priority=1"
       - "traefik.http.services.trupesound.loadbalancer.server.port=80"
       - "traefik.http.routers.trupesound.tls.certresolver=cloudflare"
       - "traefik.http.middlewares.trupesound-auth.basicauth.removeHeader=true"
@@ -127,3 +127,8 @@ services:
       # how to set a real password:
       # sudo apt-get install apache2-utils
       # htpasswd -Bnb username password | sed -e s/\\$/\\$\\$/g
+      # Public router — no auth for PWA manifest (browsers fetch it without credentials)
+      - "traefik.http.routers.trupesound-public.rule=Host(`trupesound.foguinhodogoias.com`) && Path(`/manifest.json`)"
+      - "traefik.http.routers.trupesound-public.entrypoints=web-secure"
+      - "traefik.http.routers.trupesound-public.priority=2"
+      - "traefik.http.routers.trupesound-public.tls.certresolver=cloudflare"

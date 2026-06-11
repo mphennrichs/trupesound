@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,20 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
     }
   }
 
+  Future<int> _readDurationMs(PlatformFile file) async {
+    if (file.bytes == null) return 0;
+    final player = AudioPlayer();
+    try {
+      await player.setSource(BytesSource(file.bytes!));
+      final duration = await player.getDuration();
+      return duration?.inMilliseconds ?? 0;
+    } catch (_) {
+      return 0;
+    } finally {
+      await player.dispose();
+    }
+  }
+
   Future<void> _upload() async {
     setState(() {
       _isUploading = true;
@@ -78,6 +93,7 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
     });
 
     try {
+      final durationMs = await _readDurationMs(_selectedFile!);
       final storageService = ref.read(storageServiceProvider);
       final url = await storageService.uploadSound(
         file: _selectedFile!,
@@ -88,7 +104,7 @@ class _SoundUploadPageState extends ConsumerState<SoundUploadPage> {
         name: _nameController.text,
         category: _selectedCategory!,
         url: url,
-        durationMs: 0,
+        durationMs: durationMs,
       );
 
       if (mounted) Navigator.of(context).pop();
