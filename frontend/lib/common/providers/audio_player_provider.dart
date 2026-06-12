@@ -8,11 +8,13 @@ class AudioPlayerState {
   final int? playingId;
   final PlayerState playerState;
   final bool isLooping;
+  final Duration position;
 
   const AudioPlayerState({
     this.playingId,
     this.playerState = PlayerState.stopped,
     this.isLooping = false,
+    this.position = Duration.zero,
   });
 
   bool get isPlaying => playerState == PlayerState.playing;
@@ -43,7 +45,11 @@ class AudioPlayerNotifier extends _$AudioPlayerNotifier {
   @override
   AudioPlayerState build() {
     _player.onPlayerStateChanged.listen((ps) {
-      state = AudioPlayerState(playingId: state.playingId, playerState: ps, isLooping: state.isLooping);
+      state = AudioPlayerState(playingId: state.playingId, playerState: ps, isLooping: state.isLooping, position: state.position);
+    });
+
+    _player.onPositionChanged.listen((pos) {
+      state = AudioPlayerState(playingId: state.playingId, playerState: state.playerState, isLooping: state.isLooping, position: pos);
     });
 
     _player.onPlayerComplete.listen((_) {
@@ -108,5 +114,6 @@ class AudioPlayerNotifier extends _$AudioPlayerNotifier {
   Future<void> stop() async {
     _current = null;
     await _player.stop();
+    state = AudioPlayerState(playingId: state.playingId, playerState: PlayerState.stopped, isLooping: false, position: Duration.zero);
   }
 }

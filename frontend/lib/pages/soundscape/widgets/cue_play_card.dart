@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:trupe_sound/common/app_themes.dart';
+import 'package:trupe_sound/common/providers/audio_player_provider.dart';
 import 'package:trupe_sound/l10n/app_localizations.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_cue_model.dart';
 import 'package:trupe_sound/pages/sound_library/models/sound_model.dart';
@@ -44,6 +45,18 @@ class CuePlayCard extends ConsumerWidget {
         ? AppThemes.colors.primaryColor
         : AppThemes.colors.cardColor;
 
+    final audioState = ref.watch(audioPlayerProvider);
+    double progress = 0.0;
+    if (isPlaying && sound != null) {
+      final startMs = cue.startMs ?? 0;
+      final endMs = cue.endMs ?? sound.duration.inMilliseconds;
+      final totalMs = (endMs - startMs).clamp(1, double.infinity);
+      final positionMs = audioState.position.inMilliseconds;
+      // position resets on loop, so mod by totalMs to keep bar cycling
+      final relativeMs = isRepeat ? positionMs % totalMs : positionMs - startMs;
+      progress = (relativeMs / totalMs).clamp(0.0, 1.0);
+    }
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -51,7 +64,10 @@ class CuePlayCard extends ConsumerWidget {
         border: Border.all(color: AppThemes.colors.borderColor),
         borderRadius: AppThemes.borders.defaultBorderRadius,
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
         children: [
           // Column 1: Hotkey Square
           InkWell(
@@ -225,6 +241,20 @@ class CuePlayCard extends ConsumerWidget {
               );
             },
           ),
+        ],
+      ),
+          if (isPlaying) ...[
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: AppThemes.borders.defaultBorderRadius,
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 3,
+                backgroundColor: AppThemes.colors.borderColor,
+                valueColor: AlwaysStoppedAnimation(AppThemes.colors.primaryColor),
+              ),
+            ),
+          ],
         ],
       ),
     );
