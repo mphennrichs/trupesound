@@ -18,20 +18,37 @@ class SoundCueList extends ConsumerStatefulWidget {
 }
 
 class _SoundCueListState extends ConsumerState<SoundCueList> {
-  final FocusNode _focusNode = FocusNode();
+  late List<SoundCueModel> _currentCues;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _focusNode.requestFocus();
-    });
+    _currentCues = [];
+    HardwareKeyboard.instance.addHandler(_handleKey);
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    HardwareKeyboard.instance.removeHandler(_handleKey);
     super.dispose();
+  }
+
+  bool _handleKey(KeyEvent event) {
+    if (event is! KeyDownEvent) return false;
+    final keyLabel = event.logicalKey.keyLabel.toLowerCase();
+    for (final cue in _currentCues) {
+      if (cue.hotkey.isNotEmpty && cue.hotkey.toLowerCase() == keyLabel) {
+        ref.read(soundPlaybackProvider.notifier).togglePlayback(
+          cue.id,
+          cue.soundId,
+          startMs: cue.startMs,
+          endMs: cue.endMs,
+          loop: cue.mode == PlayMode.repeat,
+        );
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
@@ -54,29 +71,9 @@ class _SoundCueListState extends ConsumerState<SoundCueList> {
           // Sort cues by their line number position
           final sortedCues = [...act.cues];
           sortedCues.sort((a, b) => a.line.compareTo(b.line));
+          _currentCues = act.cues;
 
-          return Focus(
-            focusNode: _focusNode,
-            onKeyEvent: (node, event) {
-              if (event is KeyDownEvent) {
-                final keyLabel = event.logicalKey.keyLabel.toLowerCase();
-                for (final cue in act.cues) {
-                  if (cue.hotkey.toLowerCase() == keyLabel &&
-                      keyLabel.isNotEmpty) {
-                    ref.read(soundPlaybackProvider.notifier).togglePlayback(
-                      cue.id,
-                      cue.soundId,
-                      startMs: cue.startMs,
-                      endMs: cue.endMs,
-                      loop: cue.mode == PlayMode.repeat,
-                    );
-                    return KeyEventResult.handled;
-                  }
-                }
-              }
-              return KeyEventResult.ignored;
-            },
-            child: Padding(
+          return Padding(
               padding: EdgeInsets.all(AppThemes.spacings.doubleValue),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +105,6 @@ class _SoundCueListState extends ConsumerState<SoundCueList> {
                   ),
                 ],
               ),
-            ),
           );
         },
       ),
