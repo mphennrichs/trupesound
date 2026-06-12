@@ -44,7 +44,14 @@ export class SoundController {
   @ApiResponse({ status: 200, type: [SoundResponseDto] })
   async list(): Promise<SoundResponseDto[]> {
     const sounds = await this.listSounds.execute();
-    return sounds.map(this.toDto);
+    const dtos = await Promise.all(
+      sounds.map(async (s) => {
+        const dto = this.toDto(s);
+        dto.url = await this.generatePlayUrl.execute(s.url);
+        return dto;
+      }),
+    );
+    return dtos;
   }
 
   @Post()
