@@ -4,6 +4,7 @@ import { UserModel } from '../adapters/repository/model/user.model';
 
 export interface UserProps {
   name: string;
+  username: string;
   email: string;
   password: string;
   audit: Audit;
@@ -22,6 +23,10 @@ export class UserEntity extends Entity<UserProps> {
     return this.props.name;
   }
 
+  get username(): string {
+    return this.props.username;
+  }
+
   get email(): string {
     return this.props.email;
   }
@@ -38,6 +43,7 @@ export class UserEntity extends Entity<UserProps> {
     return UserEntity.new(
       {
         name: model.name,
+        username: model.username,
         email: model.email,
         password: model.password,
         audit: Audit.new({

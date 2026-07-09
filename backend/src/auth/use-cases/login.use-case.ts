@@ -13,8 +13,10 @@ export class LoginUseCase {
     private readonly jwtService: JwtService,
   ) {}
 
-  async execute(email: string, password: string): Promise<AuthResult> {
-    const model = await this.userRepository.findByEmail(email);
+  async execute(identifier: string, password: string): Promise<AuthResult> {
+    const model = identifier.includes('@')
+      ? await this.userRepository.findByEmail(identifier)
+      : await this.userRepository.findByUsername(identifier);
     if (!model) throw new InvalidCredentialsException();
 
     const isValid = await bcrypt.compare(password, model.password);

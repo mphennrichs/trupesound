@@ -605,6 +605,18 @@ abstract class AppLocalizations {
   /// **'e.g. Maria Silva'**
   String get nameHint;
 
+  /// No description provided for @usernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get usernameLabel;
+
+  /// No description provided for @usernameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. maria.silva'**
+  String get usernameHint;
+
   /// No description provided for @emailLabel.
   ///
   /// In en, this message translates to:
@@ -616,6 +628,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'you@example.com'**
   String get emailHint;
+
+  /// No description provided for @emailOrUsernameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or username'**
+  String get emailOrUsernameLabel;
+
+  /// No description provided for @emailOrUsernameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com or username'**
+  String get emailOrUsernameHint;
 
   /// No description provided for @passwordLabel.
   ///
@@ -670,6 +694,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This email is already registered.'**
   String get emailAlreadyRegistered;
+
+  /// No description provided for @usernameAlreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'This username is already taken.'**
+  String get usernameAlreadyRegistered;
 
   /// No description provided for @genericError.
   ///

@@ -291,11 +291,23 @@
     "nameHint": "ex: Maria Silva",
     "@nameHint": {},
 
+    "usernameLabel": "Usuário",
+    "@usernameLabel": {},
+
+    "usernameHint": "ex: maria.silva",
+    "@usernameHint": {},
+
     "emailLabel": "Email",
     "@emailLabel": {},
 
     "emailHint": "voce@exemplo.com",
     "@emailHint": {},
+
+    "emailOrUsernameLabel": "Email ou usuário",
+    "@emailOrUsernameLabel": {},
+
+    "emailOrUsernameHint": "voce@exemplo.com ou usuário",
+    "@emailOrUsernameHint": {},
 
     "passwordLabel": "Senha",
     "@passwordLabel": {},
@@ -323,6 +335,9 @@
 
     "emailAlreadyRegistered": "Este email já está cadastrado.",
     "@emailAlreadyRegistered": {},
+
+    "usernameAlreadyRegistered": "Este nome de usuário já está em uso.",
+    "@usernameAlreadyRegistered": {},
 
     "genericError": "Algo deu errado. Tente novamente.",
     "@genericError": {},

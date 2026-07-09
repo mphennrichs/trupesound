@@ -21,6 +21,11 @@ export class UserPrismaRepository implements UserRepository {
     return user as unknown as UserModel | null;
   }
 
+  async findByUsername(username: string): Promise<UserModel | null> {
+    const user = await this.prisma.user.findUnique({ where: { username } });
+    return user as unknown as UserModel | null;
+  }
+
   async findById(id: number): Promise<UserModel | null> {
     const user = await this.prisma.user.findUnique({ where: { id } });
     return user as unknown as UserModel | null;

@@ -27,17 +27,23 @@ class AuthService {
 
   AuthService(this._dio);
 
-  Future<AuthResult> login(String email, String password) async {
+  Future<AuthResult> login(String identifier, String password) async {
     final response = await _dio.post('/v1/auth/login', data: {
-      'email': email,
+      'identifier': identifier,
       'password': password,
     });
     return AuthResult.fromJson(response.data as Map<String, dynamic>);
   }
 
-  Future<AuthResult> register(String name, String email, String password) async {
+  Future<AuthResult> register(
+    String name,
+    String username,
+    String email,
+    String password,
+  ) async {
     final response = await _dio.post('/v1/auth/register', data: {
       'name': name,
+      'username': username,
       'email': email,
       'password': password,
     });

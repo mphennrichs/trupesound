@@ -12,18 +12,24 @@ class Auth extends _$Auth {
     return token != null;
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String identifier, String password) async {
     // Errors are intentionally left uncaught for the caller to handle in the
     // UI, but must not be assigned to `state` — this notifier is watched by
     // the router, and turning `state` into AsyncError would rebuild the
     // GoRouter mid-submit, unmounting the very form handling the error.
-    final result = await ref.read(authServiceProvider).login(email, password);
+    final result = await ref.read(authServiceProvider).login(identifier, password);
     await ref.read(authStorageProvider.notifier).saveToken(result.accessToken);
     state = const AsyncData(true);
   }
 
-  Future<void> register(String name, String email, String password) async {
-    final result = await ref.read(authServiceProvider).register(name, email, password);
+  Future<void> register(
+    String name,
+    String username,
+    String email,
+    String password,
+  ) async {
+    final result =
+        await ref.read(authServiceProvider).register(name, username, email, password);
     await ref.read(authStorageProvider.notifier).saveToken(result.accessToken);
     state = const AsyncData(true);
   }

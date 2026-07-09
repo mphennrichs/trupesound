@@ -30,7 +30,7 @@ export class AuthController {
   @ApiBody({ type: LoginRequestDto })
   @ApiResponse({ status: 200, type: AuthResponseDto })
   async login(@Body() body: LoginRequestDto): Promise<AuthResponseDto> {
-    const result = await this.loginUseCase.execute(body.email, body.password);
+    const result = await this.loginUseCase.execute(body.identifier, body.password);
     return AuthResponseDto.fromDomain(result);
   }
 }

@@ -3,6 +3,7 @@ import { UserEntity } from '../../../entities/user.entity';
 export class UserModel {
   id: number;
   name: string;
+  username: string;
   email: string;
   password: string;
   createdAt: Date;
@@ -14,6 +15,7 @@ export class UserModel {
     return {
       id: entity.id,
       name: entity.name,
+      username: entity.username,
       email: entity.email,
       password: entity.password,
       createdAt: entity.audit.createdAt,

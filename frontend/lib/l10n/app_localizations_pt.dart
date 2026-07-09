@@ -286,10 +286,22 @@ class AppLocalizationsPt extends AppLocalizations {
   String get nameHint => 'ex: Maria Silva';
 
   @override
+  String get usernameLabel => 'Usuário';
+
+  @override
+  String get usernameHint => 'ex: maria.silva';
+
+  @override
   String get emailLabel => 'Email';
 
   @override
   String get emailHint => 'voce@exemplo.com';
+
+  @override
+  String get emailOrUsernameLabel => 'Email ou usuário';
+
+  @override
+  String get emailOrUsernameHint => 'voce@exemplo.com ou usuário';
 
   @override
   String get passwordLabel => 'Senha';
@@ -317,6 +329,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get emailAlreadyRegistered => 'Este email já está cadastrado.';
+
+  @override
+  String get usernameAlreadyRegistered => 'Este nome de usuário já está em uso.';
 
   @override
   String get genericError => 'Algo deu errado. Tente novamente.';

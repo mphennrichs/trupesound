@@ -15,7 +15,7 @@ class LoginForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final emailController = useTextEditingController();
+    final identifierController = useTextEditingController();
     final passwordController = useTextEditingController();
     final isLoading = useState(false);
     final errorMessage = useState<String?>(null);
@@ -25,7 +25,7 @@ class LoginForm extends HookConsumerWidget {
       errorMessage.value = null;
       try {
         await ref.read(authProvider.notifier).login(
-              emailController.text.trim(),
+              identifierController.text.trim(),
               passwordController.text,
             );
         if (context.mounted) context.go('/plays');
@@ -59,9 +59,9 @@ class LoginForm extends HookConsumerWidget {
           CustomTitle(title: l10n.loginTitle, description: l10n.loginDescription),
           AppThemes.spacings.singleSpace,
           CustomTextInput(
-            title: l10n.emailLabel,
-            exampleText: l10n.emailHint,
-            controller: emailController,
+            title: l10n.emailOrUsernameLabel,
+            exampleText: l10n.emailOrUsernameHint,
+            controller: identifierController,
           ),
           AppThemes.spacings.singleSpace,
           CustomTextInput(

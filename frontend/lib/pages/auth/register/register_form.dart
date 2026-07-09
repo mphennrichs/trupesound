@@ -16,6 +16,7 @@ class RegisterForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     final nameController = useTextEditingController();
+    final usernameController = useTextEditingController();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final isLoading = useState(false);
@@ -27,6 +28,7 @@ class RegisterForm extends HookConsumerWidget {
       try {
         await ref.read(authProvider.notifier).register(
               nameController.text.trim(),
+              usernameController.text.trim(),
               emailController.text.trim(),
               passwordController.text,
             );
@@ -36,9 +38,11 @@ class RegisterForm extends HookConsumerWidget {
             ? (e.response?.data as Map)['errorCode'] as String?
             : null;
         if (context.mounted) {
-          errorMessage.value = errorCode == 'EMAIL_ALREADY_REGISTERED'
-              ? l10n.emailAlreadyRegistered
-              : l10n.genericError;
+          errorMessage.value = switch (errorCode) {
+            'EMAIL_ALREADY_REGISTERED' => l10n.emailAlreadyRegistered,
+            'USERNAME_ALREADY_REGISTERED' => l10n.usernameAlreadyRegistered,
+            _ => l10n.genericError,
+          };
         }
       } finally {
         if (context.mounted) {
@@ -64,6 +68,12 @@ class RegisterForm extends HookConsumerWidget {
             title: l10n.nameLabel,
             exampleText: l10n.nameHint,
             controller: nameController,
+          ),
+          AppThemes.spacings.singleSpace,
+          CustomTextInput(
+            title: l10n.usernameLabel,
+            exampleText: l10n.usernameHint,
+            controller: usernameController,
           ),
           AppThemes.spacings.singleSpace,
           CustomTextInput(

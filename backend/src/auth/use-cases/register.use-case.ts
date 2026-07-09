@@ -5,6 +5,7 @@ import { UserRepository } from '../adapters/repository/user.repository';
 import { UserModel } from '../adapters/repository/model/user.model';
 import { UserEntity } from '../entities/user.entity';
 import { EmailAlreadyRegisteredException } from '../exceptions/email-already-registered.exception';
+import { UsernameAlreadyRegisteredException } from '../exceptions/username-already-registered.exception';
 import { AuthResult } from './auth-result';
 
 const SALT_ROUNDS = 10;
@@ -17,12 +18,16 @@ export class RegisterUseCase {
   ) {}
 
   async execute(user: UserEntity): Promise<AuthResult> {
-    const existing = await this.userRepository.findByEmail(user.email);
-    if (existing) throw new EmailAlreadyRegisteredException();
+    const existingByEmail = await this.userRepository.findByEmail(user.email);
+    if (existingByEmail) throw new EmailAlreadyRegisteredException();
+
+    const existingByUsername = await this.userRepository.findByUsername(user.username);
+    if (existingByUsername) throw new UsernameAlreadyRegisteredException();
 
     const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
     const toSave = UserEntity.new({
       name: user.name,
+      username: user.username,
       email: user.email,
       password: hashedPassword,
       audit: user.audit,

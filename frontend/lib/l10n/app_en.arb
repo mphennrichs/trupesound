@@ -288,11 +288,23 @@
     "nameHint": "e.g. Maria Silva",
     "@nameHint": {},
 
+    "usernameLabel": "Username",
+    "@usernameLabel": {},
+
+    "usernameHint": "e.g. maria.silva",
+    "@usernameHint": {},
+
     "emailLabel": "Email",
     "@emailLabel": {},
 
     "emailHint": "you@example.com",
     "@emailHint": {},
+
+    "emailOrUsernameLabel": "Email or username",
+    "@emailOrUsernameLabel": {},
+
+    "emailOrUsernameHint": "you@example.com or username",
+    "@emailOrUsernameHint": {},
 
     "passwordLabel": "Password",
     "@passwordLabel": {},
@@ -320,6 +332,9 @@
 
     "emailAlreadyRegistered": "This email is already registered.",
     "@emailAlreadyRegistered": {},
+
+    "usernameAlreadyRegistered": "This username is already taken.",
+    "@usernameAlreadyRegistered": {},
 
     "genericError": "Something went wrong. Please try again.",
     "@genericError": {},
