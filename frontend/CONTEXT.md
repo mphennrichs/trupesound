@@ -56,6 +56,14 @@ Transient, session-only state tracking which SoundCues are currently playing. No
 **Application ID**
 A UUID generated once per app startup. Used to identify the running instance. Not persisted across sessions.
 
+**User**
+A person who can log in to a TrupeSound instance. Has `name`, `email`, and a password. Every instance is single-tenant: all Users on an instance share the same Plays, Acts, and Sound Library — User exists to identify who did what (`createdBy`/`lastUpdatedBy`), not to isolate data. Displayed as "Usuário" in the UI.
+_Avoid_: Musician, Member, Account, Trupe member (no such role/permission concept exists yet — all Users are equal).
+
+**Version** (of a Play or Act)
+A recorded snapshot of a Play or Act's full state at the moment of a tracked change (title/author, script text, or SoundCue add/remove). Not every edit creates a Version — SoundCue trim (`startMs`/`endMs`) and hotkey changes are deliberately excluded to avoid flooding history with fine-grained adjustments. See [ADR-0003](../docs/adr/0003-play-act-version-history.md).
+_Avoid_: Revision, Snapshot, Checkpoint (Version is the canonical term; a "revert" is the action of restoring one).
+
 ---
 
 ## Boundaries

@@ -50,6 +50,7 @@ services:
       STORAGE_SECRET_KEY: ${STORAGE_SECRET_KEY}
       # Local mode (comment out cloud vars above and set this instead):
       # STORAGE_LOCAL_FOLDER: /sounds
+      JWT_SECRET: ${JWT_SECRET}
     networks:
       - traefik
       - trupesound-internal

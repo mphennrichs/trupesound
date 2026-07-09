@@ -9,6 +9,10 @@ import { ValidationExceptionFilter } from './common/application/filters/validati
 import { LoggingInterceptor } from './common/application/interceptors/logging.interceptor';
 
 async function bootstrap() {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is required');
+  }
+
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log', 'debug'],
     bodyParser: false,

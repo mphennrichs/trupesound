@@ -1,6 +1,7 @@
 import { Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Req, Res, Body } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import { Public } from '../../../../auth/decorators/public.decorator';
 import { ArchiveSoundUseCase } from '../../../use-cases/archive-sound.use-case';
 import { CreateSoundUseCase } from '../../../use-cases/create-sound.use-case';
 import { ListSoundsUseCase } from '../../../use-cases/list-sounds.use-case';
@@ -103,6 +104,7 @@ export class SoundController {
     await this.uploadLocalSound.execute(fileName, req);
   }
 
+  @Public()
   @Get('file/:fileName')
   @ApiResponse({ status: 200 })
   @ApiResponse({ status: 404 })

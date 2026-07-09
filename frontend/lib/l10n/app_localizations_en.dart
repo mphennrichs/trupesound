@@ -247,6 +247,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get uploadComplete => 'Upload complete';
 
   @override
+  String get localFolder => 'Local Folder';
+
+  @override
+  String get localFolderHint => 'Path to your local sound folder.';
+
+  @override
   String get syncSounds => 'Sync Sounds';
 
   @override
@@ -260,4 +266,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cueDuration => 'Cue Duration';
+
+  @override
+  String get loginTitle => 'Log in';
+
+  @override
+  String get loginDescription => 'Sign in to your TrupeSound account.';
+
+  @override
+  String get registerTitle => 'Create account';
+
+  @override
+  String get registerDescription => 'Register a new user for this TrupeSound instance.';
+
+  @override
+  String get nameLabel => 'Name';
+
+  @override
+  String get nameHint => 'e.g. Maria Silva';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get emailHint => 'you@example.com';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get passwordHint => '••••••••';
+
+  @override
+  String get passwordMinLengthHint => 'Password must be at least 6 characters.';
+
+  @override
+  String get loginButton => 'Log in';
+
+  @override
+  String get registerButton => 'Create account';
+
+  @override
+  String get dontHaveAccount => 'Don\'t have an account? Register';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account? Log in';
+
+  @override
+  String get invalidCredentials => 'Incorrect email or password.';
+
+  @override
+  String get emailAlreadyRegistered => 'This email is already registered.';
+
+  @override
+  String get genericError => 'Something went wrong. Please try again.';
+
+  @override
+  String get accountSectionTitle => 'Account';
+
+  @override
+  String get logoutDescription => 'Sign out of your account on this device.';
+
+  @override
+  String get logoutButton => 'Log out';
+
+  @override
+  String get logoutConfirmTitle => 'Log out';
+
+  @override
+  String get logoutConfirmMessage => 'Are you sure you want to log out?';
 }

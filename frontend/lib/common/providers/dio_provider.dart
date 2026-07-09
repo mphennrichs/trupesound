@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:trupe_sound/common/providers/auth_storage_provider.dart';
 
 part 'dio_provider.g.dart';
 
@@ -18,7 +19,11 @@ Dio dio(Ref ref) {
 
   dio.interceptors.add(
     InterceptorsWrapper(
-      onRequest: (options, handler) {
+      onRequest: (options, handler) async {
+        final token = await ref.read(authStorageProvider.future);
+        if (token != null) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
         debugPrint('[HTTP] → ${options.method} ${options.path}');
         handler.next(options);
       },
@@ -26,11 +31,14 @@ Dio dio(Ref ref) {
         debugPrint('[HTTP] ← ${response.statusCode} ${response.requestOptions.method} ${response.requestOptions.path}');
         handler.next(response);
       },
-      onError: (error, handler) {
+      onError: (error, handler) async {
         debugPrint(
           '[HTTP] ✗ ${error.requestOptions.method} ${error.requestOptions.path} '
           '→ ${error.response?.statusCode ?? error.type} ${error.message}',
         );
+        if (error.response?.statusCode == 401) {
+          await ref.read(authStorageProvider.notifier).clearToken();
+        }
         handler.next(error);
       },
     ),

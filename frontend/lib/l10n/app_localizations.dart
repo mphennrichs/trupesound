@@ -527,6 +527,18 @@ abstract class AppLocalizations {
   /// **'Upload complete'**
   String get uploadComplete;
 
+  /// No description provided for @localFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Folder'**
+  String get localFolder;
+
+  /// No description provided for @localFolderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Path to your local sound folder.'**
+  String get localFolderHint;
+
   /// No description provided for @syncSounds.
   ///
   /// In en, this message translates to:
@@ -556,6 +568,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cue Duration'**
   String get cueDuration;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get loginTitle;
+
+  /// No description provided for @loginDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to your TrupeSound account.'**
+  String get loginDescription;
+
+  /// No description provided for @registerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get registerTitle;
+
+  /// No description provided for @registerDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Register a new user for this TrupeSound instance.'**
+  String get registerDescription;
+
+  /// No description provided for @nameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLabel;
+
+  /// No description provided for @nameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Maria Silva'**
+  String get nameHint;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// No description provided for @emailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com'**
+  String get emailHint;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// No description provided for @passwordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'••••••••'**
+  String get passwordHint;
+
+  /// No description provided for @passwordMinLengthHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get passwordMinLengthHint;
+
+  /// No description provided for @loginButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get loginButton;
+
+  /// No description provided for @registerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get registerButton;
+
+  /// No description provided for @dontHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Register'**
+  String get dontHaveAccount;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Log in'**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @invalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email or password.'**
+  String get invalidCredentials;
+
+  /// No description provided for @emailAlreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already registered.'**
+  String get emailAlreadyRegistered;
+
+  /// No description provided for @genericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get genericError;
+
+  /// No description provided for @accountSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSectionTitle;
+
+  /// No description provided for @logoutDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out of your account on this device.'**
+  String get logoutDescription;
+
+  /// No description provided for @logoutButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logoutButton;
+
+  /// No description provided for @logoutConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logoutConfirmTitle;
+
+  /// No description provided for @logoutConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get logoutConfirmMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

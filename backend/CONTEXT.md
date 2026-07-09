@@ -105,6 +105,8 @@ The backend supports two mutually exclusive storage modes, determined by the `Ap
 
 `GET /v1/sounds/file/:fileName` streams the file from `localFolder`. Response headers include `Access-Control-Allow-Origin: *` and `Cross-Origin-Resource-Policy: cross-origin` to allow Flutter Web to load audio cross-origin.
 
+**Deliberately `@Public()`, unlike every other route:** the Flutter Web player (`audioplayers`) sets this URL directly as an HTML `<audio>` tag `src`, which cannot send an `Authorization` header — a platform limitation, not a package one. The filename alone isn't sensitive, so this endpoint stays unauthenticated rather than introducing a separate short-lived token mechanism for media URLs.
+
 ### Local sound sync
 
 `POST /v1/sounds/sync` recurses `localFolder`, reads duration via `music-metadata`, and upserts Sounds. Existing records with `durationMs = 0` are updated.
@@ -114,6 +116,22 @@ The backend supports two mutually exclusive storage modes, determined by the `Ap
 ## SoundCue Trim
 
 `startMs` and `endMs` on a SoundCue define which segment of the audio plays. Both are optional integers (milliseconds). When omitted, the full sound plays. Stored in the `cues` JSON array on `Act`.
+
+---
+
+## Backup
+
+See [ADR-0002](../docs/adr/0002-in-app-google-drive-backup.md) for the full design.
+
+Backend-driven backup to the admin's own Google Drive via OAuth2 (`drive.file` scope). No external transport tool (e.g. Duplicati) required — self-contained so any self-hoster can use it.
+
+- **Content:** `pg_dump --table` of `Play`/`Act`/`Sound` only (never `AppConfig` — it holds live credentials) + non-archived Sound files + `manifest.json`, packaged as one `.tar.gz` per run.
+- **Trigger:** `@nestjs/schedule`, cron dynamically configured from `AppConfig` (`backupFrequency`, `backupTime`) — not hardcoded. Also triggerable on demand via `POST /v1/backup/run`.
+- **Retention:** `AppConfig.backupRetentionCount` — after a successful upload, older backups beyond N are deleted from Drive. Deletion only runs after the new upload is confirmed.
+- **Failure handling:** retried in-run with exponential backoff (5 attempts, 2→4→8→16→32min), then logged. No notification integration.
+- **OAuth client:** each self-hoster registers their own Google Cloud OAuth Client ID/Secret (`GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` env vars) — no shared TrupeSound-wide client.
+- **Token storage:** `AppConfig.googleDriveRefreshToken`, plaintext — same pattern as `storageAccessKey`/`storageSecretKey`.
+- **Restore:** `POST /v1/backup/restore` (multipart file upload of a `.tar.gz`) — validates the whole archive (manifest, `pg_restore --list`, file-vs-manifest check) before touching any data, then replaces `Play`/`Act`/`Sound` inside one transaction, then re-uploads Sound files to whichever storage backend (local/cloud) is active now. Requires explicit UI confirmation — destructive and irreversible.
 
 ---
 

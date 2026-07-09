@@ -247,6 +247,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get uploadComplete => 'Envio concluído';
 
   @override
+  String get localFolder => 'Pasta Local';
+
+  @override
+  String get localFolderHint => 'Endereço da sua pasta local de sons.';
+
+  @override
   String get syncSounds => 'Sincronizar Sons';
 
   @override
@@ -260,4 +266,73 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get cueDuration => 'Duração do Cue';
+
+  @override
+  String get loginTitle => 'Entrar';
+
+  @override
+  String get loginDescription => 'Acesse sua conta do TrupeSound.';
+
+  @override
+  String get registerTitle => 'Criar conta';
+
+  @override
+  String get registerDescription => 'Cadastre um novo usuário nesta instância do TrupeSound.';
+
+  @override
+  String get nameLabel => 'Nome';
+
+  @override
+  String get nameHint => 'ex: Maria Silva';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get emailHint => 'voce@exemplo.com';
+
+  @override
+  String get passwordLabel => 'Senha';
+
+  @override
+  String get passwordHint => '••••••••';
+
+  @override
+  String get passwordMinLengthHint => 'A senha deve ter no mínimo 6 caracteres.';
+
+  @override
+  String get loginButton => 'Entrar';
+
+  @override
+  String get registerButton => 'Criar conta';
+
+  @override
+  String get dontHaveAccount => 'Não tem uma conta? Cadastre-se';
+
+  @override
+  String get alreadyHaveAccount => 'Já tem uma conta? Entrar';
+
+  @override
+  String get invalidCredentials => 'Email ou senha incorretos.';
+
+  @override
+  String get emailAlreadyRegistered => 'Este email já está cadastrado.';
+
+  @override
+  String get genericError => 'Algo deu errado. Tente novamente.';
+
+  @override
+  String get accountSectionTitle => 'Conta';
+
+  @override
+  String get logoutDescription => 'Sair da sua conta neste dispositivo.';
+
+  @override
+  String get logoutButton => 'Sair';
+
+  @override
+  String get logoutConfirmTitle => 'Sair';
+
+  @override
+  String get logoutConfirmMessage => 'Tem certeza que deseja sair?';
 }

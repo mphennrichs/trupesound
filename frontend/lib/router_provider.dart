@@ -1,6 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:trupe_sound/common/navigation_pages_enum.dart';
+import 'package:trupe_sound/pages/auth/login/login_page.dart';
+import 'package:trupe_sound/pages/auth/provider/auth_provider.dart';
+import 'package:trupe_sound/pages/auth/provider/auth_router_refresh.dart';
+import 'package:trupe_sound/pages/auth/register/register_page.dart';
 import 'package:trupe_sound/pages/base_page.dart';
 import 'package:trupe_sound/pages/page_not_found.dart';
 import 'package:trupe_sound/pages/plays/plays_page.dart';
@@ -12,16 +16,30 @@ import 'package:trupe_sound/pages/system/system_overview_page.dart';
 
 part 'router_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 GoRouter router(Ref ref) {
+  // `ref.read`, not `watch`: the GoRouter instance must be created once and
+  // stay stable. `refreshListenable` (not a `watch` dependency) is what
+  // tells go_router to re-run `redirect` when auth state changes — watching
+  // authRouterRefreshProvider here would instead rebuild this whole provider
+  // and hand the widget tree a brand-new GoRouter, remounting every page.
   return GoRouter(
     initialLocation: '/plays',
     errorBuilder: (context, state) => const PageNotFound(),
     debugLogDiagnostics: false, // Útil para ver as rotas no console
+    refreshListenable: ref.read(authRouterRefreshProvider),
     redirect: (context, state) {
+      final isAuthenticated = ref.read(authProvider).value ?? false;
+      final isAuthRoute =
+          state.matchedLocation == '/login' || state.matchedLocation == '/register';
+
+      if (!isAuthenticated && !isAuthRoute) return '/login';
+      if (isAuthenticated && isAuthRoute) return '/plays';
       return null;
     },
     routes: [
+      GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
+      GoRoute(path: '/register', builder: (context, state) => const RegisterPage()),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return BasePage(navigationShell: navigationShell);

@@ -271,5 +271,74 @@
     "@trimEnd": {},
 
     "cueDuration": "Duração do Cue",
-    "@cueDuration": {}
+    "@cueDuration": {},
+
+    "loginTitle": "Entrar",
+    "@loginTitle": {},
+
+    "loginDescription": "Acesse sua conta do TrupeSound.",
+    "@loginDescription": {},
+
+    "registerTitle": "Criar conta",
+    "@registerTitle": {},
+
+    "registerDescription": "Cadastre um novo usuário nesta instância do TrupeSound.",
+    "@registerDescription": {},
+
+    "nameLabel": "Nome",
+    "@nameLabel": {},
+
+    "nameHint": "ex: Maria Silva",
+    "@nameHint": {},
+
+    "emailLabel": "Email",
+    "@emailLabel": {},
+
+    "emailHint": "voce@exemplo.com",
+    "@emailHint": {},
+
+    "passwordLabel": "Senha",
+    "@passwordLabel": {},
+
+    "passwordHint": "••••••••",
+    "@passwordHint": {},
+
+    "passwordMinLengthHint": "A senha deve ter no mínimo 6 caracteres.",
+    "@passwordMinLengthHint": {},
+
+    "loginButton": "Entrar",
+    "@loginButton": {},
+
+    "registerButton": "Criar conta",
+    "@registerButton": {},
+
+    "dontHaveAccount": "Não tem uma conta? Cadastre-se",
+    "@dontHaveAccount": {},
+
+    "alreadyHaveAccount": "Já tem uma conta? Entrar",
+    "@alreadyHaveAccount": {},
+
+    "invalidCredentials": "Email ou senha incorretos.",
+    "@invalidCredentials": {},
+
+    "emailAlreadyRegistered": "Este email já está cadastrado.",
+    "@emailAlreadyRegistered": {},
+
+    "genericError": "Algo deu errado. Tente novamente.",
+    "@genericError": {},
+
+    "accountSectionTitle": "Conta",
+    "@accountSectionTitle": {},
+
+    "logoutDescription": "Sair da sua conta neste dispositivo.",
+    "@logoutDescription": {},
+
+    "logoutButton": "Sair",
+    "@logoutButton": {},
+
+    "logoutConfirmTitle": "Sair",
+    "@logoutConfirmTitle": {},
+
+    "logoutConfirmMessage": "Tem certeza que deseja sair?",
+    "@logoutConfirmMessage": {}
 }

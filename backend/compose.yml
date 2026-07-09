@@ -30,6 +30,7 @@ services:
     environment:
       DATABASE_URL: postgresql://trupesound:trupesound@db:5432/trupesound
       NODE_ENV: production
+      JWT_SECRET: ${JWT_SECRET}
     networks:
       - traefik
       - trupesound-internal
@@ -37,7 +38,7 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/v1/plays || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/ping || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
