@@ -31,13 +31,9 @@ FROM nginx:stable-alpine
 
 RUN apk add --no-cache curl
 
-RUN echo 'server { \
-    listen 80; \
-    location / { \
-        root /usr/share/nginx/html; \
-        try_files $uri $uri/ /index.html; \
-    } \
-}' > /etc/nginx/conf.d/default.conf
+# Config do nginx versionada (frontend/nginx.conf): headers de cache que impedem
+# o Cloudflare/browser de prender uma versão antiga do main.dart.js/index.html.
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /app/build/web /usr/share/nginx/html
 
