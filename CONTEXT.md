@@ -104,3 +104,4 @@ PUB=$(curl -s "$B/main.dart.js" | md5sum | cut -d' ' -f1)
 [ "$CTR" = "$PUB" ] && echo "edge serves live version" || echo "edge is stale"
 ```
 The Cloudflare API token on the host has DNS-edit permission only (no cache-purge), so purging must be done in the dashboard or with a token that has the Cache Purge scope.
+
