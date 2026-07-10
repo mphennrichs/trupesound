@@ -45,6 +45,7 @@ class AccountSection extends ConsumerWidget {
                     context,
                     title: l10n.logoutConfirmTitle,
                     message: l10n.logoutConfirmMessage,
+                    confirmLabel: l10n.logoutButton,
                   );
 
                   if (confirmed == true) {
