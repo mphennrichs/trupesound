@@ -7,6 +7,13 @@ name: Build and Push Docker Images
 on:
   push:
     branches: [main]
+    # Pula o build (e o deploy) quando SÓ documentação muda — evita um rebuild
+    # + redeploy do trupesound à toa. Qualquer código/Dockerfile/nginx.conf fora
+    # destes padrões dispara o pipeline normalmente.
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'LICENSE'
 
 env:
   REGISTRY: ghcr.io
