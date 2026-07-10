@@ -80,3 +80,27 @@ If this file is present in the Docker build context, `tsc` treats the project as
 **Fix applied:** file removed from git, added to `.gitignore`, and `rm -f tsconfig*.tsbuildinfo` added to `backend/Dockerfile` before the build step.
 
 **Diagnostic:** `docker run --rm <backend-image> find /app/dist -name "*.js"` — if empty, the build is broken.
+
+---
+
+### Cloudflare edge-caches the Flutter `.js`, freezing an old app version (fixed 2026-07-10)
+After a deploy, the app kept showing the **old** UI — even in a fresh incognito window and in a clean, never-used browser. That ruled out browser cache and pointed at the **edge**: Cloudflare was caching the static `.js` by file extension, so `main.dart.js` was served stale (`cf-cache-status: HIT`, `age` ~2h) while `index.html` stayed dynamic. A fresh `index.html` loading a stale `main.dart.js` pins the whole app to the old build for **everyone**, since the cache is at the CDN, before the client.
+
+Why it's sneaky:
+- **Incognito / clean browser don't help** — the stale copy lives at Cloudflare's edge, not in any browser.
+- **The container is correct.** The image ships the new build; only the public response is stale.
+- The Flutter `main.dart.js` has **no content hash in its filename**, so a cached copy is never invalidated by a new build (unlike hashed assets).
+
+**Fix:** the frontend nginx now sends `Cache-Control: no-store` on the files that point at the current version — `index.html`, `main.dart.js`, `flutter_bootstrap.js`, `flutter_service_worker.js`, `flutter.js`, `version.json` — while hashed assets (`/assets/`, `/canvaskit/`, `/icons/`) keep a long cache. Config is versioned at `frontend/nginx.conf` (previously an inline `RUN echo` in the Dockerfile with no cache headers). After deploy, Cloudflare returns `cf-cache-status: BYPASS` on those files and always serves the live version — so **future deploys appear immediately**, no manual cache clearing.
+
+**One-time cleanup after deploying the fix:** items already cached with the old headers (notably `flutter_service_worker.js`, cached with `max-age=14400`) stay stale until they expire, because the `no-store` header only applies to *new* origin responses. Purge them once via Cloudflare dashboard → Caching → Configuration → **Purge Everything**. Not needed again afterwards.
+
+**Diagnostic:** compare what the edge serves vs. what the container ships —
+```bash
+B=https://trupesound.foguinhodogoias.com
+curl -sI "$B/main.dart.js" | grep -i cf-cache-status         # want BYPASS, not HIT
+CTR=$(docker exec trupe-sound-frontend md5sum /usr/share/nginx/html/main.dart.js | cut -d' ' -f1)
+PUB=$(curl -s "$B/main.dart.js" | md5sum | cut -d' ' -f1)
+[ "$CTR" = "$PUB" ] && echo "edge serves live version" || echo "edge is stale"
+```
+The Cloudflare API token on the host has DNS-edit permission only (no cache-purge), so purging must be done in the dashboard or with a token that has the Cache Purge scope.
