@@ -8,7 +8,7 @@ App for small theater groups to follow scripts and trigger sound cues during liv
 
 ```
 trupesound/
-├── compose.yml          # Portainer production stack (all services)
+├── compose.yml          # reference compose (all services); prod deploy lives in the fogolab repo
 ├── backend/             # NestJS API
 │   ├── compose.yml      # Backend-only compose (local dev / backend sub-stack)
 │   └── CONTEXT.md       # Backend architecture & ops
@@ -22,9 +22,11 @@ trupesound/
 
 ## Production Deployment
 
-**Host:** Self-managed Linux server (Ubuntu, Docker + Traefik + Portainer + Cloudflare tunnel)
+**Host:** Self-managed Linux server (Ubuntu, Docker + Traefik + Komodo + Cloudflare tunnel)
 
-**Stack:** Deployed as a Portainer stack from root `compose.yml`.
+**Stack:** Deployed by **Komodo** from the `trupesound/` directory of the
+`mphennrichs/fogolab` repo (git-driven; a push there redeploys). Secrets come from
+**Infisical**. This repo is agnostic to the deployer.
 
 | Service | Container | Image | URL |
 |---|---|---|---|
@@ -38,13 +40,17 @@ trupesound/
 - `trupesound-internal` — backend ↔ db ↔ pgadmin isolation; frontend reaches backend by name
 
 **TLS:** Cloudflare cert resolver via Traefik  
-**Auth:** Frontend protected by Traefik basicauth middleware
+**Auth:** the app has its own JWT login (backend `JwtAuthGuard` as a global
+`APP_GUARD`); the old Traefik basicauth middleware was removed.
 
 ---
 
 ## CI / Image Publishing
 
-Images are built and pushed to `ghcr.io/mphennrichs/` via GitHub Actions on push to `main`. After a push, redeploy the Portainer stack to pull the new image.
+Images are built and pushed to `ghcr.io/mphennrichs/` (tag `sha-<commit>` + `latest`)
+via GitHub Actions on push to `main`. CI then fires a `repository_dispatch` to the
+`fogolab` repo, which pins the new SHA in the stack's compose and pushes — the push
+triggers Komodo's webhook and it redeploys the exact version. No manual redeploy step.
 
 ---
 
