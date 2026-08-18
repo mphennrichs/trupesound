@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { json, urlencoded } from 'express';
 import { AppModule } from './app.module';
@@ -48,11 +48,23 @@ async function bootstrap() {
   const port = 3000;
   await app.listen(port);
 
-  const logger = new Logger('Bootstrap');
-  logger.log('----------------------------------------------');
-  logger.log(' TrupeSound API is up and running');
-  logger.log(` API:     http://localhost:${port}/api/v1`);
-  logger.log(` Swagger: http://localhost:${port}/api`);
-  logger.log('----------------------------------------------');
+  // Linha única e estruturada em vez do banner de 5 linhas: é ela que marca o
+  // deploy no Grafana. `version` só aparece aqui quando o processo NOVO de fato
+  // começou a servir — um deploy que morre no boot nunca produz esta linha, e é
+  // essa ausência que o alerta de deploy incompleto detecta.
+  // Escrita direta (não pelo Logger do Nest, que só aceita string e aninharia
+  // este objeto dentro do campo `msg` — ver o fix em http-logging.interceptor).
+  process.stdout.write(
+    `${JSON.stringify({
+      time: new Date().toISOString(),
+      level: 'INFO',
+      msg: 'service started',
+      context: 'Bootstrap',
+      event: 'service_started',
+      version: process.env.APP_VERSION ?? 'dev',
+      commit: process.env.APP_COMMIT ?? 'unknown',
+      port,
+    })}\n`,
+  );
 }
 bootstrap();
