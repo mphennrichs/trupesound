@@ -6,7 +6,8 @@ import { json, urlencoded } from 'express';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/application/filters/http-exception.filter';
 import { ValidationExceptionFilter } from './common/application/filters/validation-exception.filter';
-import { LoggingInterceptor } from './common/application/interceptors/logging.interceptor';
+import { HttpLoggingInterceptor } from './common/observability/http-logging.interceptor';
+import { JsonLogger } from './common/observability/json-logger';
 
 async function bootstrap() {
   if (!process.env.JWT_SECRET) {
@@ -14,7 +15,9 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn', 'log', 'debug'],
+    // JSON em vez do console colorido do Nest: os codigos ANSI viravam lixo no
+    // Loki e a linha inteira era uma string opaca, sem campos para filtrar.
+    logger: new JsonLogger(),
     bodyParser: false,
   });
   app.enableCors();
@@ -30,7 +33,7 @@ async function bootstrap() {
   });
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.useGlobalFilters(new HttpExceptionFilter(), new ValidationExceptionFilter());
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new HttpLoggingInterceptor());
   app.setGlobalPrefix('/api');
 
   const config = new DocumentBuilder()

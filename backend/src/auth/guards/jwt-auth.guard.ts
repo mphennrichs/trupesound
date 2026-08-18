@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
+import { setCurrentUser } from '../../common/observability/trace';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 import { UnauthorizedException } from '../../common/exceptions/unauthorized.exception';
 
@@ -26,6 +27,10 @@ export class JwtAuthGuard implements CanActivate {
     try {
       const payload = await this.jwtService.verifyAsync(token);
       request['user'] = { userId: payload.sub, email: payload.email };
+      // Publica quem chamou no trace da requisicao: e o que responde
+      // "quem disparou isso?" no Grafana, inclusive nos logs emitidos
+      // la de dentro dos use-cases.
+      setCurrentUser(payload.sub);
     } catch {
       throw new UnauthorizedException();
     }
