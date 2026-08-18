@@ -1,10 +1,4 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  Logger,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import type { Request, Response } from 'express';
 import { redactBody } from './redact';
@@ -24,8 +18,6 @@ const SKIP_ROUTES = new Set(['/api/ping', '/api/health', '/health', '/metrics'])
  */
 @Injectable()
 export class HttpLoggingInterceptor implements NestInterceptor {
-  private readonly logger = new Logger('HTTP');
-
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp();
     const req = http.getRequest<Request>();
@@ -69,10 +61,27 @@ export class HttpLoggingInterceptor implements NestInterceptor {
         // Severidade espelha a triagem de quem opera: 5xx é problema nosso,
         // 4xx é do chamador. É o que faz alerta por level="ERROR" significar a
         // mesma coisa em todos os serviços.
-        const line = JSON.stringify(fields);
-        if (status >= 500) this.logger.error(`http request failed ${line}`);
-        else if (status >= 400) this.logger.warn(`http request rejected ${line}`);
-        else this.logger.log(`http request ${line}`);
+        const level = status >= 500 ? 'ERROR' : status >= 400 ? 'WARN' : 'INFO';
+        const msg =
+          status >= 500
+            ? 'http request failed'
+            : status >= 400
+              ? 'http request rejected'
+              : 'http request';
+
+        // Escreve o objeto direto, com os campos no PRIMEIRO NÍVEL. Passar
+        // isto pelo Logger do Nest embutiria o JSON dentro do campo `msg`, e
+        // no Grafana seria preciso um segundo parse para chegar em `status` ou
+        // `trace_id` — em vez de filtrar por campo como nos serviços Go.
+        process.stdout.write(
+          `${JSON.stringify({
+            time: new Date().toISOString(),
+            level,
+            msg,
+            context: 'HTTP',
+            ...fields,
+          })}\n`,
+        );
       };
 
       return next.handle().pipe(
